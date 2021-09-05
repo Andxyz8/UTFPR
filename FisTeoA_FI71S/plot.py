@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+#Vídeo explicativo no Youtube <LINK>: https://youtu.be/LHyVU4kb_ys
+
 g = 9.81 #gravidade (m/s^2)
 m = 2000000 #massa total inicial (kg)
 Vc = 2600 #Velocidade de exaustão do combustível (m/s) -> imp esp * g
