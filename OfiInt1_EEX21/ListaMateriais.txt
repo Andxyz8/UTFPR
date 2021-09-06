@@ -1,0 +1,12 @@
+-Arduino Uno X -> Arduino Mega  1
+-Sensor de cor TCS3200
+-Servo motores 3x
+-Motor DC 3-6v com caixa de redução
+-Bateria 9v
+-Ponte H L298N
+-LCD 16x2
+-Módulo I2C
+-Placa de Fenolite
+-Fios de cobre
+-Papelão
+-Cabo USB A/B
