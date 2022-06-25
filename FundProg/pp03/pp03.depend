@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1477937110 source:c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\gerador_de_testes.c
+	<stdlib.h>
+	<math.h>
+	"gerador_de_testes.h"
+
+1477926760 c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\gerador_de_testes.h
+	"imagem.h"
+	"trabalho3.h"
+
+1477928038 c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\imagem.h
+
+1562367053 c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\trabalho3.h
+	"imagem.h"
+
+1379506836 source:c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\imagem.c
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"imagem.h"
+
+1562811407 source:c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\trabalho3.c
+	<stdio.h>
+	<math.h>
+	"imagem.h"
+	"trabalho3.h"
+
+1562537065 source:c:\users\ander\dropbox\utfpr\período 1\fundamentos de programação i\projeto prático 3\pp03\main.c
+	<stdio.h>
+	<time.h>
+	"gerador_de_testes.h"
+	"trabalho3.h"
+
