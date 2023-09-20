@@ -25,15 +25,23 @@ class Cliente:
 
         print(f"Conectado no servidor {self.__host}:{self.__port}.")
 
-    def __recebe_resposta_servidor(self) -> str:
+    def __recebe_resposta_servidor(self, decode = True, tamanho_buffer = 1024) -> str:
+        # Quando o tamanho do arquivo for maior do que o tamanho do buffer padrão
+        if tamanho_buffer >= 1024:
+            # Obtém o valor da próxima potência de base 2 maior ou igual que este número
+            tamanho_buffer = 2 ** tamanho_buffer.bit_length()
+
         # Recebe a resposta do servidor
-        byte_resposta = self.client.recv(1024)
+        byte_resposta = self.client.recv(tamanho_buffer)
+        # print(f"Tipo da resposta: {type(byte_resposta)}")
+        if decode:
+            # Obtem em string a resposta do servidor
+            str_resposta = byte_resposta.decode('utf-8')
 
-        # Obtem em string a resposta do servidor
-        str_resposta = byte_resposta.decode('utf-8')
+            # print(f"STR resposta: {type(byte_resposta)}")
 
-        # print(str_resposta)
-        return str_resposta
+            return str_resposta
+        return byte_resposta
 
     def __resposta_sair(self, resposta: str) -> None:
         if resposta.upper() == "SAIR":
@@ -51,13 +59,16 @@ class Cliente:
         nome_arquivo = self.__recebe_resposta_servidor()
 
         # Recebe o tamanho do arquivo
-        tamanho_arquivo = float(self.__recebe_resposta_servidor())
+        tamanho_arquivo = int(self.__recebe_resposta_servidor())
 
         # Recebe o hash do arquivo
         hash_arquivo = self.__recebe_resposta_servidor()
 
         # Recebe os dados do arquivo
-        dados_arquivo = self.__recebe_resposta_servidor()
+        dados_arquivo = self.__recebe_resposta_servidor(
+            decode = False,
+            tamanho_buffer = tamanho_arquivo
+        )
 
         # Recebe o status do arquivo
         status = self.__recebe_resposta_servidor()
@@ -71,9 +82,12 @@ class Cliente:
             "status": status
         }
 
-    def __verifica_hash(self, dados_arquivo: str, hash_arquivo: str) -> bool:
+    def __verifica_hash(self, dados_arquivo, hash_arquivo: str) -> bool:
         # Calcula o hash do arquivo recebido no lado do cliente
-        hash_calculado = hash_operator.calcula_hash(dados_arquivo.encode("utf-8"))
+        if isinstance(dados_arquivo, str):
+            hash_calculado = hash_operator.calcula_hash(dados_arquivo.encode("utf-8"))
+        else:
+            hash_calculado = hash_operator.calcula_hash(dados_arquivo)
 
         # Verifica se o hash do arquivo recebido é igual ao hash calculado
         if hash_calculado != hash_arquivo:
@@ -94,7 +108,10 @@ class Cliente:
                 file_path = f"{self.__path_client}{nome_arquivo}"
 
                 with open(file_path, "wb") as arquivo:
-                    arquivo.write(dados_arquivo.encode("utf-8"))
+                    if isinstance(dados_arquivo, str):
+                        arquivo.write(dados_arquivo.encode("utf-8"))
+                    else:
+                        arquivo.write(dados_arquivo)
             else:
                 print("[INFO]: Hash do arquivo INVÁLIDO. Arquivo NÃO Salvo.")
         else:

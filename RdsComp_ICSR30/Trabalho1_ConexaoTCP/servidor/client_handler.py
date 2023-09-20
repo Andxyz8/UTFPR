@@ -28,14 +28,17 @@ class ClientHandler(Thread):
         # Retorna os dados recebidos convertidos para string
         return bytes_recebidos.decode("utf-8")
 
-    def __envia_mensagem_cliente(self, mensagem: str) -> None:
+    def __envia_mensagem_cliente(self, mensagem) -> None:
         """Envia uma mensagem para o cliente.
 
         Args:
             mensagem (str): mensagem a ser enviada para o cliente.
         """
-        # print(f"Mensagem: {mensagem}")
-        bytes_mensagem = mensagem.encode("utf-8")
+        bytes_mensagem = mensagem
+        if isinstance(mensagem, str):
+            # print(f"Mensagem: {mensagem}")
+            bytes_mensagem = mensagem.encode("utf-8")
+
         sleep(0.05)
         self.__client_socket.send(bytes_mensagem)
 
@@ -48,7 +51,7 @@ class ClientHandler(Thread):
         # Encerra a Thread responsável pela conexão
         sys.exit(0)
 
-    def __identifica_request_valida(self, mensagem: str) -> None:
+    def __identifica_request_valida(self, mensagem) -> None:
         """Identifica o tipo de request enviado pelo cliente.
 
         Args:
@@ -62,7 +65,7 @@ class ClientHandler(Thread):
         print(f"[TRASH]: {self.__host}:{self.__port} -> {mensagem}")
         return False
 
-    def __mensagem_sair(self, mensagem: str) -> None:
+    def __mensagem_sair(self, mensagem) -> None:
         """Verifica se o cliente enviou a mensagem SAIR e finaliza a conexão.
 
         Args:
@@ -79,7 +82,7 @@ class ClientHandler(Thread):
 
             self.__finaliza_conexao()
 
-    def __obtem_nome_arquivo(self, mensagem: str) -> str:
+    def __obtem_nome_arquivo(self, mensagem) -> str:
         """Obtém o nome do arquivo a partir da mensagem enviada pelo cliente.
 
         Args:
@@ -95,7 +98,7 @@ class ClientHandler(Thread):
 
         return nome_arquivo
 
-    def __obtem_infos_arquivo(self, nome_arquivo: str) -> dict:
+    def __obtem_infos_arquivo(self, nome_arquivo) -> dict:
         """Obtém as informações do arquivo em um dicionário.
 
         Args:
@@ -111,11 +114,17 @@ class ClientHandler(Thread):
                 # Obtém o nome do arquivo
                 infos_arquivo['nome'] = nome_arquivo
 
+                extensao_arquivo = nome_arquivo.split('.')[-1]
+
                 # Leitura dos bytes do arquivo
                 bytes_arquivo = arquivo.read()
 
-                # Faz a leitura dos dados do arquivo
-                infos_arquivo['dados'] = bytes_arquivo.decode("utf-8")
+                if extensao_arquivo == 'txt':
+                    # Faz a leitura dos dados do arquivo
+                    infos_arquivo['dados'] = bytes_arquivo.decode("utf-8")
+                else:
+                    # Faz a leitura dos dados do arquivo
+                    infos_arquivo['dados'] = bytes_arquivo
 
                 # Obtém o tamanho do arquivo
                 infos_arquivo['tamanho'] = len(bytes_arquivo)
@@ -123,7 +132,7 @@ class ClientHandler(Thread):
                 # Obtém o hash do arquivo
                 infos_arquivo['hash'] = hash_operator.calcula_hash(bytes_arquivo)
 
-                infos_arquivo['status'] = '200'
+                infos_arquivo['status'] = 200
                 # infos_arquivo['mensagem'] = f"Arquivo {nome_arquivo} encontrado."
 
                 # fecha o arquivo
@@ -133,11 +142,11 @@ class ClientHandler(Thread):
             infos_arquivo['dados'] = "N/A"
             infos_arquivo['tamanho'] = 0
             infos_arquivo['hash'] = "N/A"
-            infos_arquivo['status'] = '404'
+            infos_arquivo['status'] = 404
             # infos_arquivo['mensagem'] = f"Arquivo {nome_arquivo} não encontrado."
         return infos_arquivo
 
-    def __mensagem_arquivo(self, mensagem: str) -> None:
+    def __mensagem_arquivo(self, mensagem) -> None:
         """Verifica se o cliente enviou a mensagem ARQUIVO faz os processamentos
             adequados e envia a resposta para o cliente.
 
@@ -159,13 +168,13 @@ class ClientHandler(Thread):
         # Obtém as informações do arquivo
         infos_arquivo = self.__obtem_infos_arquivo(nome_arquivo)
 
-        # Transforma o arquivo em json
-        json_infos_arquivo = json.dumps(infos_arquivo, indent = 4)
-
         # Se o cliente enviar a mensagem HASH, calcula o hash do arquivo
         if 'ARQUIVO2' in mensagem.upper().split(' ')[0]:
             resposta = "ARQUIVO2"
             self.__envia_mensagem_cliente(resposta)
+
+            # Transforma o arquivo em json
+            json_infos_arquivo = json.dumps(infos_arquivo, indent = 4)
 
             # Envia o dados do arquivo para o cliente
             self.__envia_mensagem_cliente(json_infos_arquivo)
@@ -186,7 +195,7 @@ class ClientHandler(Thread):
             self.__envia_mensagem_cliente(infos_arquivo['dados'])
 
             # Envia o status do arquivo para o cliente
-            self.__envia_mensagem_cliente(infos_arquivo['status'])
+            self.__envia_mensagem_cliente(str(infos_arquivo['status']))
 
     def __mensagem_chat(self, mensagem: str) -> None:
         """Verifica se o cliente enviou a mensagem `CHAT`.
