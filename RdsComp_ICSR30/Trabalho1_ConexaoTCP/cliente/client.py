@@ -11,6 +11,8 @@ class Cliente:
         self.__host = host
         self.__port = port
 
+        self.__path_client = "./cliente/"
+
         # Cria um socket TCP/IP para o cliente
         self.client = socket(
             family = AF_INET,
@@ -75,7 +77,7 @@ class Cliente:
             return False
         return True
 
-    def __salva_arquivo(self, dados_arquivo, hash_arquivo, status) -> None:
+    def __salva_arquivo(self, nome_arquivo, dados_arquivo, hash_arquivo, status) -> None:
         # Verificar o hash do arquivo recebido
         flag_hash_valido = self.__verifica_hash(
             dados_arquivo,
@@ -85,7 +87,10 @@ class Cliente:
         if status == "200":
             if flag_hash_valido:
                 print("[INFO]: Hash do arquivo VÁLIDO. Arquivo Salvo.")
-                with open('arquivo-salvo-cliente.txt', "wb") as arquivo:
+
+                file_path = f"{self.__path_client}{nome_arquivo}"
+
+                with open(file_path, "wb") as arquivo:
                     arquivo.write(dados_arquivo.encode("utf-8"))
             else:
                 print("[INFO]: Hash do arquivo INVÁLIDO. Arquivo NÃO Salvo.")
@@ -99,6 +104,7 @@ class Cliente:
 
             # Verifica se o arquivo possui o hash válido e o salve caso positivo
             self.__salva_arquivo(
+                infos_arquivo['nome_arquivo'],
                 infos_arquivo['dados_arquivo'],
                 infos_arquivo['hash_arquivo'],
                 infos_arquivo['status']
@@ -106,13 +112,11 @@ class Cliente:
 
     def __resposta_chat(self, resposta: str) -> None:
         if resposta.upper() == "CHAT":
-            # Recebe o nome do cliente
-            nome_cliente = self.__recebe_resposta_servidor()
+            # Recebe a mensagem do servidor
+            mensagem = self.__recebe_resposta_servidor()
 
-            # Recebe a mensagem do cliente
-            mensagem_cliente = self.__recebe_resposta_servidor()
-
-            print(f"{nome_cliente}: {mensagem_cliente}")
+            # Exibe a mensagem do servidor
+            print(f"MENSAGEM DO SERVIDOR: {mensagem}")
 
     def executar(self):
         self.__inicializa_conexao()
