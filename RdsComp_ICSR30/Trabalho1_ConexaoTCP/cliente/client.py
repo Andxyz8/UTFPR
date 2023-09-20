@@ -27,20 +27,21 @@ class Cliente:
 
     def __recebe_resposta_servidor(self, decode = True, tamanho_buffer = 1024) -> str:
         # Quando o tamanho do arquivo for maior do que o tamanho do buffer padrão
-        if tamanho_buffer >= 1024:
+        if tamanho_buffer > 1024:
             # Obtém o valor da próxima potência de base 2 maior ou igual que este número
             tamanho_buffer = 2 ** tamanho_buffer.bit_length()
 
         # Recebe a resposta do servidor
         byte_resposta = self.client.recv(tamanho_buffer)
-        # print(f"Tipo da resposta: {type(byte_resposta)}")
+        # print(f"Tipo da resposta: {type(byte_resposta)} {len(byte_resposta)}")
         if decode:
             # Obtem em string a resposta do servidor
             str_resposta = byte_resposta.decode('utf-8')
 
-            # print(f"STR resposta: {type(byte_resposta)}")
+            # print(f"STR resposta: {str_resposta}")
 
             return str_resposta
+        # print("DADOS DO ARQUIVO")
         return byte_resposta
 
     def __resposta_sair(self, resposta: str) -> None:
@@ -64,14 +65,17 @@ class Cliente:
         # Recebe o hash do arquivo
         hash_arquivo = self.__recebe_resposta_servidor()
 
-        # Recebe os dados do arquivo
-        dados_arquivo = self.__recebe_resposta_servidor(
-            decode = False,
-            tamanho_buffer = tamanho_arquivo
-        )
-
         # Recebe o status do arquivo
         status = self.__recebe_resposta_servidor()
+
+        if status == "200":
+            # Recebe os dados do arquivo
+            dados_arquivo = self.__recebe_resposta_servidor(
+                decode = False,
+                tamanho_buffer = tamanho_arquivo
+            )
+        else:
+            dados_arquivo = self.__recebe_resposta_servidor()
 
         # Retorna um dicionário com as informações do arquivo
         return {

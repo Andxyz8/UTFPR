@@ -132,17 +132,17 @@ class ClientHandler(Thread):
                 # Obtém o hash do arquivo
                 infos_arquivo['hash'] = hash_operator.calcula_hash(bytes_arquivo)
 
-                infos_arquivo['status'] = 200
+                infos_arquivo['status'] = "200"
                 # infos_arquivo['mensagem'] = f"Arquivo {nome_arquivo} encontrado."
 
                 # fecha o arquivo
                 arquivo.close()
         except FileNotFoundError:
-            infos_arquivo['nome'] = "N/A"
-            infos_arquivo['dados'] = "N/A"
+            infos_arquivo['nome'] = "0"
+            infos_arquivo['dados'] = "0"
             infos_arquivo['tamanho'] = 0
-            infos_arquivo['hash'] = "N/A"
-            infos_arquivo['status'] = 404
+            infos_arquivo['hash'] = "0"
+            infos_arquivo['status'] = "404"
             # infos_arquivo['mensagem'] = f"Arquivo {nome_arquivo} não encontrado."
         return infos_arquivo
 
@@ -189,13 +189,14 @@ class ClientHandler(Thread):
             self.__envia_mensagem_cliente(str(infos_arquivo['tamanho']))
 
             # Envia o hash do arquivo para o cliente
-            self.__envia_mensagem_cliente(str(infos_arquivo['hash']))
+            self.__envia_mensagem_cliente(infos_arquivo['hash'])
+
+            # Envia o status do arquivo para o cliente
+            self.__envia_mensagem_cliente(infos_arquivo['status'])
 
             # Envia o arquivo para o cliente
             self.__envia_mensagem_cliente(infos_arquivo['dados'])
 
-            # Envia o status do arquivo para o cliente
-            self.__envia_mensagem_cliente(str(infos_arquivo['status']))
 
     def __mensagem_chat(self, mensagem: str) -> None:
         """Verifica se o cliente enviou a mensagem `CHAT`.
