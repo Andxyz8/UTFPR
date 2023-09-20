@@ -2,6 +2,7 @@ import sys
 import json
 from socket import socket
 from threading import Thread
+from time import sleep
 from utils import hash_operator
 
 class ClientHandler(Thread):
@@ -35,7 +36,7 @@ class ClientHandler(Thread):
         """
         # print(f"Mensagem: {mensagem}")
         bytes_mensagem = mensagem.encode("utf-8")
-
+        sleep(0.05)
         self.__client_socket.send(bytes_mensagem)
 
     def __finaliza_conexao(self) -> None:
@@ -196,14 +197,42 @@ class ClientHandler(Thread):
         Args:
             mensagem (str): mensagem enviada pelo cliente.
         """
-        # Se o cliente enviar a mensagem CHAT, envia a mensagem para todos os clientes
-        if 'CHAT' in mensagem.upper():
-            print(f"{self.__host}:{self.__port} -> {mensagem}.")
+        # Se o cliente enviar a mensagem CHAT, habilita o chat para esta conexão
+        if 'CHAT' == mensagem.upper():
+            # Indica ao cliente que o chat foi iniciado e ele pode começar a enviar mensagens
+            resposta = "CHAT"
+            self.__envia_mensagem_cliente(resposta)
 
-            # Envia a mensagem para todos os clientes
-            self.__envia_mensagem_cliente(mensagem)
+            # Loop de recebimento de mensagens do cliente
+            while True:
+                mensagem = self.__recebe_request_cliente()
+
+                print(f"[CHAT] {self.__host}:{self.__port} -> {mensagem}")
+
+                # keyword para encerrar o recebimento de mensagens do cliente
+                if 'SAIR CHAT' == mensagem.upper():
+                    resposta = "SAIR CHAT"
+                    self.__envia_mensagem_cliente(resposta)
+                    print(f"{self.__host}:{self.__port} -> Encerrou CHAT.")
+                    break
+
+            while True:
+                # Envia mensagens indefinidamente ao cliente até que seja informado sair chat
+                mensagem = input('SERVIDOR INPUT: ')
+                self.__envia_mensagem_cliente(mensagem)
+
+                if mensagem.upper() == 'SAIR CHAT':
+                    print("SERVIDOR -> Encerrou CHAT.")
+                    break
 
     def __trata_cliente(self) -> None:
+        """Trata as requisições do cliente e envia as respostas adequadas.
+
+        - Se o cliente enviar a mensagem SAIR, encerra a conexão com o cliente.
+        - Se o cliente enviar a mensagem ARQUIVO faz os processamentos adequados
+            e envia a resposta para o cliente.
+        - Se o cliente enviar a mensagem CHAT, habilita o chat para esta conexão.
+        """
         while True:
             dados_recebidos = self.__recebe_request_cliente()
 
@@ -211,7 +240,7 @@ class ClientHandler(Thread):
                 resposta_padrao = "REQUEST INVALIDA"
                 self.__envia_mensagem_cliente(resposta_padrao)
                 continue
-            resposta_padrao = "REQUEST VALIDA"
+
             # Tratamentos possiveis de acordo com a requisição do cliente
             self.__mensagem_sair(dados_recebidos)
 

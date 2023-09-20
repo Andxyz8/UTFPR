@@ -30,7 +30,10 @@ class Cliente:
         byte_resposta = self.client.recv(1024)
 
         # Obtem em string a resposta do servidor
-        return byte_resposta.decode('utf-8')
+        str_resposta = byte_resposta.decode('utf-8')
+
+        # print(str_resposta)
+        return str_resposta
 
     def __resposta_sair(self, resposta: str) -> None:
         if resposta.upper() == "SAIR":
@@ -112,11 +115,28 @@ class Cliente:
 
     def __resposta_chat(self, resposta: str) -> None:
         if resposta.upper() == "CHAT":
-            # Recebe a mensagem do servidor
-            mensagem = self.__recebe_resposta_servidor()
+            while True:
+                # input da mensagem a ser enviada para o chat do servidor
+                mensagem = input("INPUT MENSAGEM: ")
 
-            # Exibe a mensagem do servidor
-            print(f"MENSAGEM DO SERVIDOR: {mensagem}")
+                # Envia a mensagem para o servidor
+                self.client.send(f"{mensagem}".encode('utf-8'))
+                if mensagem.upper() == "SAIR CHAT":
+                    resposta = self.__recebe_resposta_servidor()
+                    if resposta == "SAIR CHAT":
+                        print("[INFO]: Encerrado o envio de mensagens ao servidor.")
+                        break
+
+            # Recebe a mensagem do servidor
+            while True:
+                mensagem = self.__recebe_resposta_servidor()
+
+                if mensagem.upper() == "SAIR CHAT":
+                    print("[INFO]: Encerrado o recebimento de mensagens do servidor.")
+                    break
+
+                # Exibe a mensagem do servidor
+                print(f"[CHAT] SERVIDOR: {mensagem}")
 
     def executar(self):
         self.__inicializa_conexao()
