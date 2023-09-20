@@ -72,29 +72,37 @@ class Cliente:
 
         # Verifica se o hash do arquivo recebido é igual ao hash calculado
         if hash_calculado != hash_arquivo:
-            print("[INFO]: Hash do arquivo INVÁLIDO. Arquivo NÃO Salvo.")
             return False
-        print("[INFO]: Hash do arquivo VÁLIDO. Arquivo Salvo.")
         return True
 
-    def __salva_arquivo(self, dados_arquivo: bytes, status) -> None:
+    def __salva_arquivo(self, dados_arquivo, hash_arquivo, status) -> None:
+        # Verificar o hash do arquivo recebido
+        flag_hash_valido = self.__verifica_hash(
+            dados_arquivo,
+            hash_arquivo
+        )
+
         if status == "200":
-            with open('arquivo-salvo-cliente.txt', "wb") as arquivo:
-                arquivo.write(dados_arquivo.encode("utf-8"))
+            if flag_hash_valido:
+                print("[INFO]: Hash do arquivo VÁLIDO. Arquivo Salvo.")
+                with open('arquivo-salvo-cliente.txt', "wb") as arquivo:
+                    arquivo.write(dados_arquivo.encode("utf-8"))
+            else:
+                print("[INFO]: Hash do arquivo INVÁLIDO. Arquivo NÃO Salvo.")
+        else:
+            print("[INFO]: Arquivo NÃO encontrado. Arquivo NÃO Salvo.")
 
     def __resposta_arquivo_longa(self, resposta: str) -> None:
         if resposta.upper() == "ARQUIVO":
             # Obtem as informações do arquivo
             infos_arquivo = self.__recebe_infos_arquivo()
 
-            # Verificar o hash do arquivo recebido
-            flag_hash_valido = self.__verifica_hash(
+            # Verifica se o arquivo possui o hash válido e o salve caso positivo
+            self.__salva_arquivo(
                 infos_arquivo['dados_arquivo'],
-                infos_arquivo['hash_arquivo']
+                infos_arquivo['hash_arquivo'],
+                infos_arquivo['status']
             )
-            if flag_hash_valido:
-                # Salva o arquivo
-                self.__salva_arquivo(infos_arquivo['dados_arquivo'], infos_arquivo['status'])
 
     def __resposta_chat(self, resposta: str) -> None:
         if resposta.upper() == "CHAT":
@@ -119,7 +127,6 @@ class Cliente:
             self.client.send(f"{requisicao}".encode('utf-8'))
 
             resposta = self.__recebe_resposta_servidor()
-            print(resposta)
             if resposta == "REQUEST INVALIDA":
                 continue
 

@@ -33,7 +33,7 @@ class ClientHandler(Thread):
         Args:
             mensagem (str): mensagem a ser enviada para o cliente.
         """
-        print(f"mensagem: {mensagem}")
+        # print(f"Mensagem: {mensagem}")
         bytes_mensagem = mensagem.encode("utf-8")
 
         self.__client_socket.send(bytes_mensagem)
