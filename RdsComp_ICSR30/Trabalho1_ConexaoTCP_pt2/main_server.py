@@ -1,7 +1,7 @@
 from servidor.server import Servidor
 
 # Endereço IP do servidor
-HOST = "0.0.0.0"
+HOST = "127.0.0.1"
 # Porta utilizado para o bind do servidor
 PORT = 8888
 # Máximo de conexões em espera até que novas conexões sejam rejeitadas

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Exemplo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333333;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Página de Exemplo</h1>
+    </header>
+    <main>
+        <h2>Conteúdo da Página</h2>
+        <p>Esta é uma página de exemplo que você pode servir com o servidor HTTP.</p>
+        <img src="Screenshot_1.jpeg" alt="Imagem de Exemplo">
+        <button id="redirecionar">Ir para Outra Página</button>
+    </main>
+</body>
+
+<script>
+    // JavaScript para lidar com o redirecionamento ao clicar no botão
+    const botaoRedirecionar = document.getElementById("redirecionar");
+    botaoRedirecionar.addEventListener("click", function() {
+        window.location.href = "history.html";
+    });
+</script>
+</html>

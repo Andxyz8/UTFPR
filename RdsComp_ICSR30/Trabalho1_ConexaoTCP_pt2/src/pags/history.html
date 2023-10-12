@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Conto Original</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px #ccc;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #277ab6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Conto Original</h1>
+    </header>
+    <main>
+        <h2>O Mistério da Floresta Encantada</h2>
+        <p>Era uma vez, em uma floresta encantada, um pequeno elfo chamado Eliot. Eliot era conhecido por sua curiosidade insaciável e seu amor pela natureza.</p>
+        <p>Um dia, Eliot estava explorando a floresta quando encontrou uma árvore mágica que brilhava com uma luz misteriosa. Intrigado, ele se aproximou e tocou a árvore.</p>
+        <p>De repente, a árvore se abriu, revelando um portal para outro mundo. Sem hesitar, Eliot entrou no portal e encontrou-se em uma terra de maravilhas e criaturas mágicas.</p>
+        <p>A partir desse momento, a vida de Eliot nunca mais foi a mesma. Ele embarcou em uma jornada épica, desvendando segredos, enfrentando desafios e fazendo amigos inimagináveis.</p>
+        <button id="voltar">Voltar à Página de Exemplo</button>
+    </main>
+
+    <script>
+        const botaoVoltar = document.getElementById("voltar");
+        botaoVoltar.addEventListener("click", function() {
+            window.location.href = "hello-world.html";
+        });
+    </script>
+</body>
+</html>

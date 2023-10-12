@@ -1,3 +1,4 @@
+from sys import exit as sys_exit
 from socket import (
     socket,
     AF_INET, # FAMÍLIA DE ENDEREÇOS QUE USA UM PAR (host, port)
@@ -9,8 +10,9 @@ class Servidor:
     def __init__(self, host: str, port: int, max_queue: int) -> None:
         self.__host = host
         self.__port = port
+        self.__clientes_conectados: list[ClientHandler] = []
         self.max_queue = max_queue
-        self.requests_possiveis = ['SAIR', 'ARQUIVO', 'ARQUIVO2', 'CHAT']
+        self.requests_possiveis = ['GET', 'SAIR', 'ARQUIVO', 'ARQUIVO2', 'CHAT']
 
         # Criação do Socket TCP/IP do Servidor
         self.server = socket(
@@ -27,27 +29,39 @@ class Servidor:
 
         print(f"Servidor ATIVO e RECEBENDO CONEXÕES na porta {self.__port}")
 
+    def __encecrra_servidor(self) -> None:
+        # Fecha o socket do servidor
+        for cliente in self.__clientes_conectados:
+            cliente.encerra_conexao()
+
+        self.server.close()
+        sys_exit(0)
+
     def executar(self) -> None:
         """Inicializa o servidor e faz com que qualquer conexão recebida seja aceita.
         
         - Dispara uma Thread para lidar com a o cliente para cada conexão recebida.
         """
-        self.__inicializa_servidor()
+        try:
+            self.__inicializa_servidor()
 
-        # Servidor permanece executando
-        while True:
-            # Aceita uma conexão qualquer de clientes
-            client_socket, endereco = self.server.accept()
+            # Servidor permanece executando
+            while True:
+                # Aceita uma conexão qualquer de clientes
+                client_socket, endereco = self.server.accept()
 
-            host = endereco[0]
-            port = endereco[1]
-            print(f"[INFO]: Conexão aceita de {host}:{port}.")
+                host = endereco[0]
+                port = endereco[1]
+                print(f"[INFO]: Conexão aceita de {host}:{port}.")
 
-            # Dispara uma Thread para lidar com a conexão do cliente
-            tratador_clientes = ClientHandler(
-                client_socket,
-                host,
-                port,
-                self.requests_possiveis
-            )
-            tratador_clientes.iniciar()
+                # Dispara uma Thread para lidar com a conexão do cliente
+                tratador_clientes = ClientHandler(
+                    client_socket,
+                    host,
+                    port,
+                    self.requests_possiveis
+                )
+                tratador_clientes.iniciar()
+                self.__clientes_conectados.append(tratador_clientes)
+        except KeyboardInterrupt:
+            self.__encecrra_servidor()
