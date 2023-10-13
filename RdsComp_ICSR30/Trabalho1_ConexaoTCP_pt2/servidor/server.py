@@ -12,7 +12,7 @@ class Servidor:
         self.__port = port
         self.__clientes_conectados: list[ClientHandler] = []
         self.max_queue = max_queue
-        self.requests_possiveis = ['GET', 'SAIR', 'ARQUIVO', 'ARQUIVO2', 'CHAT']
+        self.requests_possiveis = ['GET']
 
         # Criação do Socket TCP/IP do Servidor
         self.server = socket(
