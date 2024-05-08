@@ -48,7 +48,7 @@ class RaftNode(object):
         }
         self.current_value = None
         self.commited: bool = False
-        self.active: bool = True
+        self.active: bool = False
         self.__log: list = []
         self.__obj_election: RaftElection = RaftElection(self)
         self.__peers: list[str] = []
@@ -199,7 +199,7 @@ class RaftNode(object):
             return True
 
         if self.state == 'candidate':
-            print(f"Node {self.object_id} voted for {candidate_id}.")
+            print(f"Node {self.object_id} is also a candidate.")
             return False
         return False
 
@@ -210,13 +210,23 @@ class RaftNode(object):
             uri (str): URI of the node.
         """
         self.uri = uri
+        # self.obj_election.start_election_timer()
+
+    def start_node(self):
+        """Start the node.
+        """
+        print(f"Node {self.object_id} started.")
+        print(self.all_nodes)
+        self.active = True
         self.all_nodes.append(self.uri)
         self.obj_election.start_election_timer()
+        print(self.all_nodes)
 
     def start_election(self):
         """Start the election process for a candidate, if possible.
         """
         if self.state == 'leader':
+            print(f"Node {self.object_id} I'm the leader, I can't start an election")
             return
 
         if self.state == 'follower' and self.leader_uri is None:
@@ -253,7 +263,7 @@ class RaftNode(object):
             follower_uri (str): follower URI.
         """
         if self.state == 'leader':
-            return False
+            return True
 
         if follower_uri not in self.peers:
             self.add_peer(follower_uri)
@@ -308,7 +318,6 @@ class RaftNode(object):
             # Anexar log ao log local
             self.commited = False
             self.__log.append(log_register)
-            print(self)
             return True
         print("I'm not a follower, I can't receive logs")
         return False
@@ -330,10 +339,8 @@ class RaftNode(object):
         for peer_uri in self.__peers:
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
 
-            print("FOLLOWER ", peer.object_id," BEFORE REPLICATION\n", peer)
             if peer.append_entries(new_log):
                 replicated += 1
-            print("FOLLOWER ", peer.object_id," AFTER REPLICATION\n", peer)
 
         if replicated >= (len(self.__peers) // 2):
             return True
@@ -351,9 +358,7 @@ class RaftNode(object):
         """
         for peer_uri in self.__peers:
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-            # print("FOLLOWER ", peer.object_id," BEFORE COMMITING\n", peer)
             peer.commit_entry(self.log[-1])
-            # print("FOLLOWER ", peer.object_id," AFTER COMMITING\n", peer)
 
     def rollback_entry(self):
         """Rollback the last entry of the log.
@@ -366,9 +371,7 @@ class RaftNode(object):
         """
         for peer_uri in self.__peers:
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-            # print("FOLLOWER ", peer.object_id," BEFORE ROLLBACKING\n", peer)
             peer.rollback_entry()
-            # print("FOLLOWER ", peer.object_id," AFTER ROLLBACKING\n", peer)
 
     def receive_command(self, command: str):
         """Receive command from the client.
@@ -391,7 +394,6 @@ class RaftNode(object):
                     log_register
                 )
                 self.commited = False
-                print("LEADER BEFORE REPLICATE FOLLOWERS\n", self)
                 status = self.replicate_to_followers(log_register)
                 if status:
                     self.current_value = new_value
@@ -403,6 +405,5 @@ class RaftNode(object):
                     self.current_value = self.log[-2]['value']
                     self.rollback_followers()
                     self.commited = True
-                print("LEADER AFTER COMMIT/ROLLBACK FOLLOWERS\n", self)
         else:
             print("I'm not the leader, I can't receive commands")

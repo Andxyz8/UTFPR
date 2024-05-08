@@ -2,7 +2,6 @@
 """
 import threading
 import Pyro5.api
-import datetime
 
 class RaftHeartbeat:
     """Raft heartbeat class. Manages the heartbeat process.
@@ -18,14 +17,6 @@ class RaftHeartbeat:
         self.__HEARTBEAT_INTERVAL = 1000/1000
         self.leader_node = None
         self.node_heartbeat_timer = None
-
-    def send_heartbeat(self):
-        """Send heartbeat to the leader node."""
-        if self.leader_node:
-            self.start_heartbeat_timer()
-            self.leader_node.send_heartbeat()
-        else:
-            print("Leader node is not defined.")
 
     def send_follower_to_leader_heartbeat(self, follower_uri: str):
         """Send heartbeat to the leader node."""
@@ -47,6 +38,12 @@ class RaftHeartbeat:
                         print(f"Node {node.object_id} is not available.")
         else:
             print("No followers to send heartbeat.")
+        self.node_heartbeat_timer = threading.Timer(
+            self.__HEARTBEAT_INTERVAL,
+            self.send_followers_heartbeat
+        )
+        self.node_heartbeat_timer.daemon = True
+        self.node_heartbeat_timer.start()
 
     def start_leader_heartbeats(self):
         """Start the leader heartbeats."""
