@@ -1,8 +1,10 @@
 """Raft election module.
 """
 import random
+import time
 import threading
 import Pyro5.api
+from log_operator import write_log
 
 class RaftElection:
     """Raft election class. Manages the election process.
@@ -19,43 +21,42 @@ class RaftElection:
 
     def __init__(self, raft_node):
         self.raft_node = raft_node
-        self.__election_timeout = 0
         self.election_timer = None
+        self.time_remaning_for_election = self.election_timeout
+        self.thread_election_timer = threading.Thread(target=self.start_election_timer)
+
+    @property
+    def election_timeout(self):
+        """Returns a random election timeout value between 1 and 30 seconds.
+        """
+        return random.randint(2000, 30000) / 1000.0
 
     def start_election_timer(self):
-        """Start the election timer.
-        """
-        # random interval for election 5000ms e 12000ms
-        self.__election_timeout = random.randint(1000, 3000) / 1000.0
-        self.election_timer = threading.Timer(
-            self.__election_timeout,
-            self.start_election
-        )
-        self.election_timer.daemon = True
-        self.election_timer.start()
-
-    def start_election(self):
         """Start the election process.
         """
-        # Inicia o processo da eleição
-        print(f"Node {self.raft_node.object_id} starting election...")
-        self.raft_node.start_election()
+        while self.time_remaning_for_election:
+            if self.raft_node.state == "leader":
+                break
 
-        self.reset_election_timer()
-        self.__election_timeout = random.randint(10000, 30000) / 1000.0
-        self.election_timer = threading.Timer(
-            self.__election_timeout,
-            self.start_election
-        )
-        self.election_timer.daemon = True
-        self.election_timer.start()
+            time.sleep(1.0)
+            self.time_remaning_for_election -= 1
+            # Starts the election proccess
+            if self.time_remaning_for_election <= 0:
+                write_log(
+                    object_id = self.raft_node.object_id,
+                    message = "Starting election..."
+                )
+                self.raft_node.start_election()
 
     def reset_election_timer(self):
         """Reset the election timer.
         """
         if self.election_timer:
-            print(f"Node {self.raft_node.object_id} resetting election timer...")
-            self.election_timer.cancel()
+            self.time_remaning_for_election = self.election_timeout
+            write_log(
+                object_id = self.raft_node.object_id,
+                message = f"Resetting election timer. New timeout {self.time_remaning_for_election} seconds."
+            )
 
     def request_votes(self, candidate_uri: str, all_nodes: list):
         """Request votes for all the nodes.
@@ -76,4 +77,13 @@ class RaftElection:
                     vote_status = node.request_vote(candidate_uri)
                     if vote_status:
                         votes += 1
+                        write_log(
+                            object_id = self.raft_node.object_id,
+                            message = f"Vote received from {node.object_id}."
+                        )
+                    else:
+                        write_log(
+                            object_id = self.raft_node.object_id,
+                            message = f"No vote received from {node.object_id}."
+                        )
         return votes
