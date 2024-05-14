@@ -45,10 +45,6 @@ class RaftElection:
             self.time_remaning_for_election -= 1
             # Starts the election proccess
             if self.time_remaning_for_election <= 0:
-                write_log(
-                    object_id = self.raft_node.object_id,
-                    message = f"{self.raft_node.object_id} starting election..."
-                )
                 self.raft_node.start_election()
 
     def reset_election_timer(self):

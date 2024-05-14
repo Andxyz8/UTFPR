@@ -1,12 +1,10 @@
 """RaftNode class that represents a node in the Raft algorithm.
 """
 from uuid import uuid4
-import datetime
 import Pyro5.api
 import Pyro5.core
 import Pyro5.client
 from raft_election import RaftElection
-from raft_heartbeat import RaftHeartbeat
 from log_operator import write_log
 
 @Pyro5.api.expose
@@ -263,6 +261,10 @@ class RaftNode(object):
             return
 
         if self.state == 'candidate':
+            write_log(
+                object_id = self.object_id,
+                message = f"{self.object_id} starting election..."
+            )
             num_votes = self.obj_election.request_votes()
             if num_votes > round(len(dict_raft_nodes) // 2):
                 self.leader_uri = self.uri

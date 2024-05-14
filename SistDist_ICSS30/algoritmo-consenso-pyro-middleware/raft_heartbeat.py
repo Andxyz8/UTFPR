@@ -44,7 +44,7 @@ class RaftHeartbeat:
         if len(dict_raft_nodes) > 0:
             write_log(
                 leader_node.object_id,
-                f"Peers to send Heartbeats: {dict_raft_nodes}"
+                f"Nodes to send Heartbeats: {dict_raft_nodes}"
             )
             for node_id, node_uri in dict_raft_nodes.items():
                 write_log(
