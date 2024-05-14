@@ -13,10 +13,6 @@ from log_operator import write_log
 class RaftNode(object):
     """RaftNode class that represents a node in the Raft algorithm.
 
-    Attributes:
-        all_nodes (list): list of all nodes.
-        heartbeats (RaftHeartbeat): RaftHeartbeat object.
-
     Methods:
         request_vote: Request vote for a candidate.
         initialize_node: Initialize the node with the URI and start the election timer.
@@ -37,9 +33,6 @@ class RaftNode(object):
     Args:
         object_id (str): object id.
     """
-
-    all_nodes: list = []
-    heartbeats: RaftHeartbeat = None
 
     def __init__(self, object_id: str = uuid4()):
         self.__dict_raft_node = {
@@ -185,36 +178,23 @@ class RaftNode(object):
     def log(self, log):
         self.__log = log
 
-    def request_vote(self, candidate_id: str):
-        """Request vote for a candidate.
-
-        Args:
-            candidate_id (str): candidate id.
-
-        Returns:
-            bool: True if the vote was granted, False otherwise.
+    def start_node(self):
+        """Start the node.
         """
-        if candidate_id not in self.peers:
-            self.add_peer(candidate_id)
+        write_log(
+            object_id = self.object_id,
+            message = f"{self.object_id} started with election interval of {self.obj_election.election_timeout} seconds."
+        )
+        self.active = True
+        # self.obj_election.thread_election_timer.daemon = True
+        self.obj_election.thread_election_timer.start()
 
-        if self.state == 'leader' and self.active is True:
-            return False
-
-        if self.state == 'follower' or self.leader_uri is None:
-            write_log(
-                object_id = self.object_id,
-                message = f"{self.object_id} voted from {candidate_id}"
-            )
-            return True
-
-        if self.state == 'candidate':
-            write_log(
-                object_id = self.object_id,
-                message = f"Can't vote on {candidate_id}, node {self.object_id} is also a candidate."
-            )
-            self.state = 'follower'
-            return False
-        return False
+    def turn_off_node(self):
+        """Turn off the node.
+        """
+        self.active = False
+        self.state = 'follower'
+        self.leader_uri = None
 
     def initialize_node(self, uri: str):
         """Initialize the node with the URI and start the election timer.
@@ -223,23 +203,44 @@ class RaftNode(object):
             uri (str): URI of the node.
         """
         self.uri = uri
-        # self.obj_election.start_election_timer()
 
-    def start_node(self):
-        """Start the node.
+    def request_vote(self, candidate_id: str):
+        """Send it's vote for a candidate.
+
+        Args:
+            candidate_id (str): candidate id.
+
+        Returns:
+            bool: True if the vote was granted, False otherwise.
         """
-        write_log(
-            object_id = self.object_id,
-            message = f"{self.object_id} started."
-        )
-        self.active = True
-        self.all_nodes.append(self.uri)
-        # self.obj_election.thread_election_timer.daemon = True
-        self.obj_election.thread_election_timer.start()
+        if self.state == 'leader' and self.active is True:
+            # restart the election timer for the candidate
+            node_candidate = Pyro5.api.Proxy(candidate_id)
+            node_candidate.obj_election.reset_election_timer()
+            return False
+
+        if self.state == 'follower' or self.leader_uri is None:
+            write_log(
+                object_id = self.object_id,
+                message = f"{self.object_id} voted for {candidate_id}"
+            )
+            return True
+
+        if self.state == 'candidate':
+            write_log(
+                object_id = self.object_id,
+                message = f"Can't vote on {candidate_id}, node {self.object_id} is also a candidate."
+            )
+            # TODO: Implement the vote sequence for more than one candidate at the same time
+            self.state = 'follower'
+            return False
+        return False
 
     def start_election(self):
         """Start the election process for a candidate, if possible.
         """
+        dict_raft_nodes = dict(Pyro5.api.locate_ns().list(prefix="raft_node_"))
+
         if self.state == 'leader':
             write_log(
                 object_id = self.object_id,
@@ -247,38 +248,45 @@ class RaftNode(object):
             )
             return
 
-        if self.state == 'follower' and self.leader_uri is None:
-            write_log(
-                object_id = self.object_id,
-                message = f"{self.object_id} I'm a follower, I can't start an election."
-            )
+        # check if the leader is active
+        if self.leader_uri is not None:
+            leader_node = Pyro5.api.Proxy(self.leader_uri)
+            if leader_node.active:
+                if self.state != 'follower':
+                    self.state = 'follower'
+                return
             self.state = 'candidate'
+            return
+
+        if self.state == 'follower':
+            self.state = 'candidate'
+            return
 
         if self.state == 'candidate':
-            num_votes = self.obj_election.request_votes(self.uri, self.all_nodes)
-            if num_votes > (len(self.all_nodes) // 2):
+            num_votes = self.obj_election.request_votes()
+            if num_votes > round(len(dict_raft_nodes) // 2):
                 self.leader_uri = self.uri
                 self.active = True
-                self.heartbeats = RaftHeartbeat()
-                self.heartbeats.leader_node = self
-                self.heartbeats.thread_heartbeat_timer.daemon = True
                 self.state = 'leader'
                 write_log(
                     object_id = self.object_id,
                     message = f"{self.object_id} elected as leader."
                 )
-                self.heartbeats.start_leader_heartbeats()
             else:
                 write_log(
                     object_id = self.object_id,
                     message = f"{self.object_id} couldn't be elected as leader."
                 )
+        return
 
     def receive_leader_heartbeat(self, leader_uri: str):
         """Receive heartbeat from the leader node.
         """
         if self.state == 'leader':
-            return
+            return False
+
+        self.obj_election.reset_election_timer()
+
         if self.leader_uri is None:
             self.leader_uri = leader_uri
 
@@ -287,10 +295,22 @@ class RaftNode(object):
             message = f"{self.object_id} in state {self.state} received heartbeat from leader {leader_uri}"
         )
 
-        self.obj_election.reset_election_timer()
-        self.heartbeats.send_follower_to_leader_heartbeat(self.uri)
+        return self.send_heartbeat_confirmation_to_leader(leader_uri)
 
-        return True
+    def send_heartbeat_confirmation_to_leader(self, leader_uri: str):
+        """Send back a confirmation of the heartbeat to the leader node.
+
+        Args:
+            leader_uri (str): leader URI.
+        """
+        leader_node = Pyro5.api.Proxy(leader_uri)
+        if leader_node.active:
+            return leader_node.receive_follower_heartbeat(self.uri)
+        write_log(
+            object_id = self.object_id,
+            message = f"{self.object_id} No Leader to send heartbeat."
+        )
+        return False
 
     def receive_follower_heartbeat(self, follower_uri: str):
         """Receive heartbeat from a follower node.
@@ -307,6 +327,7 @@ class RaftNode(object):
         follower_node = Pyro5.api.Proxy(follower_uri)
         if follower_node.state == 'follower':
             return True
+        return False
 
     def leader_add_follower_peer(self, leader_uri: str):
         """ Add follower to the leader peer list.
