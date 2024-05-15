@@ -70,8 +70,23 @@ class Client:
         value = command.split(" ")[1]
         if not self.__check_valid_value(value):
             return
+        
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Command '{command}' sent to leader node."
+        )
 
-        self.leader_node.receive_command(f"SET {value}")
+        command_status = self.leader_node.receive_command(f"SET {value}")
+        if command_status:
+            write_log(
+                object_id = self.client_id,
+                message = f"[X] Command '{command}' executed."
+            )
+            return
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Something is wrong. Command '{command}' failed."
+        )
 
     def add_value_command(self, command: str):
         """Perform an ADD command.
@@ -103,6 +118,34 @@ class Client:
             message = f"[X] Something is wrong. Command '{command}' failed."
         )
 
+    def turn_off_leader_command(self, command: str):
+        """Perform an ADD command.
+
+        Args:
+            command (str): Command with the value to be added.
+        """
+
+        if not self.__check_leader_available():
+            return
+        
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Command '{command}' sent to leader node."
+        )
+
+        value = command
+        command_status = self.leader_node.receive_command(f"{value} leader")
+        if command_status:
+            write_log(
+                object_id = self.client_id,
+                message = f"[X] Command '{command}' executed."
+            )
+            return
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Something is wrong. Command '{command}' failed."
+        )
+
 # Get the client id from the command line arguments
 CLIENT_ID = sys.argv[1]
 
@@ -119,6 +162,9 @@ try:
 
         if COMMAND.startswith("ADD"):
             client.add_value_command(COMMAND)
+        
+        if COMMAND.startswith("TURN"):
+            client.turn_off_leader_command(COMMAND)
 
         if client.leader_node is not None:
             print(f"self.leader_node: {client.leader_node.to_string()}")

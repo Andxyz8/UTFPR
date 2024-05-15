@@ -259,13 +259,12 @@ class RaftNode(object):
                 if self.state != 'follower':
                     self.state = 'follower'
                 return
-            self.state = 'candidate'
             return
 
         if self.state == 'follower':
             self.state = 'candidate'
             return
-
+        
         if self.state == 'candidate':
             write_log(
                 object_id = self.object_id,
@@ -285,6 +284,7 @@ class RaftNode(object):
                     object_id = self.object_id,
                     message = f"{self.object_id} couldn't be elected as leader."
                 )
+        
         return
 
     def receive_leader_heartbeat(self, leader_uri: str):
@@ -482,5 +482,55 @@ class RaftNode(object):
                     object_id = self.object_id,
                     message = f"{self.object_id} SET command executed."
                 )
+            if command.startswith('ADD'):
+                log_register = {
+                    'command': command,
+                    'value': int(self.current_value) + int(new_value),
+                    'commited': False
+                }
+                self.log.append(
+                    log_register
+                )
+                self.commited = False
+                status = self.replicate_to_followers(log_register)
+                if status:
+                    self.current_value = int(self.current_value) + int(new_value)
+                    self.log[-1]['commited'] = True
+                    self.commit_to_followers()
+                else:
+                    # Rollback to the last value used
+                    self.current_value = self.log[-2]['value']
+                    self.rollback_followers()
+                self.commited = True
+                write_log(
+                    object_id = self.object_id,
+                    message = f"{self.object_id} SET command executed."
+                )
+            if command.startswith('TURN'):
+                log_register = {
+                    'command': command,
+                    'value': 'Turn Off leader',
+                    'commited': False
+                }
+                self.log.append(
+                    log_register
+                )
+                self.commited = False
+                status = self.replicate_to_followers(log_register)
+                if status:
+                    self.log[-1]['commited'] = True
+                    self.commit_to_followers()
+                else:
+                    # Rollback to the last value used
+                    self.current_value = self.log[-2]['value']
+                    self.rollback_followers()
+                self.commited = True
+                self.turn_off_node()
+                write_log(
+                    object_id = self.object_id,
+                    message = f"{self.object_id} SET command executed."
+                )
+            return True
         else:
             print("I'm not the leader, I can't receive commands")
+            return False

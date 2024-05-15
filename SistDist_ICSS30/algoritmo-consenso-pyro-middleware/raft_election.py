@@ -29,7 +29,7 @@ class RaftElection:
 
     @property
     def election_timeout(self):
-        """Returns a random election timeout value between 1 and 30 seconds.
+        """Returns a random election timeout value between 3 and 5 seconds.
         """
         return int(random.randint(3000, 5000) / 1000.0)
 
