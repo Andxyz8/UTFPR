@@ -61,6 +61,12 @@ class RaftNode(object):
     def __repr__(self) -> str:
         return self.__str__()
 
+    def to_string(self) -> str:
+        """Returns:
+            str: node information.
+        """
+        return self.__str__().strip().replace(':', ': ')
+
     @property
     def uri(self):
         """Returns:
@@ -394,17 +400,19 @@ class RaftNode(object):
             bool: True if the log was replicated to the
                 majority of the followers, False otherwise.
         """
-        if len(self.__peers) == 0:
+        pyro_nameserver = Pyro5.api.locate_ns()
+        peers = pyro_nameserver.list(prefix="raft_node_")
+
+        if len(peers) == 1:
             return True
 
-        replicated = 0
-        for peer_uri in self.__peers:
+        replicated = 1
+        for peer_uri in peers.values():
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-
-            if peer.append_entries(new_log):
+            if peer.state == 'follower' and peer.append_entries(new_log):
                 replicated += 1
 
-        if replicated >= (len(self.__peers) // 2):
+        if replicated >= len(peers):
             return True
         return False
 
@@ -418,9 +426,14 @@ class RaftNode(object):
     def commit_to_followers(self):
         """Commit the entry to all followers.
         """
-        for peer_uri in self.__peers:
+        name_server = Pyro5.api.locate_ns()
+        peers = name_server.list(prefix="raft_node_")
+
+        for peer_uri in peers.values():
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-            peer.commit_entry(self.log[-1])
+            if peer.state == 'follower':
+                peer.commit_entry(self.log[-1])
+            print(peer.to_string())
 
     def rollback_entry(self):
         """Rollback the last entry of the log.
@@ -444,7 +457,6 @@ class RaftNode(object):
         new_value = command.split(' ')[1]
         print(f"Command Received: {command}")
         print("LEADER BEFORE COMMAND\n", self)
-        # Receber comando do cliente
         if self.state == 'leader':
             if command.startswith('SET'):
                 log_register = {
@@ -461,11 +473,14 @@ class RaftNode(object):
                     self.current_value = new_value
                     self.log[-1]['commited'] = True
                     self.commit_to_followers()
-                    self.commited = True
                 else:
-                    # rollback to the last value used
+                    # Rollback to the last value used
                     self.current_value = self.log[-2]['value']
                     self.rollback_followers()
-                    self.commited = True
+                self.commited = True
+                write_log(
+                    object_id = self.object_id,
+                    message = f"{self.object_id} SET command executed."
+                )
         else:
             print("I'm not the leader, I can't receive commands")

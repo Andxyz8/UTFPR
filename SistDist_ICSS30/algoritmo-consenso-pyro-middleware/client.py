@@ -86,14 +86,29 @@ class Client:
         if not self.__check_valid_value(value):
             return
 
-        self.leader_node.receive_command(f"ADD {value}")
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Command '{command}' sent to leader node."
+        )
+
+        command_status = self.leader_node.receive_command(f"ADD {value}")
+        if command_status:
+            write_log(
+                object_id = self.client_id,
+                message = f"[X] Command '{command}' executed."
+            )
+            return
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Something is wrong. Command '{command}' failed."
+        )
 
 # Get the client id from the command line arguments
 CLIENT_ID = sys.argv[1]
 
 client = Client(CLIENT_ID)
 
-# try except for keyboards interrupts
+# Try except for keyboards interrupts
 try:
     # Loop to get the commands from the user
     while True:
@@ -105,7 +120,27 @@ try:
         if COMMAND.startswith("ADD"):
             client.add_value_command(COMMAND)
 
+        if client.leader_node is not None:
+            print(f"self.leader_node: {client.leader_node.to_string()}")
+
         if COMMAND == "EXIT":
+            write_log(
+                object_id = client.client_id,
+                message = f"[X] Client {client.client_id} stopped."
+            )
+            print("See you soon...")
             sys.exit(0)
 except KeyboardInterrupt:
+    write_log(
+        object_id = client.client_id,
+        message = f"[X] Client {client.client_id} stopped."
+    )
+    write_log(
+        object_id = client.client_id,
+        message = "[X] Use command EXIT to properly stop the client."
+    )
     sys.exit(0)
+
+# TODO: loop through all the nodes printing its information with to_string()
+# TODO: add command to turn off a specific node (use the object_id)
+# TODO: add command to turn on a specific node (use the object_id)
