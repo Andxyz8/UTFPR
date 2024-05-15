@@ -49,6 +49,7 @@ class RaftNode(object):
     def __str__(self) -> str:
         return f"""
             RaftNode: {self.object_id}
+            active: {self.active}
             uri: {self.uri}
             leader_uri: {self.leader_uri}
             state: {self.state}
@@ -110,6 +111,8 @@ class RaftNode(object):
 
     @state.setter
     def state(self, state):
+        if self.state == state:
+            return
         write_log(
             object_id = self.object_id,
             message = f"{self.object_id} changed state from {self.state} to {state}"
@@ -190,7 +193,7 @@ class RaftNode(object):
             message = f"{self.object_id} started with election interval of {self.obj_election.election_timeout} seconds."
         )
         self.active = True
-        # self.obj_election.thread_election_timer.daemon = True
+        self.state = 'follower'
         self.obj_election.thread_election_timer.start()
 
     def turn_off_node(self):
@@ -208,32 +211,35 @@ class RaftNode(object):
         """
         self.uri = uri
 
-    def request_vote(self, candidate_id: str):
+    def request_vote(self, candidate_uri: str):
         """Send it's vote for a candidate.
 
         Args:
-            candidate_id (str): candidate id.
+            candidate_uri (str): candidate URI.
 
         Returns:
             bool: True if the vote was granted, False otherwise.
         """
+        if self.active is False:
+            return False
+
         if self.state == 'leader' and self.active is True:
             # restart the election timer for the candidate
-            node_candidate = Pyro5.api.Proxy(candidate_id)
+            node_candidate = Pyro5.api.Proxy(candidate_uri)
             node_candidate.obj_election.reset_election_timer()
             return False
 
         if self.state == 'follower' or self.leader_uri is None:
             write_log(
                 object_id = self.object_id,
-                message = f"{self.object_id} voted for {candidate_id}"
+                message = f"{self.object_id} voted for {candidate_uri}"
             )
             return True
 
         if self.state == 'candidate':
             write_log(
                 object_id = self.object_id,
-                message = f"Can't vote on {candidate_id}, node {self.object_id} is also a candidate."
+                message = f"Can't vote on {candidate_uri}, node {self.object_id} is also a candidate."
             )
             # TODO: Implement the vote sequence for more than one candidate at the same time
             self.state = 'follower'
@@ -243,6 +249,9 @@ class RaftNode(object):
     def start_election(self):
         """Start the election process for a candidate, if possible.
         """
+        if self.active is False:
+            return
+
         dict_raft_nodes = dict(Pyro5.api.locate_ns().list(prefix="raft_node_"))
 
         if self.state == 'leader':
@@ -259,19 +268,25 @@ class RaftNode(object):
                 if self.state != 'follower':
                     self.state = 'follower'
                 return
+            self.leader_uri = None
             return
 
         if self.state == 'follower':
             self.state = 'candidate'
             return
-        
+
         if self.state == 'candidate':
             write_log(
                 object_id = self.object_id,
                 message = f"{self.object_id} starting election..."
             )
             num_votes = self.obj_election.request_votes()
-            if num_votes > round(len(dict_raft_nodes) // 2):
+            active_nodes = [
+                node_uri for node_uri in dict_raft_nodes.values()
+                if Pyro5.api.Proxy(node_uri).active
+            ]
+
+            if num_votes >= len(active_nodes)//2:
                 self.leader_uri = self.uri
                 self.active = True
                 self.state = 'leader'
@@ -280,11 +295,19 @@ class RaftNode(object):
                     message = f"{self.object_id} elected as leader."
                 )
             else:
+                self.obj_election.reset_election_timer()
+                self.state = 'follower'
+                for node_uri in dict_raft_nodes.values():
+                    node = Pyro5.api.Proxy(node_uri)
+                    if node.state == 'leader':
+                        uri = node.uri
+                        break
+
+                self.leader_uri = uri
                 write_log(
                     object_id = self.object_id,
                     message = f"{self.object_id} couldn't be elected as leader."
                 )
-        
         return
 
     def receive_leader_heartbeat(self, leader_uri: str):
@@ -293,15 +316,27 @@ class RaftNode(object):
         if self.state == 'leader':
             return False
 
-        self.obj_election.reset_election_timer()
-
-        if self.leader_uri is None:
+        if self.leader_uri != leader_uri:
             self.leader_uri = leader_uri
 
-        write_log(
-            object_id = self.object_id,
-            message = f"{self.object_id} in state {self.state} received heartbeat from leader {leader_uri}"
-        )
+        if self.state == 'candidate':
+            leader_node = Pyro5.api.Proxy(leader_uri)
+            if leader_node.active:
+                self.state = 'follower'
+
+        if self.state == 'follower' and self.active is True:
+            self.obj_election.reset_election_timer()
+
+            if self.current_value is None:
+                self.current_value = Pyro5.api.Proxy(leader_uri).current_value
+
+            if self.leader_uri is None:
+                self.leader_uri = leader_uri
+
+            write_log(
+                object_id = self.object_id,
+                message = f"{self.object_id} in state {self.state} received heartbeat from leader {leader_uri}"
+            )
 
         return self.send_heartbeat_confirmation_to_leader(leader_uri)
 
@@ -412,7 +447,7 @@ class RaftNode(object):
             if peer.state == 'follower' and peer.append_entries(new_log):
                 replicated += 1
 
-        if replicated >= len(peers):
+        if replicated >= len(peers) // 2:
             return True
         return False
 
@@ -426,8 +461,8 @@ class RaftNode(object):
     def commit_to_followers(self):
         """Commit the entry to all followers.
         """
-        name_server = Pyro5.api.locate_ns()
-        peers = name_server.list(prefix="raft_node_")
+        nameserver = Pyro5.api.locate_ns()
+        peers = nameserver.list(prefix="raft_node_")
 
         for peer_uri in peers.values():
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
@@ -444,9 +479,14 @@ class RaftNode(object):
     def rollback_followers(self):
         """Rollback the last entry of the log in all followers.
         """
-        for peer_uri in self.__peers:
+        nameserver = Pyro5.api.locate_ns()
+        peers = nameserver.list(prefix="raft_node_")
+
+        for peer_uri in peers:
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-            peer.rollback_entry()
+            if peer.state == 'follower':
+                peer.rollback_entry()
+            print(peer.to_string())
 
     def receive_command(self, command: str):
         """Receive command from the client.
@@ -506,31 +546,18 @@ class RaftNode(object):
                     object_id = self.object_id,
                     message = f"{self.object_id} SET command executed."
                 )
-            if command.startswith('TURN'):
-                log_register = {
-                    'command': command,
-                    'value': 'Turn Off leader',
-                    'commited': False
-                }
-                self.log.append(
-                    log_register
+            if command.startswith('TURN ON'):
+                self.start_node()
+                write_log(
+                    object_id = self.object_id,
+                    message = f"{self.object_id} command executed."
                 )
-                self.commited = False
-                status = self.replicate_to_followers(log_register)
-                if status:
-                    self.log[-1]['commited'] = True
-                    self.commit_to_followers()
-                else:
-                    # Rollback to the last value used
-                    self.current_value = self.log[-2]['value']
-                    self.rollback_followers()
-                self.commited = True
+            if command.startswith('TURN OFF'):
                 self.turn_off_node()
                 write_log(
                     object_id = self.object_id,
-                    message = f"{self.object_id} SET command executed."
+                    message = f"{self.object_id} command executed."
                 )
             return True
-        else:
-            print("I'm not the leader, I can't receive commands")
-            return False
+        print("I'm not the leader, I can't receive commands")
+        return False

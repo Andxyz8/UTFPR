@@ -118,23 +118,21 @@ class Client:
             message = f"[X] Something is wrong. Command '{command}' failed."
         )
 
-    def turn_off_leader_command(self, command: str):
-        """Perform an ADD command.
+    def turn_on_command(self, command: str):
+        """Turn on any node on the nameserver.
 
         Args:
-            command (str): Command with the value to be added.
+            command (str): Command to turn off a node.
         """
-
         if not self.__check_leader_available():
             return
-        
+
         write_log(
             object_id = self.client_id,
             message = f"[X] Command '{command}' sent to leader node."
         )
 
-        value = command
-        command_status = self.leader_node.receive_command(f"{value} leader")
+        command_status = self.leader_node.receive_command(command)
         if command_status:
             write_log(
                 object_id = self.client_id,
@@ -145,6 +143,43 @@ class Client:
             object_id = self.client_id,
             message = f"[X] Something is wrong. Command '{command}' failed."
         )
+
+    def turn_off_command(self, command: str):
+        """Turn off any node on the nameserver.
+
+        Args:
+            command (str): Command to turn off a node.
+        """
+
+        if not self.__check_leader_available():
+            return
+
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Command '{command}' sent to leader node."
+        )
+
+        command_status = self.leader_node.receive_command(command)
+        if command_status:
+            write_log(
+                object_id = self.client_id,
+                message = f"[X] Command '{command}' executed."
+            )
+            return
+        write_log(
+            object_id = self.client_id,
+            message = f"[X] Something is wrong. Command '{command}' failed."
+        )
+
+    def list_nodes(self) -> None:
+        """List nodes to the output.
+        """
+        nameserver_pyro = Pyro5.api.locate_ns()
+        dict_raft_nodes = dict(nameserver_pyro.list(prefix="raft_node_"))
+
+        for node_uri in dict_raft_nodes.values():
+            node = Pyro5.api.Proxy(node_uri)
+            print(node.to_string())
 
 # Get the client id from the command line arguments
 CLIENT_ID = sys.argv[1]
@@ -162,12 +197,14 @@ try:
 
         if COMMAND.startswith("ADD"):
             client.add_value_command(COMMAND)
-        
-        if COMMAND.startswith("TURN"):
-            client.turn_off_leader_command(COMMAND)
 
-        if client.leader_node is not None:
-            print(f"self.leader_node: {client.leader_node.to_string()}")
+        if COMMAND.startswith("TURN ON"):
+            client.turn_on_command(COMMAND)
+
+        if COMMAND.startswith("TURN OFF"):
+            client.turn_off_command(COMMAND)
+
+        client.list_nodes()
 
         if COMMAND == "EXIT":
             write_log(

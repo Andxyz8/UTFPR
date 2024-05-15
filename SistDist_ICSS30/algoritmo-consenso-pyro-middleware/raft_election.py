@@ -29,9 +29,9 @@ class RaftElection:
 
     @property
     def election_timeout(self):
-        """Returns a random election timeout value between 3 and 5 seconds.
+        """Returns a random election timeout value between 3 and 6 seconds.
         """
-        return int(random.randint(3000, 5000) / 1000.0)
+        return int(random.randint(3000, 6000) / 1000.0)
 
     def start_election_timer(self):
         """Start the election process.
@@ -68,15 +68,26 @@ class RaftElection:
         nameserver_pyro = Pyro5.api.locate_ns()
         dict_raft_nodes = nameserver_pyro.list(prefix="raft_node_")
         dict_raft_nodes.pop(self.raft_node.object_id)
-        if len(dict_raft_nodes) > 0:
+        active_nodes = [
+            node_uri for node_uri in dict_raft_nodes.values()
+            if Pyro5.api.Proxy(node_uri).active
+        ]
+        if len(active_nodes) > 0:
             for node_id, node_uri in dict_raft_nodes.items():
                 write_log(
                     object_id = self.raft_node.object_id,
                     message = f"{self.raft_node.object_id} requesting vote from {node_id}."
                 )
-                if node_uri != self.raft_node.object_id:
+                if node_id != self.raft_node.object_id:
                     node = Pyro5.api.Proxy(node_uri)
-                    vote_status = node.request_vote(self.raft_node.object_id)
+                    if not node.active:
+                        write_log(
+                            object_id = self.raft_node.object_id,
+                            message = f"Could not reach node {node_id}."
+                        )
+                        continue
+
+                    vote_status = node.request_vote(self.raft_node.uri)
                     if vote_status:
                         votes += 1
                         write_log(

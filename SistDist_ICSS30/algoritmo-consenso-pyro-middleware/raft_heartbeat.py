@@ -41,7 +41,7 @@ class RaftHeartbeat:
         dict_raft_nodes = dict(nameserver_pyro.list(prefix="raft_node_"))
         dict_raft_nodes.pop(leader_node.object_id)
         # send heartbeats to all the peer nodes
-        if len(dict_raft_nodes) > 0:
+        if len(dict_raft_nodes) > 0 and leader_node.active:
             write_log(
                 leader_node.object_id,
                 f"Nodes to send Heartbeats: {dict_raft_nodes}"
@@ -72,6 +72,11 @@ class RaftHeartbeat:
             write_log(
                 object_id = leader_node.object_id,
                 message = "Heartbeats sent to all followers."
+            )
+        elif not leader_node.active:
+            write_log(
+                object_id = leader_node.object_id,
+                message = "No leader defined. Can't send Heartbeats. Waiting for the election process to finish."
             )
         else:
             write_log(
