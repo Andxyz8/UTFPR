@@ -10,3 +10,6 @@ def write_log(object_id: str, message: str):
     """
     with open(f"{object_id}_log.txt", 'a', encoding='UTF-8') as f:
         f.write(f"{datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')} - {message}\n")
+
+    if object_id.startswith("client"):
+        print(message)
