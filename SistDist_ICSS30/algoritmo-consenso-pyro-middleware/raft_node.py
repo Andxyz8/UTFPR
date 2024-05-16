@@ -17,8 +17,6 @@ class RaftNode(object):
         start_election: Start the election process for a candidate, if possible.
         receive_leader_heartbeat: Receive heartbeat from the leader node.
         receive_follower_heartbeat: Receive heartbeat from a follower node.
-        leader_add_follower_peer: Add follower to the leader peer list.
-        __follower_add_follower_peer: Add follower to the follower peer list.
         add_peer: Add peer to the peers list.
         append_entries: Append log to the follower log list.
         replicate_to_followers: Replicate log to all followers.
@@ -44,7 +42,6 @@ class RaftNode(object):
         self.active: bool = False
         self.__log: list = []
         self.__obj_election: RaftElection = RaftElection(self)
-        self.__peers: list[str] = []
 
     def __str__(self) -> str:
         return f"""
@@ -55,7 +52,6 @@ class RaftNode(object):
             state: {self.state}
             value: {self.current_value}
             commited: {self.commited}
-            peers: {self.peers}
             log: {self.log}\n
         """
 
@@ -151,17 +147,6 @@ class RaftNode(object):
     @active.setter
     def active(self, status):
         self.__active = status
-
-    @property
-    def peers(self):
-        """Returns:
-            list[str]: peers list of this node.
-        """
-        return self.__peers
-
-    @peers.setter
-    def peers(self, peers):
-        self.__peers = peers
 
     @property
     def obj_election(self):
@@ -269,7 +254,6 @@ class RaftNode(object):
                     self.state = 'follower'
                 return
             self.leader_uri = None
-            return
 
         if self.state == 'follower':
             self.state = 'candidate'
@@ -283,10 +267,10 @@ class RaftNode(object):
             num_votes = self.obj_election.request_votes()
             active_nodes = [
                 node_uri for node_uri in dict_raft_nodes.values()
-                if Pyro5.api.Proxy(node_uri).active
+                if Pyro5.api.Proxy(node_uri).active and node_uri != self.uri
             ]
 
-            if num_votes >= len(active_nodes)//2:
+            if num_votes >= (len(active_nodes)+1)//2:
                 self.leader_uri = self.uri
                 self.active = True
                 self.state = 'leader'
@@ -364,44 +348,10 @@ class RaftNode(object):
         if self.state == 'leader':
             return True
 
-        if follower_uri not in self.peers:
-            self.add_peer(follower_uri)
-
         follower_node = Pyro5.api.Proxy(follower_uri)
         if follower_node.state == 'follower':
             return True
         return False
-
-    def leader_add_follower_peer(self, leader_uri: str):
-        """ Add follower to the leader peer list.
-
-        Args:
-            leader_uri (str): leader URI.
-        """
-        raft_node_leader: RaftNode = Pyro5.api.Proxy(leader_uri)
-        raft_node_leader.add_peer(self.uri)
-        self.__follower_add_follower_peer(raft_node_leader.peers)
-
-    def __follower_add_follower_peer(self, peers: list[str]):
-        """Add follower to the follower peer list.
-
-        Args:
-            peers (list[str]): list of peers.
-        """
-        for peer_uri in peers:
-            if peer_uri != self.uri:
-                peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-                self.add_peer(peer_uri)
-                peer.add_peer(self.uri)
-
-    def add_peer(self, peer_uri: str):
-        """Add peer to the peers list.
-
-        Args:
-            peer_uri (str): peer URI.
-        """
-        if peer_uri not in self.__peers:
-            self.__peers.append(peer_uri)
 
     def append_entries(self, log_register):
         """Append log to the follower log list.
@@ -441,13 +391,15 @@ class RaftNode(object):
         if len(peers) == 1:
             return True
 
+        peers.pop(self.object_id)
+
         replicated = 1
         for peer_uri in peers.values():
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
             if peer.state == 'follower' and peer.append_entries(new_log):
                 replicated += 1
 
-        if replicated >= len(peers) // 2:
+        if replicated >= (len(peers) + 1)// 2:
             return True
         return False
 
@@ -464,10 +416,11 @@ class RaftNode(object):
         nameserver = Pyro5.api.locate_ns()
         peers = nameserver.list(prefix="raft_node_")
 
+        peers.pop(self.object_id)
+
         for peer_uri in peers.values():
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
-            if peer.state == 'follower':
-                peer.commit_entry(self.log[-1])
+            peer.commit_entry(self.log[-1])
             print(peer.to_string())
 
     def rollback_entry(self):
@@ -481,6 +434,7 @@ class RaftNode(object):
         """
         nameserver = Pyro5.api.locate_ns()
         peers = nameserver.list(prefix="raft_node_")
+        peers.pop(self.object_id)
 
         for peer_uri in peers:
             peer: RaftNode = Pyro5.api.Proxy(peer_uri)
@@ -544,7 +498,7 @@ class RaftNode(object):
                 self.commited = True
                 write_log(
                     object_id = self.object_id,
-                    message = f"{self.object_id} SET command executed."
+                    message = f"{self.object_id} ADD command executed."
                 )
             if command.startswith('TURN ON'):
                 self.start_node()

@@ -50,12 +50,11 @@ class RaftElection:
     def reset_election_timer(self):
         """Reset the election timer.
         """
-        if self.election_timer:
-            self.time_remaning_for_election = self.election_timeout
-            write_log(
-                object_id = self.raft_node.object_id,
-                message = f"Resetting election timer. New timeout {self.time_remaning_for_election} seconds."
-            )
+        self.time_remaning_for_election = self.election_timeout
+        write_log(
+            object_id = self.raft_node.object_id,
+            message = f"Resetting election timer. New timeout {self.time_remaning_for_election} seconds."
+        )
 
     def request_votes(self):
         """Request votes for all the nodes.
@@ -87,7 +86,11 @@ class RaftElection:
                         )
                         continue
 
-                    vote_status = node.request_vote(self.raft_node.uri)
+                    try:
+                        vote_status = node.request_vote(self.raft_node.uri)
+                    except TypeError:
+                        return 0
+
                     if vote_status:
                         votes += 1
                         write_log(
