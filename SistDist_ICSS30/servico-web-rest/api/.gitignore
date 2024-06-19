@@ -1,0 +1,8 @@
+# Pastas
+.venv
+__pycache__
+
+# Extensões de arquivos
+**.env
+**.txt
+**.xlsx
