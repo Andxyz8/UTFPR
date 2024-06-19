@@ -2,7 +2,7 @@
 """
 import random
 import time
-import threading
+from threading import Thread
 import Pyro5.api
 from raft_heartbeat import RaftHeartbeat
 from log_operator import write_log
@@ -25,7 +25,9 @@ class RaftElection:
         self.election_timer = None
         self.raft_heartbeats = RaftHeartbeat()
         self.time_remaning_for_election = self.election_timeout
-        self.thread_election_timer = threading.Thread(target=self.start_election_timer)
+        self.thread_election_timer = Thread(
+            target = self.start_election_timer
+        )
 
     @property
     def election_timeout(self):

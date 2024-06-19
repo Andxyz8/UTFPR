@@ -70,7 +70,7 @@ class Client:
         value = command.split(" ")[1]
         if not self.__check_valid_value(value):
             return
-        
+
         write_log(
             object_id = self.client_id,
             message = f"[X] Command '{command}' sent to leader node."

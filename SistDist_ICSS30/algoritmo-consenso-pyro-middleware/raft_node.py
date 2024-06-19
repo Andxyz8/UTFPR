@@ -226,7 +226,6 @@ class RaftNode(object):
                 object_id = self.object_id,
                 message = f"Can't vote on {candidate_uri}, node {self.object_id} is also a candidate."
             )
-            # TODO: Implement the vote sequence for more than one candidate at the same time
             self.state = 'follower'
             return False
         return False
