@@ -9,4 +9,4 @@ def register_routes(app_server: Flask) -> None:
     Args:
         app_server (Flask): objeto do servidor Flask.
     """
-    LivroController.register(app_server, route_base='/livros')
+    LivroController.register(app_server, route_base = '/livros/')
