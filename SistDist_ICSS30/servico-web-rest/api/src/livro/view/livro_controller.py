@@ -175,3 +175,28 @@ class LivroController(FlaskView, RotaBase):
             return make_response(response, 500)
         return make_response(resp_atualizacao, 200)
     # pylint: enable=W0718:broad-exception-caught
+
+    @route('/<int:id_livro>/info-criptografada', methods = ['GET'])
+    def obtem_info_criptografada(self, id_livro: int):
+        """Obtém as informações de um livro de forma criptografada.
+
+        Args:
+            id_livro (int): id do livro a ser consultado.
+
+        Returns:
+            dict: dicionário com as informações criptografadas.
+        """
+        json_body = request.get_json()
+        resp_campo_valido = self.svc_livro.descriptografa_nome_campo(json_body)
+
+        campo = resp_campo_valido['campo']
+        response = self.svc_livro.obtem_info_criptografada(
+            id_livro,
+            campo
+        )
+
+        status_code = response.pop('status')
+        if status_code != 200:
+            return make_response(response, status_code)
+
+        return make_response(response, 200)

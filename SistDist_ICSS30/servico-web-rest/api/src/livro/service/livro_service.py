@@ -1,3 +1,7 @@
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
+from base64 import urlsafe_b64decode, urlsafe_b64encode
 from operators.operador_banco_dados import OperadorBancoDados
 from src.models.livro import Livro
 
@@ -143,6 +147,33 @@ class LivroService:
             'mensagem': 'Livro atualizado com sucesso.'
         }
 
+    def __obtem_info_criptografada(self, id_livro: int, campo: str) -> dict:
+        query_select = f"""
+            SELECT
+                {campo}
+            FROM livro
+            WHERE id_livro = {id_livro};
+        """
+        response_qry = self.operador_banco_dados.executa_select(query_select)
+
+        if response_qry['status'] != 200:
+            return response_qry
+
+        df_campo = self.operador_banco_dados.df_consulta
+
+        if df_campo.empty:
+            return {
+                'status': 404,
+                'mensagem': 'Campo não encontrado.'
+            }
+
+        valor_campo = df_campo.iloc[0, 0]
+
+        return {
+            'status': 200,
+            'info': valor_campo
+        }
+
     def listar_livros(self) -> dict:
         """Lista todos os livros cadastrados no sistema.
 
@@ -240,3 +271,79 @@ class LivroService:
             # resumo = json_body.get('resumo', '')
         )
         return resp_atualizacao
+
+    def descriptografa_nome_campo(self, json_body):
+        """Descriptografa a informação contida no campo 'campo' do json_body
+            utilizando a chave pública do cliente.
+        
+        Args:
+            json_body (dict): corpo da requisição.
+        """
+        if 'campo' not in json_body:
+            return {
+                'status': 400,
+                'mensagem': 'Campo "campo" não encontrado no corpo da requisição.'
+            }
+
+        str_url64_encripted_data = str(json_body['campo'])
+
+        # converte para bytes a informação encriptada
+        bytes_encripted_data = urlsafe_b64decode(str_url64_encripted_data)
+        # bytes_encripted_data = str_url64_encripted_data.encode('utf-8')
+
+        # carrega a chave privada do servidor em cryptography/server_private.pem
+        with open('cryptography/server_private.pem', 'rb') as file:
+            server_private_key = serialization.load_pem_private_key(
+                file.read(),
+                password = None
+            )
+
+        print(f"Dados encriptados: {bytes_encripted_data}")
+
+        # descriptografa a informação encripted_data
+        decrypted_data = server_private_key.decrypt(
+            bytes_encripted_data,
+            padding.OAEP(
+                mgf = padding.MGF1(algorithm = hashes.SHA256()),
+                algorithm = hashes.SHA256(),
+                label = None
+            )
+        )
+        str_decrypted_data = decrypted_data.decode('utf-8')
+
+        print(f"campo decriptado: {str_decrypted_data}")
+
+        return {
+            'status': 200,
+            'campo': str_decrypted_data
+        }
+
+    def obtem_info_criptografada(self, id_livro: int, campo: str) -> dict:
+        resp_obtem_info_especifica = self.__obtem_info_criptografada(id_livro, campo)
+
+        if resp_obtem_info_especifica['status'] != 200:
+            return resp_obtem_info_especifica
+
+        # carrega a chave publica do cliente em cryptography/client_public.pem
+        with open('cryptography/client_public.pem', 'rb') as file:
+            client_public_key = serialization.load_pem_public_key(
+                file.read()
+            )
+
+        info_campo = str(resp_obtem_info_especifica['info'])
+        print(f"info_campo: {info_campo}")
+        # encripta a informação obtida em resp_obtem_info_especifica['info']
+        byte_encrypted_data = client_public_key.encrypt(
+            info_campo.encode('utf-8'),
+            padding.OAEP(
+                mgf = padding.MGF1(algorithm = hashes.SHA256()),
+                algorithm = hashes.SHA256(),
+                label = None
+            )
+        )
+        str_url64_encrypted_data = urlsafe_b64encode(byte_encrypted_data).decode('utf-8')
+        print(str_url64_encrypted_data)
+        return {
+            'status': 200,
+            'campo': str_url64_encrypted_data
+        }
