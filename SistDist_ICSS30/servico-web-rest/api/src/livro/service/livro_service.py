@@ -22,7 +22,7 @@ class LivroService:
 
         return {
             'status': 200,
-            'livros': df_livros.to_dict(orient='records')
+            'livros': df_livros
         }
 
     def __obtem_infos_livro_individual(self, id_livro: int) -> dict:
@@ -100,10 +100,36 @@ class LivroService:
         return resp_delete
 
     def listar_livros(self) -> dict:
+        """Lista todos os livros cadastrados no sistema.
+
+        Returns:
+            dict: dict com a lista de livros.
+        """
         response_livros = self.__obtem_livros_cadastrados()
-        return response_livros
+        if response_livros['status'] != 200:
+            return response_livros
+
+        livros = []
+        for seq, idx in enumerate(response_livros['livros'].index):
+            df_livro_atual = response_livros['livros'].iloc[[seq]]
+            livro = Livro()
+            livro.inicializa_from_dataframe(df_livro_atual, idx)
+            livros.append(livro.to_dict())
+
+        return {
+            'status': 200,
+            'livros': livros
+        }
 
     def obtem_infos_livro_individual(self, id_livro: int) -> dict:
+        """Busca um livro pelo seu ID no sistema.
+
+        Args:
+            id_livro (int): id do livro a ser consultado.
+
+        Returns:
+            dict: dict com infos do livro, Not Found (404) caso contrário.
+        """
         resp_obter_infos = self.__obtem_infos_livro_individual(id_livro)
         if resp_obter_infos['status'] != 200:
             return resp_obter_infos
@@ -117,6 +143,14 @@ class LivroService:
         }
 
     def cadastrar_livro(self, json_body: dict) -> dict:
+        """Cadastra um novo livro no sistema.
+
+        Args:
+            json_body (dict): corpo da requisição.
+
+        Returns:
+            dict: dicionário com o id do livro cadastrado.
+        """
         resp_cadastro = self.__cadastra_livro_banco_dados(
             nome = json_body['nome'],
             qtd_paginas = json_body['qtd_paginas'],
@@ -128,6 +162,11 @@ class LivroService:
         return resp_cadastro
 
     def remove_livro(self, id_livro: int) -> dict:
+        """Remove um livro do sistema.
+
+        Args:
+            id_livro (int): id do livro a ser removido.
+        """
         response_delete = self.__remove_livro_banco_dados(id_livro)
         if response_delete['status'] != 200:
             return response_delete
