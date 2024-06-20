@@ -1,17 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Games from '../components/Games.vue'
 import Livros from '../components/Livros.vue'
 
 
 Vue.use(VueRouter);
 
 const routes = [
- {
-   path : '/games',
-   name : 'Games',
-   component : Games,
- },
  {
   path : '/livros',
   name : 'Livros',
