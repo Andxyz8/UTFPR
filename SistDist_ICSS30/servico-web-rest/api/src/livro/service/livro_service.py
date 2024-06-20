@@ -99,6 +99,41 @@ class LivroService:
 
         return resp_delete
 
+    def __atualiza_livro_banco_dados(
+        self,
+        id_livro: int,
+        nome: str,
+        qtd_paginas: int,
+        data_publicacao: str,
+        genero: str,
+        autor: str,
+        resumo: str
+    ) -> dict:
+        resp_livro_existente = self.__obtem_infos_livro_individual(id_livro)
+        if resp_livro_existente['status'] != 200:
+            return resp_livro_existente
+
+        query_update = f"""
+            UPDATE livro
+            SET
+                nome = '{nome}',
+                qtd_paginas = {qtd_paginas},
+                data_publicacao = '{data_publicacao}',
+                genero = '{genero}',
+                autor = '{autor}',
+                resumo = '{resumo}'
+            WHERE id_livro = {id_livro};
+        """
+        resp_update = self.operador_banco_dados.executa_update(query_update)
+
+        if resp_update['status'] != 200:
+            return resp_update
+
+        return {
+            'status': 200,
+            'mensagem': 'Livro atualizado com sucesso.'
+        }
+
     def listar_livros(self) -> dict:
         """Lista todos os livros cadastrados no sistema.
 
@@ -175,3 +210,24 @@ class LivroService:
             'status': 200,
             'mensagem': 'Livro removido com sucesso.'
         }
+
+    def atualiza_livro_completo(self, id_livro: int, json_body: dict) -> dict:
+        """Atualiza um livro no sistema.
+
+        Args:
+            id_livro (int): id do livro a ser atualizado.
+            json_body (dict): corpo da requisição.
+
+        Returns:
+            dict: dicionário com a mensagem de sucesso.
+        """
+        resp_atualizacao = self.__atualiza_livro_banco_dados(
+            id_livro = id_livro,
+            nome = json_body['nome'],
+            qtd_paginas = json_body['qtd_paginas'],
+            data_publicacao = json_body['data_publicacao'],
+            genero = json_body['genero'],
+            autor = json_body['autor'],
+            resumo = json_body.get('resumo', '')
+        )
+        return resp_atualizacao

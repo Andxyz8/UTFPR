@@ -61,6 +61,7 @@ class LivroController(FlaskView, RotaBase):
 
         return make_response(response['livro'], 200)
 
+    # pylint: disable=W0718:broad-exception-caught
     @route('/', methods = ['POST'])
     def cadastra_livro(self):
         """Cadastra um novo livro no sistema.
@@ -100,6 +101,7 @@ class LivroController(FlaskView, RotaBase):
             }
             return make_response(response, 500)
         return make_response(resp_cadastrar, 201)
+    # pylint: enable=W0718:broad-exception-caught
 
     @route('/<int:id_livro>', methods = ['DELETE'])
     def remove_livro(self, id_livro: int):
@@ -118,3 +120,50 @@ class LivroController(FlaskView, RotaBase):
             return make_response(response, status_code)
 
         return make_response(response, 200)
+
+    # pylint: disable=W0718:broad-exception-caught
+    @route('/<int:id_livro>', methods = ['PUT'])
+    def atualiza_livro(self, id_livro: int):
+        """Atualiza as informações de um livro no sistema.
+
+        Args:
+            id_livro (int): id do livro a ser atualizado.
+
+        Body:
+            {
+                "nome": str
+                "resumo": str (opcional)
+                "qtd_paginas": int
+                "data_publicacao": str
+                "genero": str
+                "autor": str
+            }
+
+        Returns:
+            dict: dicionário com a mensagem de sucesso.
+        """
+        try:
+            json_body = request.get_json()
+
+            resp_verificacao = self._verifica_corpo_requisicao(json_body)
+            status_code = resp_verificacao.pop('status')
+            if status_code != 200:
+                return make_response(resp_verificacao, status_code)
+
+            resp_atualizacao = self.svc_livro.atualiza_livro_completo(
+                id_livro,
+                json_body
+            )
+            status_code = resp_atualizacao.pop('status')
+            if status_code != 200:
+                return make_response(resp_atualizacao, status_code)
+        except Exception as e:
+            excecao_formatada = format_exc()
+            response = {
+                'mensagem': 'Erro interno no servidor.',
+                'erro': str(e),
+                'traceback': excecao_formatada
+            }
+            return make_response(response, 500)
+        return make_response(resp_atualizacao, 200)
+    # pylint: enable=W0718:broad-exception-caught
