@@ -116,14 +116,14 @@ class Livro:
             idx (int): índice do DataFrame a ser utilizado. Default: 0.
         """
         self.__id_livro = int(df_livro.at[idx, 'id_livro'])
-        self.__nome = df_livro.at[idx, 'nome']
-        self.__qtd_paginas = int(df_livro.at[idx, 'qtd_paginas'])
-        self.__data_publicacao = self.__obtem_data_publicacao(
-            df_livro.at[idx, 'data_publicacao']
-        )
+        self.__nome = df_livro.at[idx, 'titulo']
+        # self.__qtd_paginas = int(df_livro.at[idx, 'qtd_paginas'])
+        # self.__data_publicacao = self.__obtem_data_publicacao(
+            # df_livro.at[idx, 'data_publicacao']
+        # )
         self.__genero = df_livro.at[idx, 'genero']
         self.__autor = df_livro.at[idx, 'autor']
-        self.__resumo = df_livro.at[idx, 'resumo']
+        # self.__resumo = df_livro.at[idx, 'resumo']
 
     def to_dict(self) -> dict:
         """Transforma o livro com todas as suas propriedades em um dict.
@@ -133,10 +133,10 @@ class Livro:
         """
         return {
             'id_livro': self.id_livro,
-            'nome': self.nome,
-            'qtd_paginas': self.qtd_paginas,
-            'data_publicacao': self.data_publicacao,
+            'titulo': self.nome,
+            # 'qtd_paginas': self.qtd_paginas,
+            # 'data_publicacao': self.data_publicacao,
             'genero': self.genero,
             'autor': self.autor,
-            'resumo': self.resumo
+            # 'resumo': self.resumo
         }

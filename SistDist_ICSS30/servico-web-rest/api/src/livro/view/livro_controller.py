@@ -1,6 +1,7 @@
 from traceback import format_exc
 from flask import request, make_response
 from flask_classful import FlaskView, route
+from flask_cors import cross_origin
 from src.livro.service.livro_service import LivroService
 from utils.rota_base import RotaBase
 
@@ -11,9 +12,9 @@ class LivroController(FlaskView, RotaBase):
     def __init__(self):
         super().__init__()
         self._campos_obrigatorios = [
-            'nome',
-            'qtd_paginas',
-            'data_publicacao',
+            'titulo',
+            # 'qtd_paginas',
+            # 'data_publicacao',
             'genero',
             'autor'
         ]
@@ -32,7 +33,9 @@ class LivroController(FlaskView, RotaBase):
         if status_code != 200:
             return make_response(resp_listagem, status_code)
 
-        return make_response(resp_listagem, 200)
+        response = make_response(resp_listagem, 200)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     @route('/<int:id_livro>', methods = ['GET'])
     def obtem_infos_livro_individual(self, id_livro: int):
@@ -63,12 +66,13 @@ class LivroController(FlaskView, RotaBase):
 
     # pylint: disable=W0718:broad-exception-caught
     @route('/', methods = ['POST'])
+    @cross_origin()
     def cadastra_livro(self):
         """Cadastra um novo livro no sistema.
 
         Body:
             {
-	            "nome": str
+	            "titulo": str
 	            "resumo": str (opcional)
 	            "qtd_paginas": int
 	            "data_publicacao": str
@@ -83,11 +87,13 @@ class LivroController(FlaskView, RotaBase):
             json_body = request.get_json()
 
             resp_verificacao = self._verifica_corpo_requisicao(json_body)
+            print(resp_verificacao)
             status_code = resp_verificacao.pop('status')
             if status_code != 200:
                 return make_response(resp_verificacao, status_code)
 
             resp_cadastrar = self.svc_livro.cadastrar_livro(json_body)
+            print(resp_cadastrar)
             status_code = resp_cadastrar.pop('status')
             if status_code != 200:
                 return make_response(resp_cadastrar, status_code)
@@ -100,7 +106,9 @@ class LivroController(FlaskView, RotaBase):
                 'traceback': excecao_formatada
             }
             return make_response(response, 500)
-        return make_response(resp_cadastrar, 201)
+        response = make_response(resp_cadastrar, 201)
+        response.headers['Access-Control-Allow-Origin'] = 'http://192.168.15.7:8080'
+        return response
     # pylint: enable=W0718:broad-exception-caught
 
     @route('/<int:id_livro>', methods = ['DELETE'])
@@ -131,7 +139,7 @@ class LivroController(FlaskView, RotaBase):
 
         Body:
             {
-                "nome": str
+                "titulo": str
                 "resumo": str (opcional)
                 "qtd_paginas": int
                 "data_publicacao": str

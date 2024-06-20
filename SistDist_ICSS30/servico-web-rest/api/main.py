@@ -7,8 +7,7 @@ APP = Flask(__name__)
 
 
 if __name__ == '__main__':
+    CORS(app = APP, resources={r"/*": {"origins": "http://192.168.15.7:8080"}})
+
     register_routes(APP)
-
-    CORS(app = APP)
-
-    APP.run(debug = True)
+    APP.run(host='0.0.0.0', debug = True)
