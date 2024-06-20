@@ -284,7 +284,7 @@ removeLivro(livroID) {
 },
 // Handle Delete Button
 deleteLivro(livro) {
-  this.removeLivro(livro.id);
+  this.removeLivro(livro.id_livro);
 },
 
   },
