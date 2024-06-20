@@ -20,9 +20,9 @@
                     </thead>
                     <tbody>
                     <tr v-for="(livro, index) in livros" :key="index">
-                        <td>{{livro.title}}</td>
-                        <td>{{livro.genre}}</td>
-                        <td>{{livro.author}}</td>
+                        <td>{{livro.titulo}}</td>
+                        <td>{{livro.genero}}</td>
+                        <td>{{livro.autor}}</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button
@@ -51,7 +51,7 @@
                     label-for="form-title-input">
             <b-form-input id="form-title-input"
                     type="text"
-                    v-model="addLivroForm.title"
+                    v-model="addLivroForm.titulo"
                     required
                     placeholder="Título">
             </b-form-input>
@@ -62,7 +62,7 @@
                     label-for="form-genre-input">
             <b-form-input id="form-genre-input"
                         type="text"
-                        v-model="addLivroForm.genre"
+                        v-model="addLivroForm.genero"
                         required
                         placeholder="Genêro">
             </b-form-input>
@@ -73,7 +73,7 @@
                     label-for="form-author-input">
             <b-form-input id="form-author-input"
                         type="text"
-                        v-model="addLivroForm.author"
+                        v-model="addLivroForm.autor"
                         required
                         placeholder="Autor">
             </b-form-input>
@@ -96,7 +96,7 @@
                     label-for="form-title-edit-input">
         <b-form-input id="form-title-edit-input"
                         type="text"
-                        v-model="editForm.title"
+                        v-model="editForm.titulo"
                         required
                         placeholder="Título">
         </b-form-input>
@@ -107,7 +107,7 @@
                     label-for="form-genre-edit-input">
             <b-form-input id="form-genre-edit-input"
                         type="text"
-                        v-model="editForm.genre"
+                        v-model="editForm.genero"
                         required
                         placeholder="Genêro">
             </b-form-input>
@@ -118,7 +118,7 @@
                     label-for="form-author-edit-input">
             <b-form-input id="form-author-edit-input"
                         type="text"
-                        v-model="editForm.author"
+                        v-model="editForm.autor"
                         required
                         placeholder="Autor">
             </b-form-input>
@@ -144,15 +144,16 @@ export default {
     return {
       livros: [],
       addLivroForm: {
-        title: '',
-        genre: '',
-        author: '',
+        id_livro: '',
+        titulo: '',
+        genero: '',
+        autor: '',
       },
       editForm: {
-      id: '',
-      title: '',
-      genre: '',
-      author: '',
+        id_livro: '',
+        titulo: '',
+        genero: '',
+        autor: '',
       },
     };
   },
@@ -162,7 +163,7 @@ export default {
 methods: {
     // 1 GET METHOD
     getLivros() {
-      const path = 'http://localhost:5000/livros';
+      const path = 'http://192.168.15.7:5000/livros';
       axios.get(path)
         .then((res) => {
           this.livros = res.data.livros;
@@ -174,7 +175,7 @@ methods: {
 
     // 2 Add Livro Button
     addLivro(payload) {
-      const path = 'http://localhost:5000/livros';
+      const path = 'http://192.168.15.7:5000/livros';
       axios.post(path, payload)
         .then(() => {
           this.getLivros();
@@ -194,13 +195,13 @@ methods: {
 
      // 5 initForm - add ediForm after the update method
      initForm() {
-        this.addLivroForm.title = '';
-        this.addLivroForm.genre = '';
-        this.addLivroForm.author = '';
-        this.editForm.id = '';
-        this.editForm.title = '';
-        this.editForm.genre = '';
-        this.editForm.author = '';
+        this.addLivroForm.titulo = '';
+        this.addLivroForm.genero = '';
+        this.addLivroForm.autor = '';
+        this.editForm.id_livro = '';
+        this.editForm.titulo = '';
+        this.editForm.genero = '';
+        this.editForm.autor = '';
       }, 
 
     // 3 Submit form validator in the template @submit="onSubmit"  
@@ -208,9 +209,9 @@ methods: {
       e.preventDefault();
       this.$refs.addLivroModal.hide();
       const payload = {
-        title: this.addLivroForm.title,
-        genre: this.addLivroForm.genre,
-        author: this.addLivroForm.author,
+        titulo: this.addLivroForm.titulo,
+        genero: this.addLivroForm.genero,
+        autor: this.addLivroForm.autor,
       };
       this.addLivro(payload);
       this.initForm();
@@ -223,11 +224,11 @@ methods: {
     e.preventDefault();
     this.$refs.editLivroModal.hide();
     const payload = {
-      title: this.editForm.title,
-      genre: this.editForm.genre,
-      author: this.editForm.author,
+      titulo: this.editForm.titulo,
+      genero: this.editForm.genero,
+      autor: this.editForm.autor,
     };
-    this.updateLivro(payload, this.editForm.id);
+    this.updateLivro(payload, this.editForm.id_livro);
   },
 
   // b- On reset method to reset items to default values
@@ -240,7 +241,7 @@ methods: {
 // 4 Update Alert Message 
 // Once the update is effective, we will get a message telling us that Livro Updated, and display the list of livros after the update
 updateLivro(payload, livroID) {
-  const path = `http://localhost:5000/livros/${livroID}`;
+  const path = `http://192.168.15.7:5000/livros/${livroID}`;
   axios.put(path, payload)    
     .then(() => {
       this.getLivros();
@@ -268,7 +269,7 @@ onResetUpdate(e) {
 
 // Remove Livro [ Delete Button ]
 removeLivro(livroID) {
-  const path = `http://localhost:5000/livros/${livroID}`;
+  const path = `http://192.168.15.7:5000/livros/${livroID}`;
   axios.delete(path)
     .then(() => {
       this.getlivros();
