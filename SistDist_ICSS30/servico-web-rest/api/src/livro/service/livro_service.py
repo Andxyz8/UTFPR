@@ -1,4 +1,5 @@
 from operators.operador_banco_dados import OperadorBancoDados
+from src.models.livro import Livro
 
 
 class LivroService:
@@ -22,6 +23,29 @@ class LivroService:
         return {
             'status': 200,
             'livros': df_livros.to_dict(orient='records')
+        }
+
+    def __obtem_infos_livro_individual(self, id_livro: int) -> dict:
+        query_select = f"""
+            SELECT * FROM livro
+            WHERE id_livro = {id_livro};
+        """
+
+        response_qry = self.operador_banco_dados.executa_select(query_select)
+
+        if response_qry['status'] != 200:
+            return response_qry
+
+        df_livro = self.operador_banco_dados.df_consulta
+
+        if df_livro.empty:
+            return {
+                'status': 404,
+                'mensagem': 'Livro não encontrado.'
+            }
+        return {
+            'status': 200,
+            'livro': df_livro
         }
 
     def __cadastra_livro_banco_dados(
@@ -66,28 +90,30 @@ class LivroService:
             'id_livro': id_inserido
         }
 
+    def __remove_livro_banco_dados(self, id_livro: int) -> dict:
+        query_delete = f"""
+            DELETE FROM livro
+            WHERE id_livro = {id_livro};
+        """
+        resp_delete = self.operador_banco_dados.executa_delete(query_delete)
+
+        return resp_delete
+
     def listar_livros(self) -> dict:
         response_livros = self.__obtem_livros_cadastrados()
-
         return response_livros
 
     def obtem_infos_livro_individual(self, id_livro: int) -> dict:
-        query_select = f"SELECT * FROM livro WHERE id_livro = {id_livro};"
-        response_qry = self.operador_banco_dados.executa_select(query_select)
-        if response_qry['status'] != 200:
-            return response_qry
+        resp_obter_infos = self.__obtem_infos_livro_individual(id_livro)
+        if resp_obter_infos['status'] != 200:
+            return resp_obter_infos
 
-        df_livro = self.operador_banco_dados.df_consulta
-
-        if df_livro.empty:
-            return {
-                'status': 404,
-                'mensagem': 'Livro não encontrado.'
-            }
+        livro = Livro()
+        livro.inicializa_from_dataframe(resp_obter_infos['livro'])
 
         return {
             'status': 200,
-            'livro': list(df_livro.to_dict(orient = 'records'))[0]
+            'livro': livro.to_dict()
         }
 
     def cadastrar_livro(self, json_body: dict) -> dict:
@@ -100,3 +126,13 @@ class LivroService:
             resumo = json_body.get('resumo', '')
         )
         return resp_cadastro
+
+    def remove_livro(self, id_livro: int) -> dict:
+        response_delete = self.__remove_livro_banco_dados(id_livro)
+        if response_delete['status'] != 200:
+            return response_delete
+
+        return {
+            'status': 200,
+            'mensagem': 'Livro removido com sucesso.'
+        }
