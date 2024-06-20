@@ -7,7 +7,14 @@ class LivroService:
         self.operador_banco_dados = OperadorBancoDados()
 
     def __obtem_livros_cadastrados(self) -> dict:
-        query_select = "SELECT * FROM livro;"
+        query_select = """
+            SELECT
+                id_livro,
+                nome AS titulo,
+                genero,
+                autor
+            FROM livro;
+        """
         response_qry = self.operador_banco_dados.executa_select(query_select)
         if response_qry['status'] != 200:
             return response_qry
@@ -27,7 +34,12 @@ class LivroService:
 
     def __obtem_infos_livro_individual(self, id_livro: int) -> dict:
         query_select = f"""
-            SELECT * FROM livro
+            SELECT
+                id_livro,
+                nome AS titulo,
+                genero,
+                autor
+            FROM livro
             WHERE id_livro = {id_livro};
         """
 
@@ -51,11 +63,11 @@ class LivroService:
     def __cadastra_livro_banco_dados(
         self,
         nome: str,
-        qtd_paginas: int,
-        data_publicacao: str,
+        # qtd_paginas: int,
+        # data_publicacao: str,
         genero: str,
         autor: str,
-        resumo: str
+        # resumo: str
     ) -> dict:
         query_insert = f"""
             INSERT INTO livro (
@@ -67,11 +79,11 @@ class LivroService:
                 resumo
             ) VALUES (
                 '{nome}',
-                {qtd_paginas},
-                '{data_publicacao}',
+                0,
+                '1900-01-01',
                 '{genero}',
                 '{autor}',
-                '{resumo}'
+                ''
             ) RETURNING id_livro;
         """
 
@@ -103,11 +115,11 @@ class LivroService:
         self,
         id_livro: int,
         nome: str,
-        qtd_paginas: int,
-        data_publicacao: str,
+        # qtd_paginas: int,
+        # data_publicacao: str,
         genero: str,
         autor: str,
-        resumo: str
+        # resumo: str
     ) -> dict:
         resp_livro_existente = self.__obtem_infos_livro_individual(id_livro)
         if resp_livro_existente['status'] != 200:
@@ -117,11 +129,8 @@ class LivroService:
             UPDATE livro
             SET
                 nome = '{nome}',
-                qtd_paginas = {qtd_paginas},
-                data_publicacao = '{data_publicacao}',
                 genero = '{genero}',
-                autor = '{autor}',
-                resumo = '{resumo}'
+                autor = '{autor}'
             WHERE id_livro = {id_livro};
         """
         resp_update = self.operador_banco_dados.executa_update(query_update)
@@ -187,12 +196,12 @@ class LivroService:
             dict: dicionário com o id do livro cadastrado.
         """
         resp_cadastro = self.__cadastra_livro_banco_dados(
-            nome = json_body['nome'],
-            qtd_paginas = json_body['qtd_paginas'],
-            data_publicacao = json_body['data_publicacao'],
+            nome = json_body['titulo'],
+            # qtd_paginas = json_body['qtd_paginas'],
+            # data_publicacao = json_body['data_publicacao'],
             genero = json_body['genero'],
-            autor = json_body['autor'],
-            resumo = json_body.get('resumo', '')
+            autor = json_body['autor']
+            # resumo = json_body.get('resumo', '')
         )
         return resp_cadastro
 
@@ -223,11 +232,11 @@ class LivroService:
         """
         resp_atualizacao = self.__atualiza_livro_banco_dados(
             id_livro = id_livro,
-            nome = json_body['nome'],
-            qtd_paginas = json_body['qtd_paginas'],
-            data_publicacao = json_body['data_publicacao'],
+            nome = json_body['titulo'],
+            # qtd_paginas = json_body['qtd_paginas'],
+            # data_publicacao = json_body['data_publicacao'],
             genero = json_body['genero'],
             autor = json_body['autor'],
-            resumo = json_body.get('resumo', '')
+            # resumo = json_body.get('resumo', '')
         )
         return resp_atualizacao
