@@ -4,24 +4,16 @@
 
 clc, clear, close all
  
-g = imread('pout.tif');
-mg=min(g(:));
-Mg=max(g(:));
+g = imread('pout.tif'); mg=min(g(:)); Mg=max(g(:));
 figure, imshow(g), title('g')
 
-g1=double(g);
-mg1=min(g1(:));
-Mg1=max(g1(:));
+g1=double(g); mg1=min(g1(:)); Mg1=max(g1(:));
 figure, imshow(g1); title('g1')
 
-g2=im2double(g);
-mg2=min(g2(:));
-Mg2=max(g2(:));
+g2=im2double(g); mg2=min(g2(:)); Mg2=max(g2(:));
 figure, imshow(g2), title('g2')
 
-g3=mat2gray(g);
-mg3=min(g3(:));
-Mg3=max(g3(:));
+g3=mat2gray(g); mg3=min(g3(:)); Mg3=max(g3(:));
 figure, imshow(g3), title('g3')
  
 % Questões
