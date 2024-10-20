@@ -37,18 +37,18 @@ xlabel('x'), ylabel('y')
 A = imread('vpfig.png');
 
 % Img original
-figure, title('Original'), imshow(A);
+figure, imshow(A);
+title('Imagem original')
 
 var = 0.0005;
 
-for n = 1:1:10
+for n = 1:1:5
     lut = get_lut(var);
 
     An = intlut(A, lut);
 
-    % title_text = text(0.5, 0.5, sprintf());
-
-    figure, title('slope %f', n), imshow(An);
+    figure, imshow(An);
+    title(['Slope ', num2str(var)])
 
     var = 10*var;
 end
