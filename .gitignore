@@ -8,7 +8,11 @@ __pycache__
 # Arquivos do Keil
 **.uvguix**
 **.uvoptx
+
+# Diretórios de compilação e output
+Objects/
 Listings/
+
 **.o
 **.d
 **.dep
@@ -16,3 +20,65 @@ Listings/
 **.lnp
 **._ac
 **.htm
+
+# Arquivos de configuração de dispositivo
+**.cdf
+# Relatórios gerados automaticamente
+**.rpt
+# Block Symbol File (gerado automaticamente)
+**.bsf
+# Quartus Workspace File (configurações locais)
+**.qws
+# Signal Tap Logic Analyzer files
+**.sld
+# Arquivos de script TCL temporários
+**.tcl
+
+# Diretório de banco de dados da compilação
+db/
+greybox_tmp/
+# Diretório de banco de dados incremental
+incremental_db/
+# Diretório de simulação gerado
+simulation/
+# Diretório de arquivos de saída (gerado automaticamente)
+output_files/
+# Arquivos de programação (gerados após a compilação)
+*.sof
+# Arquivo de programação do dispositivo (gerado após a compilação)
+*.pof
+# Arquivos de informação de JTAG
+*.jdi
+# Flag de finalização
+*.done
+# Arquivos de mensagens de compilação
+*.smsg
+# Arquivos de verificação serial
+*.svf
+
+# Arquivos de log de compilação
+*.log
+# Arquivos de sistema de hard processor
+*.hps
+# Arquivos de análise de temporização
+*.sta
+# Arquivos de alteração
+*.chg
+# Arquivos de comparação
+*.cmp
+# Arquivos de backup
+*.bak
+
+# Arquivos de dump de simulação
+*.vcd
+# Arquivos de simulação do ModelSim
+*.wlf
+# Logs do ModelSim
+transcript
+
+# Arquivos temporários
+*.tmp
+# Arquivos de backup
+*.bak
+# Arquivos temporários de backup do Quartus
+*.~*
