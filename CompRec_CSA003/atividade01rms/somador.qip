@@ -1,0 +1,8 @@
+set_global_assignment -name IP_TOOL_NAME "PARALLEL_ADD"
+set_global_assignment -name IP_TOOL_VERSION "18.1"
+set_global_assignment -name IP_GENERATED_DEVICE_FAMILY "{MAX 10}"
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "somador.vhd"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "somador.bsf"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "somador_inst.vhd"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "somador.inc"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "somador.cmp"]
