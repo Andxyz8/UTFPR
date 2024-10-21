@@ -4,3 +4,15 @@
 *.rar
 **venv
 __pycache__
+
+# Arquivos do Keil
+**.uvguix**
+**.uvoptx
+Listings/
+**.o
+**.d
+**.dep
+**.scvd
+**.lnp
+**._ac
+**.htm
