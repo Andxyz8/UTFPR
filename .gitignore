@@ -21,6 +21,7 @@ Listings/
 **._ac
 **.htm
 
+# Arquivos do Quartus
 # Arquivos de configuração de dispositivo
 **.cdf
 # Relatórios gerados automaticamente
@@ -33,6 +34,8 @@ Listings/
 **.sld
 # Arquivos de script TCL temporários
 **.tcl
+# Arquivos de simulação waveform
+*.vwf
 
 # Diretório de banco de dados da compilação
 db/
