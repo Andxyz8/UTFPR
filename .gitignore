@@ -5,6 +5,9 @@
 **venv
 __pycache__
 
+# MATLAB
+*.asv
+
 # Arquivos do Keil
 **.uvguix**
 **.uvoptx
