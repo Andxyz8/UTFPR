@@ -5,8 +5,8 @@ img = imread('flowervaseg.png');
 OM = [0 -1 0; -1 5 -1; 0 -1 0];
 LG = [-1 -1 -1; -1 9 -1; -1 -1 -1];
 
-sharpened_OM = conv2((img), OM, 'same');
-sharpened_LG = conv2((img), LG, 'same');
+sharpened_OM = imfilter((img),OM, 'conv');
+sharpened_LG = imfilter((img),LG, 'conv');
 
 figure;
 subplot(1,3,1), imshow(img, []), title('flowervaseg.png');
