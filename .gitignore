@@ -16,6 +16,7 @@ __pycache__
 Objects/
 Listings/
 
+**.base@1.0.0
 **.o
 **.d
 **.dep
