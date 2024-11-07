@@ -15,6 +15,7 @@ __pycache__
 # Diretórios de compilação e output
 Objects/
 Listings/
+RTE/
 
 **.base@1.0.0
 **.o
