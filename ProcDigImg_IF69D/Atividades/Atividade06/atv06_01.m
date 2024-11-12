@@ -17,12 +17,16 @@ S = mat2gray(S);
 S_aprox = mat2gray(S_aprox);
 
 figure, subplot(2,2,1), imshow(g)
-title('Imagem de entrada')
+title('Imagem de entrada');
+
 % subplot(3,2,3), imshow(gSv)
-% title('Sobel vertical')
+% title('Sobel vertical');
+
 % subplot(3,2,4), imshow(gSh)
-% title('Sobel horizontal')
+% title('Sobel horizontal');
+
 subplot(2,2,3), imshow(S),
-title('Magnitude do gradiente')
+title('Magnitude do gradiente');
+
 subplot(2,2,4), imshow(S_aprox),
-title('Magnitude do gradiente aproximada')
+title('Magnitude do gradiente aproximada');

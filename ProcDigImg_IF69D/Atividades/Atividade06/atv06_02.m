@@ -13,8 +13,10 @@ edges1 = edge(g, 'Canny', [Tlow1 Thigh1]);
 edges2 = edge(g, 'Canny', [Tlow2 Thigh2]);
 
 figure, subplot(1,3,1), imshow(g)
-title('Imagem de entrada')
+title('Imagem de entrada');
+
 subplot(1,3,2), imshow(edges1),
-title('Combinacao 0.1 e 0.5')
+title('Combinacao 0.1 e 0.5');
+
 subplot(1,3,3), imshow(edges2),
-title('Combinacao 0.2 e 0.3')
+title('Combinacao 0.2 e 0.3');
