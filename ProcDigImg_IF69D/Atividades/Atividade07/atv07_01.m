@@ -7,7 +7,7 @@ lista_imagens = {
 };
 
 % Definição do elemento estruturante geral
-se = strel('square', 4);
+se = strel('square', 5);
 
 for i = 1:length(lista_imagens)
     img = imread(lista_imagens{i});
@@ -31,7 +31,7 @@ for i = 1:length(lista_imagens)
     th = graythresh(a_open_closed);
 
     % Binarização
-    bw = im2bw(a_open_closed, th);
+    bw = ~imbinarize(a_open_closed, th);
 
     subplot(2,2,4), imshow(bw);
     title("Resultado");
