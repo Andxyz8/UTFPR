@@ -1,0 +1,310 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "graphic" (version "1.4"))
+(pin
+	(input)
+	(rect -56 280 120 296)
+	(text "INPUT" (rect 133 0 161 10)(font "Arial" (font_size 6)))
+	(text "ang_ent_graus[6..0]" (rect 9 0 106 12)(font "Arial" ))
+	(pt 176 8)
+	(drawing
+		(line (pt 92 12)(pt 117 12))
+		(line (pt 92 4)(pt 117 4))
+		(line (pt 121 8)(pt 176 8))
+		(line (pt 92 12)(pt 92 4))
+		(line (pt 117 4)(pt 121 8))
+		(line (pt 117 12)(pt 121 8))
+	)
+	(text "VCC" (rect 136 7 156 17)(font "Arial" (font_size 6)))
+)
+(pin
+	(output)
+	(rect 1224 264 1400 280)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "resultado_final[31..0]" (rect 90 0 193 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(pin
+	(output)
+	(rect 512 112 688 128)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "angulo_radianos[31..0]" (rect 90 0 200 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(pin
+	(output)
+	(rect 928 352 1104 368)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "val_cos[31..0]" (rect 90 0 160 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(pin
+	(output)
+	(rect 920 192 1096 208)
+	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
+	(text "val_sen[31..0]" (rect 90 0 160 12)(font "Arial" ))
+	(pt 0 8)
+	(drawing
+		(line (pt 0 8)(pt 52 8))
+		(line (pt 52 4)(pt 78 4))
+		(line (pt 52 12)(pt 78 12))
+		(line (pt 52 12)(pt 52 4))
+		(line (pt 78 4)(pt 82 8))
+		(line (pt 82 8)(pt 78 12))
+		(line (pt 78 12)(pt 82 8))
+	)
+)
+(symbol
+	(rect 160 256 432 336)
+	(text "graus_para_radianos" (rect 5 0 106 12)(font "Arial" ))
+	(text "inst" (rect 8 64 25 76)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "ang_ent_graus[6..0]" (rect 0 0 97 12)(font "Arial" ))
+		(text "ang_ent_graus[6..0]" (rect 21 27 118 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 272 32)
+		(output)
+		(text "ang_sai_radianos[31..0]" (rect 0 0 116 12)(font "Arial" ))
+		(text "ang_sai_radianos[31..0]" (rect 153 27 251 39)(font "Arial" ))
+		(line (pt 272 32)(pt 256 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 256 64))
+	)
+)
+(symbol
+	(rect 920 240 1184 320)
+	(text "soma_seno_cosseno" (rect 5 0 108 12)(font "Arial" ))
+	(text "inst1" (rect 8 64 31 76)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "valor_seno[31..0]" (rect 0 0 86 12)(font "Arial" ))
+		(text "valor_seno[31..0]" (rect 21 27 107 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "valor_cosseno[31..0]" (rect 0 0 103 12)(font "Arial" ))
+		(text "valor_cosseno[31..0]" (rect 21 43 124 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 264 32)
+		(output)
+		(text "resultado_final[31..0]" (rect 0 0 103 12)(font "Arial" ))
+		(text "resultado_final[31..0]" (rect 156 27 243 39)(font "Arial" ))
+		(line (pt 264 32)(pt 248 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 248 64))
+	)
+)
+(symbol
+	(rect 536 304 800 384)
+	(text "valor_cosseno" (rect 5 0 76 12)(font "Arial" ))
+	(text "inst4" (rect 8 64 31 76)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "ang_radianos[31..0]" (rect 0 0 96 12)(font "Arial" ))
+		(text "ang_radianos[31..0]" (rect 21 27 117 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 264 32)
+		(output)
+		(text "valor_cosseno[31..0]" (rect 0 0 103 12)(font "Arial" ))
+		(text "valor_cosseno[31..0]" (rect 156 27 243 39)(font "Arial" ))
+		(line (pt 264 32)(pt 248 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 248 64))
+	)
+)
+(symbol
+	(rect 544 192 792 272)
+	(text "valor_seno" (rect 5 0 59 12)(font "Arial" ))
+	(text "inst5" (rect 8 64 31 76)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "ang_radianos[31..0]" (rect 0 0 96 12)(font "Arial" ))
+		(text "ang_radianos[31..0]" (rect 21 27 117 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 248 32)
+		(output)
+		(text "valor_seno[31..0]" (rect 0 0 86 12)(font "Arial" ))
+		(text "valor_seno[31..0]" (rect 155 27 227 39)(font "Arial" ))
+		(line (pt 248 32)(pt 232 32)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 232 64))
+	)
+)
+(connector
+	(pt 856 288)
+	(pt 920 288)
+	(bus)
+)
+(connector
+	(pt 856 272)
+	(pt 920 272)
+	(bus)
+)
+(connector
+	(pt 1184 272)
+	(pt 1224 272)
+	(bus)
+)
+(connector
+	(pt 856 272)
+	(pt 856 224)
+	(bus)
+)
+(connector
+	(pt 512 224)
+	(pt 544 224)
+	(bus)
+)
+(connector
+	(pt 512 336)
+	(pt 536 336)
+	(bus)
+)
+(connector
+	(pt 856 288)
+	(pt 856 336)
+	(bus)
+)
+(connector
+	(pt 512 224)
+	(pt 512 288)
+	(bus)
+)
+(connector
+	(pt 512 288)
+	(pt 512 336)
+	(bus)
+)
+(connector
+	(pt 512 120)
+	(pt 472 120)
+	(bus)
+)
+(connector
+	(pt 472 120)
+	(pt 472 288)
+	(bus)
+)
+(connector
+	(pt 920 200)
+	(pt 816 200)
+	(bus)
+)
+(connector
+	(pt 816 200)
+	(pt 816 224)
+	(bus)
+)
+(connector
+	(pt 792 224)
+	(pt 816 224)
+	(bus)
+)
+(connector
+	(pt 816 224)
+	(pt 856 224)
+	(bus)
+)
+(connector
+	(pt 928 360)
+	(pt 816 360)
+	(bus)
+)
+(connector
+	(pt 816 360)
+	(pt 816 336)
+	(bus)
+)
+(connector
+	(pt 800 336)
+	(pt 816 336)
+	(bus)
+)
+(connector
+	(pt 816 336)
+	(pt 856 336)
+	(bus)
+)
+(connector
+	(pt 120 288)
+	(pt 160 288)
+	(bus)
+)
+(connector
+	(pt 472 288)
+	(pt 512 288)
+	(bus)
+)
+(connector
+	(pt 432 288)
+	(pt 472 288)
+	(bus)
+)
+(junction (pt 512 288))
+(junction (pt 472 288))
+(junction (pt 816 224))
+(junction (pt 816 336))
