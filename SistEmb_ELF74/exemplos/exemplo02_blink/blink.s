@@ -1,0 +1,106 @@
+; LED1   PN1
+; LED2   PN0
+; LED3   PF4
+; LED4   PF3
+; SW1	 PJ0
+; SW2	 PJ1
+
+;GPIO Port A (APB) base: 0x4000.4000
+;GPIO Port A (AHB) base: 0x4005.8000
+;GPIO Port B (APB) base: 0x4000.5000
+;GPIO Port B (AHB) base: 0x4005.9000
+;GPIO Port C (APB) base: 0x4000.6000
+;GPIO Port C (AHB) base: 0x4005.A000
+;GPIO Port D (APB) base: 0x4000.7000
+;GPIO Port D (AHB) base: 0x4005.B000
+;GPIO Port E (APB) base: 0x4002.4000
+;GPIO Port E (AHB) base: 0x4005.C000
+;GPIO Port F (APB) base: 0x4002.5000
+;GPIO Port F (AHB) base: 0x4005.D000
+
+;GPIO_PORTF BASE : 0x40025000
+;SYSCTRL: BASE 0x400FE000
+;RCG OFFSET: 0x608
+
+
+SYSCTL_BASE					EQU 	0x400FE000
+RCGCGPIO_OFFSET				EQU		0x608
+SYSCTL_RCGCGPIO_R 			EQU		SYSCTL_BASE + RCGCGPIO_OFFSET
+	
+GPIOF_BASE					EQU 	0x40025000	
+GPIOF_DIR_OFFSET			EQU 	0x400	
+GPIOF_DIR_R					EQU 	GPIOF_BASE + GPIOF_DIR_OFFSET
+
+GPIOF_DATA_OFFSET			EQU		0x3FC
+GPIOF_DATA_R				EQU		GPIOF_BASE + GPIOF_DATA_OFFSET
+	
+GPIOF_DEN_OFFSET			EQU		0x51C
+GPIOF_DEN_R					EQU		GPIOF_BASE + GPIOF_DEN_OFFSET
+	
+GPIOF_PUR_OFFSET			EQU		0X510 ;GPIOPUR
+GPIOF_PUR_R					EQU		GPIOF_BASE + GPIOF_PUR_OFFSET
+	
+GPIOF_EN					EQU 	1<<5
+LED_D3						EQU 	1<<4
+LED_D4						EQU 	1<<3
+LED_D3_ON					EQU 	1<<4
+LED_D3_OFF 					EQU 	0<<4
+	
+ONESEC						EQU 	5333333
+HAFSEC						EQU		266667
+	
+			AREA |.text|,CODE, READONLY, ALIGN=2
+			THUMB			
+			EXPORT __main
+			ENTRY
+				
+__main		
+			BL 		GPIO_Init			
+			BL		Led_Blink
+
+GPIO_Init
+			;Enable Clock access to port F
+			;SYSCTRL->RCGCGPIO |= GPIOF_EN
+			LDR		R1,=SYSCTL_RCGCGPIO_R
+			LDR		R0,[R1]
+			ORR		R0,R0,#GPIOF_EN			
+			STR		R0,[R1]
+			NOP
+			NOP			
+			;Set PF4 as output
+			;GPIOF->DIR |= LED_D3 = 0x10 = 1 << 4 = 0B 0001 0000
+			LDR		R1,=GPIOF_DIR_R
+			LDR		R0,[R1]
+			ORR		R0,R0,#LED_D3			
+			STR		R0,[R1]				
+	
+			;Enable PF4
+			;GPIOF->DEN |= LED_D3 = 0x10 = 1 << 4 = 0B 0001 0000
+			LDR		R1,=GPIOF_DEN_R
+			LDR		R0,[R1]
+			ORR		R0,R0,#LED_D3			
+			STR		R0,[R1]						
+			BX		LR
+			
+Delay		SUBS 	R3,R3,#1
+			BNE		Delay	; branch if the z flag is not set
+			BX 		LR
+			
+Led_Blink	
+			LDR		R1,=GPIOF_DATA_R
+			MOV		R0,#LED_D3_ON
+			STR		R0,[R1]	
+			LDR		R3,=ONESEC
+			BL		Delay
+			
+			LDR		R1,=GPIOF_DATA_R
+			MOV		R0,#LED_D3_OFF
+			STR		R0,[R1]	
+			LDR		R3,=ONESEC
+			BL		Delay
+			
+			B 		Led_Blink
+			
+			ALIGN				
+			END
+			
