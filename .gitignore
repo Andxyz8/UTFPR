@@ -4,6 +4,7 @@
 *.rar
 **venv
 __pycache__
+**/.**
 
 # MATLAB
 *.asv
