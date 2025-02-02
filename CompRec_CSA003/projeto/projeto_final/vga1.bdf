@@ -34,7 +34,6 @@ refer to the applicable agreement for further details.
 		(line (pt 117 12)(pt 121 8))
 	)
 	(text "VCC" (rect 136 7 156 17)(font "Arial" (font_size 6)))
-	(annotation_block (location)(rect 48 584 112 608))
 )
 (pin
 	(input)
@@ -51,7 +50,6 @@ refer to the applicable agreement for further details.
 		(line (pt 117 12)(pt 121 8))
 	)
 	(text "VCC" (rect 136 7 156 17)(font "Arial" (font_size 6)))
-	(annotation_block (location)(rect 48 504 112 528))
 )
 (pin
 	(input)
@@ -68,7 +66,6 @@ refer to the applicable agreement for further details.
 		(line (pt 117 12)(pt 121 8))
 	)
 	(text "VCC" (rect 136 7 156 17)(font "Arial" (font_size 6)))
-	(annotation_block (location)(rect 160 48 216 72))
 )
 (pin
 	(input)
@@ -85,7 +82,6 @@ refer to the applicable agreement for further details.
 		(line (pt 117 12)(pt 121 8))
 	)
 	(text "VCC" (rect 136 7 156 17)(font "Arial" (font_size 6)))
-	(annotation_block (location)(rect 160 80 216 104))
 )
 (pin
 	(output)
@@ -118,7 +114,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 1208 696 1264 720))
 )
 (pin
 	(output)
@@ -135,7 +130,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 1208 672 1264 696))
 )
 (pin
 	(output)
@@ -152,7 +146,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 1208 640 1272 664))
 )
 (pin
 	(output)
@@ -169,7 +162,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 1152 472 1208 496))
 )
 (pin
 	(output)
@@ -186,7 +178,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 1152 440 1208 464))
 )
 (pin
 	(output)
@@ -203,7 +194,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 800 80 856 104))
 )
 (pin
 	(output)
@@ -220,7 +210,6 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 800 48 856 72))
 )
 (symbol
 	(rect 632 480 952 656)
@@ -666,39 +655,6 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 896 160)
-	(pt 912 160)
-)
-(connector
-	(text "a" (rect 928 144 933 161)(font "Intel Clear" ))
-	(pt 912 160)
-	(pt 944 160)
-)
-(connector
-	(pt 384 40)
-	(pt 392 40)
-)
-(connector
-	(pt 392 40)
-	(pt 504 40)
-)
-(connector
-	(pt 504 40)
-	(pt 624 40)
-)
-(connector
-	(pt 384 72)
-	(pt 392 72)
-)
-(connector
-	(pt 392 72)
-	(pt 528 72)
-)
-(connector
-	(pt 528 72)
-	(pt 624 72)
-)
-(connector
 	(text "a" (rect 480 600 485 617)(font "Intel Clear" ))
 	(pt 472 616)
 	(pt 512 616)
@@ -784,6 +740,39 @@ refer to the applicable agreement for further details.
 	(text "q[16]" (rect 690 208 714 225)(font "Intel Clear" ))
 	(pt 680 224)
 	(pt 744 224)
+)
+(connector
+	(pt 896 160)
+	(pt 912 160)
+)
+(connector
+	(text "a" (rect 928 144 933 161)(font "Intel Clear" ))
+	(pt 912 160)
+	(pt 944 160)
+)
+(connector
+	(pt 384 40)
+	(pt 392 40)
+)
+(connector
+	(pt 392 40)
+	(pt 504 40)
+)
+(connector
+	(pt 504 40)
+	(pt 624 40)
+)
+(connector
+	(pt 384 72)
+	(pt 392 72)
+)
+(connector
+	(pt 392 72)
+	(pt 528 72)
+)
+(connector
+	(pt 528 72)
+	(pt 624 72)
 )
 (junction (pt 392 40))
 (junction (pt 392 72))

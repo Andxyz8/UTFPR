@@ -34,8 +34,9 @@ BEGIN
 	VARIABLE pos_barra_coluna_x: INTEGER := 0; -- Posição inical barra em X (colunas)
 	VARIABLE pos_barra_linha_y: INTEGER := 240 - tam_barra_x; -- Posição inicial da barra em Y (linhas)
 
-	VARIABLE ORIGEM_LINHA: INTEGER := 0;
-	VARIABLE FINAL_LINHA: INTEGER := 480;
+	VARIABLE ORIGEM_LINHA: INTEGER := 20; -- Limite superior vertical linhas cenário
+	VARIABLE FINAL_LINHA: INTEGER := 450; -- Limite inferior vertical linhas cenário
+	VARIABLE FINAL_COLUNA: INTEGER := 620; -- Limite horizontal colunas cenário
 
 	BEGIN
 
@@ -77,6 +78,21 @@ BEGIN
 		) THEN
 			a <= '1';
 		-- DESENHO DA PLATAFORMA --
+		
+		-- DESENHO DO CENÁRIO SUPERIOR E INFERIOR --
+		ELSIF(
+			(linha_int_y <= ORIGEM_LINHA AND linha_int_y >= 0)
+			OR (linha_int_y >= FINAL_LINHA AND linha_int_y <= 480)
+		) THEN
+			a <= '1';
+		-- DESENHO DO CENÁRIO SUPERIOR E INFERIOR --
+
+		-- DESENHO DO CENÁRIO DIREITA --
+		ELSIF (
+			(coluna_int_x >= FINAL_COLUNA AND coluna_int_x <= 640)
+		) THEN
+			a <= '1';
+		-- DESENHO DO CENÁRIO DIREITA --
 
 		ELSE
 			a <= '0';
