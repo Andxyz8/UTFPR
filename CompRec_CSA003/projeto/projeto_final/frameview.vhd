@@ -22,8 +22,8 @@ END frameview;
 ARCHITECTURE frameview OF frameview IS
 
 
-SIGNAL coluna_int_x : INTEGER;
-SIGNAL linha_int_y : INTEGER;
+SIGNAL coluna_int_x: INTEGER;
+SIGNAL linha_int_y: INTEGER;
 
 
 BEGIN
@@ -32,37 +32,43 @@ BEGIN
 
 	-- CARACTERÍSTICAS DO CENÁRIO
 	VARIABLE ORIGEM_LINHA: INTEGER := 20; -- Limite superior vertical linhas cenário
-	VARIABLE FINAL_LINHA: INTEGER := 450; -- Limite inferior vertical linhas cenário
+	VARIABLE FINAL_LINHA: INTEGER := 460; -- Limite inferior vertical linhas cenário
 	VARIABLE FINAL_COLUNA: INTEGER := 620; -- Limite horizontal colunas cenário
 
 	-- CARACTERÍSTICAS DA BARRA
 	VARIABLE tam_barra_x: INTEGER := 10;
-	VARIABLE tam_barra_y: INTEGER := 50;
+	VARIABLE tam_barra_y: INTEGER := 60;
 	-- POSICIONAMENTO DA BARRA
 	VARIABLE pos_barra_coluna_x: INTEGER := 0; -- Posição inical barra em X (colunas)
 	VARIABLE pos_barra_linha_y: INTEGER := 240 - tam_barra_x; -- Posição inicial da barra em Y (linhas)
 
 	-- CARACTERÍSTICAS DA ESFERA
-	VARIABLE tam_esfera_x: INTEGER := 10;
-	VARIABLE tam_esfera_y: INTEGER := 10;
+	VARIABLE tam_esfera_x: INTEGER := 5;
+	VARIABLE tam_esfera_y: INTEGER := 5;
 
 	-- POSICIONAMENTO DA ESFERA
-	VARIABLE pos_esfera_coluna_x: INTEGER := 32000;
-	VARIABLE pos_esfera_linha_y: INTEGER := 24000;
-	VARIABLE pos_fator_suavidade: INTEGER := 100;
+	VARIABLE pos_esfera_coluna_x: INTEGER := 320000;
+	VARIABLE pos_esfera_linha_y: INTEGER := 240000;
+	VARIABLE pos_fator_suavidade: INTEGER := 1000;
 	VARIABLE pos_esfera_colunas_y_reinicio : INTEGER:= ORIGEM_LINHA*1000;
 
+	-- REFLEXÃO ESFERA COM A BARRA
+	VARIABLE velocidade_x_30: INTEGER := 125; -- Velocidade de reflexão de 30° com a plataforma 
+	VARIABLE velocidade_y_30: INTEGER := 216;
+
+	VARIABLE vel_esfera_coluna_x_45: INTEGER := 176; -- Velocidade de reflexão de 45° com a plataforma 
+	VARIABLE vel_esfera_linha_y_45: INTEGER := 176;
+
+	VARIABLE velocidade_x_60: INTEGER := 216; -- -- Velocidade de reflexão de 60° com a plataforma 
+	VARIABLE velocidade_y_60: INTEGER := 125;
+
 	-- MOVIMENTO DA ESFERA
-	VARIABLE vel_esfera_coluna_x: INTEGER := 100;
-	VARIABLE vel_esfera_linha_y: INTEGER := 100;
-	VARIABLE vel_esfera_coluna_x_45: INTEGER := 100;
-	VARIABLE vel_esfera_linha_y_45: INTEGER := 100;
+	VARIABLE vel_esfera_coluna_x: INTEGER := vel_esfera_coluna_x_45;
+	VARIABLE vel_esfera_linha_y: INTEGER := vel_esfera_linha_y_45;
 
 	BEGIN
 		-- GERADOR POSIÇÃO INICIAL ESFERA --
-		IF (
-			clk'EVENT AND clk='1'
-		) THEN
+		IF (clk'EVENT AND clk='1') THEN
 			pos_esfera_colunas_y_reinicio := pos_esfera_colunas_y_reinicio + 1;
 
 			IF (
@@ -72,43 +78,6 @@ BEGIN
 			END IF;
 		END IF;
 		-- GERADOR POSIÇÃO INICIAL ESFERA --
-	
-		-- MOVIMENTO ESFERA NO CENÁRIO --
-		IF (clk_esfera'EVENT AND clk_esfera = '1') THEN
-			pos_esfera_coluna_x := pos_esfera_coluna_x+vel_esfera_coluna_x;
-			pos_esfera_linha_y := pos_esfera_linha_y+vel_esfera_linha_y;
-
-			-- Se a bola ultrapassou o cenário à direita:
-			IF(
-				pos_esfera_coluna_x/pos_fator_suavidade >= FINAL_COLUNA - tam_esfera_x
-			) THEN
-				pos_esfera_coluna_x := (FINAL_COLUNA - tam_esfera_x)*pos_fator_suavidade;
-				vel_esfera_coluna_x := -vel_esfera_coluna_x;
-			-- Se a bola ultrapassou o cenário à esquerda, perde:
-			ELSIF(
-				pos_esfera_coluna_x <= 0
-			) THEN
-				pos_esfera_coluna_x:= 600000; -- Posição em x do reinício
-				pos_esfera_linha_y:= pos_esfera_colunas_y_reinicio; -- Posição em y do reinício
-				vel_esfera_coluna_x:= -vel_esfera_coluna_x_45; -- Velocidade de renício
-				vel_esfera_linha_y:= vel_esfera_linha_y_45;
-			END IF;
-
-			-- Se a bola ultrapassou o cenário por baixo:
-			IF (
-				pos_esfera_linha_y/pos_fator_suavidade >= FINAL_LINHA-tam_esfera_y
-			) THEN
-				pos_esfera_linha_y := (FINAL_LINHA - tam_esfera_y)*pos_fator_suavidade;
-				vel_esfera_linha_y := -vel_esfera_linha_y;
-			-- Se a bola ultrapassou o cenário por cima:
-			ELSIF(
-				pos_esfera_linha_y/pos_fator_suavidade < ORIGEM_LINHA
-			) THEN
-				pos_esfera_linha_y := ORIGEM_LINHA*pos_fator_suavidade + 1;
-				vel_esfera_linha_y := -vel_esfera_linha_y;
-			END IF;
-		END IF;
-		-- MOVIMENTO ESFERA NO CENÁRIO --
 
 
 		-- MOVIMENTO DA BARRA --
@@ -128,6 +97,85 @@ BEGIN
 			END IF;
 		END IF;
 		-- MOVIMENTO DA BARRA --
+
+
+		IF (clk_esfera'EVENT AND clk_esfera = '1') THEN
+			pos_esfera_coluna_x := pos_esfera_coluna_x + vel_esfera_coluna_x;
+			pos_esfera_linha_y := pos_esfera_linha_y + vel_esfera_linha_y;
+
+			-- MOVIMENTO ESFERA NO CENÁRIO --
+			-- Se a bola ultrapassou o cenário à direita:
+			IF(
+				pos_esfera_coluna_x/pos_fator_suavidade >= FINAL_COLUNA - tam_esfera_x
+			) THEN
+				pos_esfera_coluna_x := (FINAL_COLUNA - tam_esfera_x)*pos_fator_suavidade;
+				vel_esfera_coluna_x := -vel_esfera_coluna_x; -- Inverte a velocidade em x
+			-- Se a bola ultrapassou o cenário à esquerda, perde:
+			ELSIF(
+				pos_esfera_coluna_x <= 0
+			) THEN
+				pos_esfera_coluna_x := 600000; -- Posição em x do reinício
+				pos_esfera_linha_y := pos_esfera_colunas_y_reinicio; -- Posição em y do reinício
+				vel_esfera_coluna_x := -vel_esfera_coluna_x_45; -- Velocidade de renício
+				vel_esfera_linha_y := vel_esfera_linha_y_45;
+			END IF;
+
+			-- Se a bola ultrapassou o cenário por baixo:
+			IF (
+				pos_esfera_linha_y/pos_fator_suavidade >= FINAL_LINHA-tam_esfera_y
+			) THEN
+				pos_esfera_linha_y := (FINAL_LINHA - tam_esfera_y)*pos_fator_suavidade;
+				vel_esfera_linha_y := -vel_esfera_linha_y;
+			-- Se a bola ultrapassou o cenário por cima:
+			ELSIF(
+				pos_esfera_linha_y/pos_fator_suavidade < ORIGEM_LINHA
+			) THEN
+				pos_esfera_linha_y := ORIGEM_LINHA*pos_fator_suavidade + 1;
+				vel_esfera_linha_y := -vel_esfera_linha_y;
+			END IF;
+			-- MOVIMENTO ESFERA NO CENÁRIO --
+
+
+			-- COLISÃO ENTRE ESFERA E A BARRA --
+			IF (
+				pos_esfera_coluna_x/pos_fator_suavidade >= pos_barra_coluna_x
+				AND pos_esfera_coluna_x/pos_fator_suavidade < pos_barra_coluna_x + tam_barra_x
+				AND pos_esfera_linha_y/pos_fator_suavidade + tam_esfera_y >= pos_barra_linha_y
+				AND pos_esfera_linha_y/pos_fator_suavidade < pos_barra_linha_y + tam_barra_y
+			) THEN
+				-- Ajusta posição da bola após colisão.
+				pos_esfera_coluna_x := (pos_barra_coluna_x + tam_barra_x + 1)*1000;
+
+				-- Calcula em que parte da plataforma houve a colisão. Com isso, ajusta a velocidade de reflexão de acordo com o local de colisão.
+				IF (pos_esfera_linha_y/pos_fator_suavidade < pos_barra_linha_y + tam_barra_y/5) THEN
+					vel_esfera_linha_y := vel_esfera_linha_y/(ABS(vel_esfera_linha_y))*velocidade_y_30;
+					vel_esfera_coluna_x := velocidade_x_30;
+				ELSIF (pos_esfera_linha_y/pos_fator_suavidade < pos_barra_linha_y + 2*tam_barra_y/5) THEN
+					vel_esfera_linha_y := vel_esfera_linha_y/(ABS(vel_esfera_linha_y))*vel_esfera_linha_y_45;
+					vel_esfera_coluna_x := vel_esfera_coluna_x_45;
+				ELSIF (pos_esfera_linha_y/pos_fator_suavidade < pos_barra_linha_y + 3*tam_barra_y/5) THEN
+					vel_esfera_linha_y := vel_esfera_linha_y/(ABS(vel_esfera_linha_y))*velocidade_y_60;
+					vel_esfera_coluna_x := velocidade_x_60;
+				ELSIF (pos_esfera_linha_y/pos_fator_suavidade < pos_barra_linha_y + 4*tam_barra_y/5) THEN
+					vel_esfera_linha_y := vel_esfera_linha_y/(ABS(vel_esfera_linha_y))*vel_esfera_linha_y_45;
+					vel_esfera_coluna_x := vel_esfera_coluna_x_45;
+				ELSE
+					vel_esfera_linha_y := vel_esfera_linha_y/(ABS(vel_esfera_linha_y))*velocidade_y_30;
+					vel_esfera_coluna_x := velocidade_x_30;
+				END IF;
+
+				-- Verifica se, quando houve a colisão, a plataforma estava se movimentando na mesma direção da bolinha em relação ao eixo y.
+				-- Se sim, dobra a velocidade da bola.
+				IF (
+					(botao_k0_cima = '0' AND botao_k1_baixo /= '0' AND vel_esfera_linha_y < 0)
+					OR (botao_k1_baixo = '0' AND botao_k0_cima /= '0' AND vel_esfera_linha_y > 0)
+				) THEN
+					vel_esfera_linha_y := vel_esfera_linha_y*2;
+					vel_esfera_coluna_x := vel_esfera_coluna_x*2;
+				END IF;
+			END IF;
+		END IF;
+		-- COLISÃO ENTRE ESFERA E A BARRA --
 
 
 		-- converte linha e coluna de entrada para inteiro
@@ -153,7 +201,7 @@ BEGIN
 		-- DESENHO DA PLATAFORMA --
 
 		-- DESENHO DA ESFERA --
-		elsif((
+		ELSIF ((
 				(coluna_int_x > pos_esfera_coluna_x/pos_fator_suavidade)
 				AND (coluna_int_x <= tam_esfera_x + pos_esfera_coluna_x/pos_fator_suavidade)
 			) AND (
