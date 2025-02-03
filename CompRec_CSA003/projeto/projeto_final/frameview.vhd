@@ -15,7 +15,10 @@ ENTITY frameview IS
 		clk_barra: IN STD_LOGIC; -- Clock da barra
 		clk_esfera: IN STD_LOGIC; -- Clock da esfera
 
+		pontuacao: OUT STD_LOGIC;
+		reset: OUT STD_LOGIC;
 		a:  OUT  STD_LOGIC -- Saída binária para desenhar ou não o pixel
+		
 	);
 END frameview;
 
@@ -50,7 +53,7 @@ BEGIN
 	VARIABLE pos_esfera_coluna_x: INTEGER := 320000;
 	VARIABLE pos_esfera_linha_y: INTEGER := 240000;
 	VARIABLE pos_fator_suavidade: INTEGER := 1000;
-	VARIABLE pos_esfera_colunas_y_reinicio : INTEGER:= ORIGEM_LINHA*1000;
+	VARIABLE pos_esfera_colunas_y_reinicio : INTEGER := ORIGEM_LINHA*1000;
 
 	-- REFLEXÃO ESFERA COM A BARRA
 	VARIABLE velocidade_x_30: INTEGER := 125; -- Velocidade de reflexão de 30° com a plataforma 
@@ -66,6 +69,10 @@ BEGIN
 	VARIABLE vel_esfera_coluna_x: INTEGER := vel_esfera_coluna_x_45;
 	VARIABLE vel_esfera_linha_y: INTEGER := vel_esfera_linha_y_45;
 
+	-- PONTUAÇÃO
+	VARIABLE pontuacao_temp: STD_LOGIC := '0';
+	VARIABLE reset_temp: STD_LOGIC := '0';
+	
 	BEGIN
 		-- GERADOR POSIÇÃO INICIAL ESFERA --
 		IF (clk'EVENT AND clk='1') THEN
@@ -98,11 +105,14 @@ BEGIN
 		END IF;
 		-- MOVIMENTO DA BARRA --
 
-
+		-- MOVIMENTO, COLISÃO E REFLEXÃO ESFERA --
 		IF (clk_esfera'EVENT AND clk_esfera = '1') THEN
 			pos_esfera_coluna_x := pos_esfera_coluna_x + vel_esfera_coluna_x;
 			pos_esfera_linha_y := pos_esfera_linha_y + vel_esfera_linha_y;
-
+			
+			pontuacao_temp := '0';
+			reset_temp := '0';
+			
 			-- MOVIMENTO ESFERA NO CENÁRIO --
 			-- Se a bola ultrapassou o cenário à direita:
 			IF(
@@ -118,6 +128,7 @@ BEGIN
 				pos_esfera_linha_y := pos_esfera_colunas_y_reinicio; -- Posição em y do reinício
 				vel_esfera_coluna_x := -vel_esfera_coluna_x_45; -- Velocidade de renício
 				vel_esfera_linha_y := vel_esfera_linha_y_45;
+				reset_temp := '1';
 			END IF;
 
 			-- Se a bola ultrapassou o cenário por baixo:
@@ -173,9 +184,17 @@ BEGIN
 					vel_esfera_linha_y := vel_esfera_linha_y*2;
 					vel_esfera_coluna_x := vel_esfera_coluna_x*2;
 				END IF;
+
+				pontuacao_temp := '1';
+
 			END IF;
+			-- COLISÃO ENTRE ESFERA E A BARRA --
+
+			pontuacao <= pontuacao_temp;
+			reset <= reset_temp;
+
 		END IF;
-		-- COLISÃO ENTRE ESFERA E A BARRA --
+		-- MOVIMENTO, COLISÃO E REFLEXÃO ESFERA --
 
 
 		-- converte linha e coluna de entrada para inteiro
