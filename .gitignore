@@ -42,6 +42,8 @@ RTE/
 **.tcl
 # Arquivos de simulação waveform
 *.vwf
+# Arquivos .inc
+*.inc
 
 # Diretório de banco de dados da compilação
 db/
