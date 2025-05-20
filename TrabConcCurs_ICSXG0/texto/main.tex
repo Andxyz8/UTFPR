@@ -1,0 +1,83 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX: 
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+
+\usepackage{graphicx,url}
+
+%\usepackage[brazil]{babel}   
+\usepackage[utf8]{inputenc}  
+
+     
+\sloppy
+
+\title{\textit{Fine-tuning} e Análise do Aprendizado de Modelos de Linguagem Navegando por Labirintos em ASCII}
+
+\author{Anderson N. Silva\inst{1}}
+
+
+\address{Departamento Acadêmico de Informática (DAINF) -- \\Universidade Tecnológica Federal do Paraná (UTFPR)\\
+ Av. Sete de Setembro, 3165 -- 80230-901 -- Curitiba -- PR -- Brasil
+% \nextinstitute
+%   Department of Computer Science -- University of Durham\\
+%   Durham, U.K.
+  \email{andersonnogueira@alunos.utfpr.edu.br}
+}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+  10 lines and must be in the first page of the paper.
+\end{abstract}
+     
+\begin{resumo} 
+  Este meta-artigo descreve o estilo a ser usado na confecção de artigos e
+\end{resumo}
+
+
+\section{Introdução}
+
+
+
+\section{Fundamentos e Trabalhos Relacionados}
+
+Esta seção discute os trabalhos relacionados e os fundamentos teóricos principais relacionados com o tema proposto.
+
+\subsection{LLMs - Large Language Models}
+
+Os modelos de Linguagem de Grande Escala (\textit{Large Language Models} - \textit{LLMs}) são arquiteturas computacionais baseadas em redes neurais profundas, predominantemente do tipo \textit{transformer}, desenvolvidos para processar e gerar linguagem natural. Esses modelos são treinados com grandes volumes de dados textuais, com os quais conseguem (computar/aprender) padrões estatísticos da linaguagem humana, tornando-os capazes de realizar uma ampla gama de tarefas, grande parte sem treinamento supervisionado específico (e.g. sumarização, resposta a perguntas e tradução). A característica comumente associada ao tamanho desses modelos é uma medida em bilhções de parâmetros que está diretamente associado à sua capacidade de adaptação a contextos diversos e sua generalização. A arquitetura \textit{transformer}, introduzida por \cite{vaswani2023attentionneed}, faz parte da estrutura central da maioria dos LLMs atuais, e destaca-se pelo uso de mecanismos de atenção que possibilitam a modelagem de dependências contextuais de longo alcance. 
+
+\subsection{Fine-tuning}
+
+O \textit{fine-tunning} é uma técnica utilizada para adaptar \textit{LLMs} a tarefas específicas, por meio de re-treinamento de parte ou totalidade de seus parâmetros com conjuntos de dados mais específicos. Em seguida da etapa inicial de pré-treinamento, na qual um \textit{LLM} aprende as representações gerais linguagem a partir de grandes corpora, o \textit{fine-tunning} permite especializar o comportamento do modelo para contextos mais delimitados como, por exemplo, geração de código, classificação de sentimentos ou, como no presente trabalho, navegação por labirinto em caracteres ASCII. Existem diferentes estratégias de \textit{fine-tunning}:
+\begin{itemize}
+    \item Supervised Fine-Tuning (SFT): 
+    \item Direct Preference Optimisation (DPO): 
+    \item Reinforcement Learning from Human Feedback (RLHF): 
+    \item Odds Ratio Preference Optimization (ORPO): 
+\end{itemize}
+
+\subsection{Explicabilidade em LLMs}
+
+Apesar de serem bem capazes em tarefas complexas, os LLMs são questionados com bastante frequência sobre seu caráter de ``caixa-preta''
+
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
