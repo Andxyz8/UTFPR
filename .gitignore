@@ -93,3 +93,11 @@ transcript
 *.bak
 # Arquivos temporários de backup do Quartus
 *.~*
+
+# Arquivos do TexLive
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.gz
