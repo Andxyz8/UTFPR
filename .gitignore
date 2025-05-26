@@ -101,3 +101,6 @@ transcript
 *.fdb_latexmk
 *.fls
 *.gz
+
+# Arquivos packet tracer
+*.pksz
