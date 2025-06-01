@@ -1,38 +1,36 @@
 \section{Fundamentos e Trabalhos Relacionados}
 
-Esta seção discute os trabalhos relacionados e os fundamentos teóricos principais relacionados com o tema proposto.
+Esta seção apresenta os principais conceitos e trabalhos relacionados que fundamentam o desenvolvimento deste estudo, com foco em LLMs, técnicas de fine-tuning e métodos de explicabilidade aplicados à resolução de labirintos em ASCII.
 
 \subsection{LLMs - Large Language Models}
 
-Os modelos de Linguagem de Grande Escala (\textit{Large Language Models} - \textit{LLMs}) são arquiteturas computacionais baseadas em redes neurais profundas, predominantemente do tipo \textit{transformer}, desenvolvidos para processar e gerar linguagem natural. Esses modelos são treinados com grandes volumes de dados textuais, com os quais conseguem (computar/aprender) padrões estatísticos da linaguagem humana, tornando-os capazes de realizar uma ampla gama de tarefas, grande parte sem treinamento supervisionado específico (e.g. sumarização, resposta a perguntas e tradução). A característica comumente associada ao tamanho desses modelos é uma medida em bilhções de parâmetros que está diretamente associado à sua capacidade de adaptação a contextos diversos e sua generalização. A arquitetura \textit{transformer}, introduzida por \cite{vaswani2023transformers}, faz parte da estrutura central da maioria dos LLMs atuais, e destaca-se pelo uso de mecanismos de atenção que possibilitam a modelagem de dependências contextuais de longo alcance. 
+Os Modelos de Linguagem de Grande Escala (\textit{Large Language Models} - LLMs) são arquiteturas baseadas em redes neurais profundas, predominantemente do tipo \textit{transformer}, projetadas para processar e gerar linguagem natural. Esses modelos são treinados com grandes volumes de dados textuais, aprendendo padrões estatísticos da linguagem humana e tornando-se capazes de executar uma ampla gama de tarefas, muitas vezes sem necessidade de treinamento supervisionado específico, como sumarização, resposta a perguntas e tradução. O tamanho dos LLMs, geralmente medido em bilhões de parâmetros, está diretamente associado à sua capacidade de adaptação a diferentes contextos e à generalização. A arquitetura \textit{transformer}, introduzida por \cite{vaswani2023transformers}, é central para esses modelos, destacando-se pelo uso de mecanismos de atenção que permitem a modelagem de dependências contextuais de longo alcance.
 
 \subsection{Fine-tuning}
 
-O \textit{fine-tunning} é uma técnica utilizada para adaptar \textit{LLMs} a tarefas específicas, por meio de re-treinamento de parte ou totalidade de seus parâmetros com conjuntos de dados mais específicos. Em seguida da etapa inicial de pré-treinamento, na qual um \textit{LLM} aprende as representações gerais linguagem a partir de grandes corpora, o \textit{fine-tunning} permite especializar o comportamento do modelo para contextos mais delimitados como, por exemplo, geração de código, classificação de sentimentos ou, como no presente trabalho, navegação por labirinto em caracteres ASCII. Existem diferentes estratégias de \textit{fine-tunning}:
+O \textit{fine-tuning} é uma técnica fundamental para adaptar LLMs a tarefas específicas, por meio do re-treinamento de parte ou da totalidade dos parâmetros do modelo com conjuntos de dados direcionados. Após o pré-treinamento, em que o LLM aprende representações gerais da linguagem, o fine-tuning permite especializar o modelo para contextos delimitados, como a navegação em labirintos ASCII, foco deste trabalho. Entre as principais estratégias de fine-tuning destacam-se:
+
 \begin{itemize}
-    \item Supervised Fine-Tuning (SFT): técnica de ajuste fino supervisionado, onde o modelo é treinado com um conjunto de dados rotulado, permitindo que aprenda a mapear entradas para saídas específicas. Essa abordagem é comum para tarefas como classificação, tradução e resposta a perguntas.
-    \item Direct Preference Optimisation (DPO): técnica de otimização direta de preferências, onde o modelo é ajustado para maximizar a probabilidade de gerar respostas preferidas por humanos, com base em feedback direto. Essa abordagem é útil para melhorar a qualidade das respostas geradas pelo modelo.
-    \item Reinforcement Learning from Human Feedback (RLHF): técnica de aprendizado por reforço a partir de feedback humano, onde o modelo é treinado para maximizar uma recompensa baseada em preferências humanas. Essa abordagem é eficaz para melhorar a qualidade das respostas geradas pelo modelo, alinhando-as com as expectativas dos usuários.
-    \item Odds Ratio Preference Optimization (ORPO): técnica de otimização de preferências baseada em razão de chances, onde o modelo é ajustado para maximizar a razão entre as probabilidades de gerar respostas preferidas e não preferidas. Essa abordagem é útil para melhorar a qualidade das respostas geradas pelo modelo, alinhando-as com as expectativas dos usuários. 
-    \item Group Relative Policy Optimization (GRPO): técnica de otimização de políticas relativas em grupo, onde o modelo é ajustado para maximizar a probabilidade de gerar respostas preferidas por um grupo de usuários, levando em consideração as preferências coletivas. Essa abordagem é eficaz para melhorar a qualidade das respostas geradas pelo modelo, alinhando-as com as expectativas de um público mais amplo.
+    \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado com dados rotulados, comum em tarefas como classificação e tradução.
+    \item \textbf{Direct Preference Optimisation (DPO)}: otimização baseada em preferências humanas, visando respostas mais alinhadas ao usuário.
+    \item \textbf{Reinforcement Learning from Human Feedback (RLHF)}: aprendizado por reforço com recompensas baseadas em feedback humano.
+    \item \textbf{Odds Ratio Preference Optimization (ORPO)}: otimização baseada na razão de chances entre respostas preferidas e não preferidas.
+    \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste considerando preferências coletivas de grupos de usuários.
 \end{itemize}
+
+Essas estratégias são relevantes para o presente estudo, pois permitem investigar como diferentes métodos de ajuste impactam o desempenho dos LLMs em tarefas de raciocínio espacial.
 
 \subsection{Explicabilidade em LLMs}
 
-Apesar de possuírem um alto nível de compreensão e resolução daquilo que lhes são atribuídos, os LLMs são questionados com frequência sobre seu caráter de ``caixa-preta'', que é a dificuldade no entendimento sobre como tomam decisões ou gram suas respostas.
+Apesar do alto desempenho, LLMs são frequentemente criticados por seu caráter de ``caixa-preta'', dificultando o entendimento sobre como tomam decisões. Nesse contexto, técnicas de explicabilidade (\textit{explainability}) têm ganhado destaque, buscando tornar os mecanismos internos dos modelos mais transparentes. O objetivo dessas técnicas é revelar como os dados são processados ao longo das camadas, quais neurônios são ativados em resposta a determinadas entradas e como essas ativações influenciam as saídas e evoluem durante o treinamento ou fine-tuning.
 
-Nesse contexto, é cada vez maior o interesse em técnicas de explicabilidade (\textit{explainability}) aplicadas a redes neurais profundas para tornar seus mecanismos internos interpretáveis. A explicabilidade em LLMs tem o objetivo de revelar como os dados são processados ao longo das camadas do modelo, quais neurônios foram ativados em resposta a determinadas entradas, como essas ativações influenciam a saída final e como as representações internas evoluem durante o treinamento ou \textit{fine-tunning}.
-
-Essas técnicas são essenciais para o diagnóstico de falhas, enviesamento e limitações de raciocínio do modelo. Diversas ferramentas vêm sendo propostas para auxiliar na explicabilidade de LLMs com visualizações, utilização de grafos de conhecimento, análise de atenção e outras abordagens que ajudam a decifrar o comportamento dos modelos.
+A explicabilidade é essencial para diagnosticar falhas, enviesamentos e limitações dos modelos. Diversas ferramentas têm sido propostas, incluindo visualizações, análise de atenção e uso de grafos de conhecimento, que auxiliam na compreensão do comportamento dos LLMs.
 
 \subsubsection{LLM-MRI}
 
-A biblioteca LLM-MRI (\textit{Large Language Model - Magnetic Resonance Imaging}) é uma das ferramentas desenvolvidas com o intuito de auxiliar na explicabilidade de LLMs. Ela atua com o objetivo de simplificar o estudo de padrões de ativações em qualquer LLM baseado em trasnformer.
+A biblioteca LLM-MRI (\textit{Large Language Model - Magnetic Resonance Imaging}) é uma ferramenta desenvolvida para facilitar a análise de padrões de ativação em LLMs baseados em \textit{transformer}. Conforme apresentado por \cite{costa2024llmmri}, a LLM-MRI permite coletar, organizar e projetar em dimensões reduzidas os vetores de ativação gerados pelos modelos ao processarem diferentes entradas. Técnicas de redução de dimensionalidade possibilitam visualizar como as ativações neuronais se distribuem, facilitando a identificação de padrões e a análise das mudanças provocadas por diferentes estratégias de fine-tuning.
 
-Desenvolvida por \cite{costa2024llmmri}, a LLM-MRI permite a coleta, organização e projeção em dimensões reduzidas dos vetores de ativação produzidos pelos modelos ao processarem diferentes entradas. Por meio de técnicas de redução de dimensionalidade, é possível visualizar como as ativações neuronais se distribuem em um espaço de menor dimensão, facilitando a identificação de padrões e também como as ativações se diferenciam após a aplicação de diferentes técnicas de fine-tunning.
-
-Essa abordagem é relevante, considerando o contexto experimental deste trabalho, avaliar como LLMs se adaptam a tarefas específicas (neste caso, navegação em labirintos ASCII) e como as estruturas internas dos modelos emergem a partir dessa aprendizagem.
-
+No contexto deste trabalho, a LLM-MRI é empregada para investigar como LLMs se adaptam à tarefa de navegação em labirintos ASCII e como as estruturas internas dos modelos evoluem durante o processo de aprendizagem, contribuindo para a análise da interpretabilidade e do raciocínio espacial dos modelos.
 \subsection{Trabalhos Relacionados}
 
 Esta seção apresenta a revisão de literatura sobre o tema deste trabalho, com foco em LLMs, fine-tunning e explicabilidade.
