@@ -23,6 +23,16 @@ O desempenho dos modelos será avaliado antes e após o \textit{fine-tuning}, ut
 
 A análise das ativações internas será conduzida com o auxílio da biblioteca LLM-MRI \cite{costa2024llmmri}. Para cada modelo e estratégia de ajuste, serão coletados os vetores de ativação das camadas intermediárias ao processar diferentes labirintos. Uma redução de dimensionalidade será aplicada para visualizar e comparar as distribuições das ativações antes e depois do treinamento. O objetivo será identificar padrões emergentes, alterações estruturais e possíveis mecanismos de raciocínio espacial desenvolvidos pelos modelos.
 
+\subsection{Hipóteses do Estudo}
+
+Este estudo parte das seguintes hipóteses principais:
+\begin{itemize}
+    \item[H1:] O artigo do AlphaMaze já demonstrou que o \textit{fine-tuning} em LLMs abertos, utilizando dados de labirintos em ASCII, resulta em melhorias mensuráveis no desempenho dos modelos na tarefa de resolução de labirintos. Este trabalho parte desse resultado, buscando investigar se tais melhorias se mantêm ou se apresentam novas características ao empregar diferentes configurações de labirintos, modelos ou estratégias de ajuste.
+    \item[H2:] Estratégias distintas de \textit{fine-tuning}, como SFT e GRPO, produzirão padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e representação da tarefa.
+    \item[H3:] A análise das ativações neuronais, por meio da LLM-MRI, permitirá identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
+    \item[H4:] O uso de datasets e modelos do AlphaMaze, caso adotados, proporcionará uma base comparativa relevante, mas a adoção de novas configurações de labirintos poderá revelar limitações ou potencialidades adicionais dos LLMs.
+\end{itemize}
+
 \subsection{Discussão e Interpretação dos Resultados}
 
 Os resultados quantitativos e qualitativos serão analisados de forma integrada, buscando compreender como as diferentes estratégias de \textit{fine-tuning} influenciam tanto o desempenho quanto as representações internas dos LLMs. A discussão considerará limitações, possíveis vieses e implicações para o desenvolvimento de modelos mais interpretáveis e eficientes em tarefas que exigem raciocínio espacial.
