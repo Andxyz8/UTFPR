@@ -1,1 +1,16 @@
 \section{Introdução}
+
+\begin{itemize}
+    \item \textbf{Descrição}: Este trabalho tem como cerne investigar os mecanismos internos de aprendizado de LLMs a partir de uma tarefa específica e formalmente simples: resolução de labirintos representados em caracteres ASCII. O trabalho envolve o uso de modelos abertos, que serão ajustados por meio de diferentes estratégias de \textit{fine-tuning} para aprenderem a realizar essa tarefa. Além do treinamento em si, o trabalho deve buscar compreender o que muda no interior das redes neurais ao longo do processo de aprendizado. Para isso, serão utilizados bibliotecas de visualização com a LLM-MRI \cite{costa2024llmmri}, que permitem observar as ativações neuronais e suas representações dimensionais reduzidas. Ao comparar essas ativações antes e depois do aprendizado da tarefa, pretende-se obter insights sobre as estruturas e padrões internos que emergem nos modelos ao aprenderem a navegar nos labirintos. Este trabalho, portanto, se propõe a contribuir tanto para a prática do \textit{fine-tuning} quanto para a compreensão teórica dos processos de representação e raciocínio dos LLMS.
+
+    \item \textbf{Objetivo Geral}: Investigar como modelos de linguagem de grande escala (LLMs) aprendem a realizar a tarefa de resolução de labirintos representados em ASCII, por meio de técnicas de fine-tuning, e analisar as mudanças nas ativações internas das redes neurais associadas ao aprendizado da tarefa.
+
+    \item \textbf{Objetivos Específicos}:
+        \begin{itemize}
+            \item Aplicar diferentes estratégias de fine-tuning em LLMs abertos com até 8B de parâmetros para que aprendam a resolver labirintos em ASCII.
+            \item Avaliar o desempenho dos modelos na tarefa proposta antes e após o fine-tuning.
+            \item Utilizar a biblioteca LLM-MRI para visualizar e comparar as ativações neuronais das redes antes e depois do processo de aprendizagem.
+            \item Investigar padrões emergentes e alterações estruturais nas representações internas dos modelos a partir da nova tarefa aprendida.
+            \item Discutir as implicações dos resultados observados para o entendimento do raciocínio e da representação de tarefas específicas em LLMs.
+        \end{itemize}
+\end{itemize}
