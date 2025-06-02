@@ -1,0 +1,28 @@
+\section{Metodologia}
+
+Esta seção apresenta o planejamento metodológico para investigar como LLMs abertos podem aprender a resolver labirintos em ASCII, analisando as mudanças nas ativações internas das redes neurais após diferentes estratégias de \textit{fine-tuning}. O objetivo é detalhar os procedimentos que serão adotados, de modo a garantir a replicabilidade do estudo, incluindo a preparação dos dados, o ajuste dos modelos, a avaliação de desempenho e a análise das ativações neuronais.
+
+\subsection{Preparação dos Dados}
+
+Será utilizado um conjunto de dados composto por labirintos representados em ASCII, gerados automaticamente para garantir diversidade de estruturas e níveis de dificuldade. Cada instância do conjunto conterá a representação textual do labirinto, a posição inicial e final, e a sequência de comandos esperada para a solução. Os dados serão divididos em conjuntos de treinamento, validação e teste, assegurando que os labirintos do conjunto de teste não sejam vistos durante o treinamento.
+
+\subsection{Modelos e Estratégias de Fine-tuning}
+
+Serão selecionados LLMs abertos com até 8 bilhões de parâmetros, compatíveis com a biblioteca LLM-MRI. O processo de especialização dos modelos será realizado por meio de diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura:
+\begin{itemize}
+    \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
+    \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
+\end{itemize}
+Cada modelo será treinado separadamente em cada estratégia, utilizando os mesmos dados de entrada para garantir comparabilidade.
+
+\subsection{Avaliação de Desempenho}
+
+O desempenho dos modelos será avaliado antes e após o \textit{fine-tuning}, utilizando métricas objetivas como taxa de sucesso na resolução dos labirintos, número médio de passos até a solução e precisão na geração dos comandos. Para garantir rigor na avaliação, os resultados serão comparados com abordagens tradicionais e com benchmarks da literatura, como o MazeBench.
+
+\subsection{Análise das Ativações Neuronais}
+
+A análise das ativações internas será conduzida com o auxílio da biblioteca LLM-MRI \cite{costa2024llmmri}. Para cada modelo e estratégia de ajuste, serão coletados os vetores de ativação das camadas intermediárias ao processar diferentes labirintos. Uma redução de dimensionalidade será aplicada para visualizar e comparar as distribuições das ativações antes e depois do treinamento. O objetivo será identificar padrões emergentes, alterações estruturais e possíveis mecanismos de raciocínio espacial desenvolvidos pelos modelos.
+
+\subsection{Discussão e Interpretação dos Resultados}
+
+Os resultados quantitativos e qualitativos serão analisados de forma integrada, buscando compreender como as diferentes estratégias de \textit{fine-tuning} influenciam tanto o desempenho quanto as representações internas dos LLMs. A discussão considerará limitações, possíveis vieses e implicações para o desenvolvimento de modelos mais interpretáveis e eficientes em tarefas que exigem raciocínio espacial.
