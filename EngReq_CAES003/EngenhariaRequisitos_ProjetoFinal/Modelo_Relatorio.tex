@@ -1,0 +1,266 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Template baseado no exemplo da classe utftex
+% Prof. César M. V. Benítez
+% DAELN, UTFPR-Curitiba (2019)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[openright]{normas-utf-tex} %openright = o capitulo comeca sempre em paginas impares
+%\documentclass[oneside]{normas-utf-tex} %oneside = para numero de paginas menor que 100 (apenas frente da folha) 
+
+% force A4 paper format
+\special{papersize=210mm,297mm}
+
+\usepackage[alf,abnt-emphasize=bf,bibjustif,recuo=0cm, abnt-etal-cite=2, abnt-etal-list=99]{abntcite} %configuracao correta das referencias bibliograficas.
+
+\usepackage[portuguese, ruled, linesnumbered]{algorithm2e}%pacotedealgoritmoemportugues
+
+\usepackage[brazil]{babel} % pacote portugues brasileiro
+\usepackage[utf8]{inputenc} % pacote para acentuacao direta
+\usepackage{amsmath,amsfonts,amssymb} % pacote matematico
+\usepackage{graphicx} % pacote grafico
+\usepackage{times} % fonte times
+\usepackage[final]{pdfpages} % adicao da ata
+\usepackage[version=3]{mhchem}%adição de pacote para quimica
+\usepackage{longtable}% redimensionar automaticamente tabelas
+%\usepackage{hyperref}% link das res
+\usepackage{array} % tamanho colunas tabelas
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+%Podem utilizar GEOMETRY{...} para realizar pequenos ajustes das margens. Onde, left=esquerda, right=direita, top=superior, bottom=inferior. P.ex.:
+%\geometry{left=3.0cm,right=1.5cm,top=4cm,bottom=1cm} 
+\usepackage{amsthm}
+\usepackage[hyphens]{url} %urls com hífens
+\usepackage{subfig} % inclusao de subfiguras
+\newtheorem{mydef}{Definicão}
+
+
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{orange},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    morekeywords={True, False, self}
+}
+
+\lstset{style=mystyle}
+%\usepackage{balance} 
+
+
+
+% NOME DOS ALUNOS E PROFESSORES
+\newcommand{\alunoA}{Anderson Nogueira Silva}
+% \newcommand{\alunoB}{Nome Sobrenome B}
+% \newcommand{\alunoC}{Nome Sobrenome C}
+% \newcommand{\alunoD}{Nome Sobrenome D}
+
+% Geralmente orientador e co-orientador
+\newcommand{\professorA}{Laudelino Cordeiro Bastos}
+% \newcommand{\professorB}{Nome Professor B}
+
+% DISCIPLINA RELATIVA AO TRABALHO
+\newcommand{\disciplina}{Engenharia de Requisitos}
+
+% ---------- Preambulo ----------
+\instituicao{UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ (UTFPR)} % nome da instituicao
+% \programa{NOME DO CURSO} % nome do programa de ensino (aparece abaixo do nome da instituição na capa)
+\area{Engenharia de Computação} 
+\documento{\disciplina} % Nome da disciplina relativa ao trabalho
+\nivel{Graduação em Engenharia de Computação} % Nivel do programa, se necessário
+\titulacao{Graduação em Engenharia de Computação} % Titulação, se necessário
+
+\titulo{Documento de Requisitos de Sistema de Análise de Dados Nutricionais Integrado a LLM} % titulo do trabalho em portugues
+\title{\MakeUppercase{TITULO DO TRABALHO EM INGLÊS}} % titulo do trabalho em ingles (Usado quando é necessário abstract)
+
+% Remover caso tenha menos alunos
+\autor{\alunoA \protect} % autor do trabalho
+\cita{Silva, Anderson;} % sobrenome (maiusculas), nome do autor do trabalho (Usado quando resumo e abstract estão ativados)
+
+
+\palavraschave{palavra-chave-A, palavra-chave-B, palavra-chave-C, palavra-chave-D}  % palavras-chave do trabalho (mostrado quando Resumo está ativado)
+\keywords{keyword-A, keyword-B, keyword-C, keyword-D} % palavras-chave do trabalho em ingles (mostrado quando Abstract está ativado)
+
+% Este é o texto que aparece recuado à direita, logo abaixo do meio da página, na folha de rosto.
+\comentario{Documento de Requisitos do projeto apresentado à UTFPR como registro parcial para aprovação na disciplina \disciplina\ do PPGCA.} 
+
+% Nome do orientador/ professor da disciplina
+\orientador{\professorA} % nome do orientador do trabalho
+
+
+
+\local{Curitiba} % cidade
+\data{\the\year} % ano automatico
+
+% desativa hifenizacao mantendo o texto justificado.
+% thanks to Emilio C. G. Wille
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+\sloppy
+
+%---------- Inicio do Documento ----------
+\begin{document}
+
+% ELEMENTOS PRÉ-TEXTUAIS
+\capa % geracao automatica da capa
+\folhaderosto % geracao automatica da folha de rosto
+
+
+% % DEDICATORIA (opcional)
+% \begin{dedicatoria}
+% Texto da dedicat\'oria.
+% Este trabalho é dedicado a \dots 
+
+% \end{dedicatoria}
+
+% % agradecimentos (opcional)
+% \begin{agradecimentos}
+% Texto dos agradecimentos.
+
+
+ % \end{agradecimentos}
+
+% % EPÍGRAFE (opcional)
+% \begin{epigrafe}
+% Texto da ep\'igrafe.
+% \end{epigrafe}
+
+% RESUMO
+% \begin{resumo}
+% \end{resumo}
+
+% ABSTRACT
+% \begin{abstract}
+% \end{abstract}
+
+% LISTAS (opcionais, mas recomenda-se a partir de 5 elementos)
+\listadefiguras % geracao automatica da lista de figuras
+\listadetabelas % geracao automatica da lista de tabelas
+%\listadequadros % adivinhe :)
+\listadesiglas % geracao automatica da lista de siglas
+%\listadesimbolos % geracao automatica da lista de simbolos
+
+% SUMARIO
+\sumario % geracao automatica do sumario
+
+
+%---------- Inicio do Texto ----------
+% recomenda-se a escrita de cada capitulo em um arquivo texto separado (exemplo: intro.tex, fund.tex, exper.tex, concl.tex, etc.) e a posterior inclusao dos mesmos no mestre do documento utilizando o comando \input{}, da seguinte forma:
+%\input{intro.tex}
+%\input{fund.tex}
+%\input{exper.tex}
+%\input{concl.tex}
+
+% Colocar aqui o numero da página inicial!!! (Obs.: conta a partir da folha de rosto)
+\setcounter{page}{5}
+
+
+% CAPÍTULOS DESENVOLVIDOS (COMENTAR PARA IGNORAR)
+\input{./capitulos/capitulo1}   %Introducao
+\input{./capitulos/capitulo2}   %Fundamentacao teorica
+\input{./capitulos/capitulo3}   %Metodologia
+\input{./capitulos/capitulo4}   %Experimentos e resultados
+\input{./capitulos/capitulo5}   %Conclusoes e trabalhos futuros
+\input{./capitulos/capitulo6}   
+\input{./capitulos/capitulo7}   
+\input{./capitulos/capitulo8}   
+\input{./capitulos/capitulo9}   
+\input{./capitulos/capitulo10}   
+
+% ELEMENTOS PÓS-TEXTUAIS
+%---------- Referencias ----------
+\clearpage % this is need for add +1 to pageref of bibstart used in 'ficha catalografica'.
+\label{bibstart}
+\bibliography{referencias} % geracao automatica das referencias a partir do arquivo referencias.bib
+\label{bibend}
+
+
+% %---------- APÊNDICES (opcionais) ----------
+% \apendice
+% \chapter{APÊNDICE A - APÊNDICE COM UM ITEM APENAS}\label{cap-apendice-a}
+
+% \chapter{APÊNDICE B - NOME DO APÊNDICE COM MAIS DE 1 ITEM}\label{cap-apendice-b}
+% \section{PRIMEIRO ITEM - APÊNDICE B.1}
+
+% \newpage
+% \section{SEGUNDO ITEM - APÊNDICE B.2}
+
+% Use o comando {\ttfamily \textbackslash apendice} e depois comandos {\ttfamily \textbackslash chapter\{\}}
+% para gerar t\'itulos de ap\^en-dices.
+
+
+% % ---------- ANEXOS (opcionais) ----------
+% \anexo
+% \chapter{Nome do Anexo}
+
+% Use o comando {\ttfamily \textbackslash anexo} e depois comandos {\ttfamily \textbackslash chapter\{\}}
+% para gerar t\'itulos de anexos.
+
+
+% --------- Ordenacao Afabetica da Lista de siglas --------
+%\textbf{* Observa\c{c}\~oes:} a ordenacao alfabetica da lista de siglas ainda nao eh realizada de forma automatica, porem
+% eh possivel se de realizar isto manualmente. Duas formas:
+%
+% ** Primeira forma)
+%    A ordenacao eh feita com o auxilio do comando 'sort', disponivel em qualquer
+% sistema Linux e UNIX, e tambem em sistemas Windows se instalado o coreutils (http://gnuwin32.sourceforge.net/packages/coreutils.htm)
+% comandos para compilar e ordenar, supondo que seu arquivo se chame 'dissertacao.tex':
+%
+%      $ latex dissertacao
+%      $ bibtex dissertacao && latex dissertacao
+%      $ latex dissertacao
+%      $ sort dissertacao.lsg > dissertacao.lsg.tmp
+%      $ mv dissertacao.lsg.tmp dissertacao.lsg
+%      $ latex dissertacao
+%      $ dvipdf dissertacao.dvi
+%
+%
+% ** Segunda forma)
+%\textbf{Sugest\~ao:} crie outro arquivo .tex para siglas e utilize o comando \sigla{sigla}{descri\c{c}\~ao}.
+%Para incluir este arquivo no final do arquivo, utilize o comando \input{arquivo.tex}.
+%Assim, Todas as siglas serao geradas na ultima pagina. Entao, devera excluir a ultima pagina da versao final do arquivo
+% PDF do seu documento.
+
+
+%-------- Citacoes ---------
+% - Utilize o comando \citeonline{...} para citacoes com o seguinte formato: Autor et al. (2011).
+% Este tipo de formato eh utilizado no comeco do paragrafo. P.ex.: \citeonline{autor2011}
+
+% - Utilize o comando \cite{...} para citacoeses no meio ou final do paragrafo. P.ex.: \cite{autor2011}
+
+
+
+%-------- Titulos com nomes cientificos (titulo, capitulos e secoes) ----------
+% Regra para escrita de nomes cientificos:
+% Os nomes devem ser escritos em italico, 
+%a primeira letra do primeiro nome deve ser em maiusculo e o restante em minusculo (inclusive a primeira letra do segundo nome).
+% VEJA os exemplos abaixo.
+% 
+% 1) voce nao quer que a secao fique com uppercase (caixa alta) automaticamente:
+%\section[nouppercase]{\MakeUppercase{Estudo dos efeitos da radiacao ultravioleta C e TFD em celulas de} {\textit{Saccharomyces boulardii}}
+%
+% 2) por padrao os cases (maiusculas/minuscula) sao ajustados automaticamente, voce nao precisa usar makeuppercase e afins.
+% \section{Introducao} % a introducao sera posta no texto como INTRODUCAO, automaticamente, como a norma indica.
+
+%\balance
+\end{document}
