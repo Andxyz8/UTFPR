@@ -1,4 +1,62 @@
-
-
-
 \chapter{Levantamento de Requisitos}\label{cap:2-lev-req}
+
+Conforme enunciado no capítulo anterior, este documento representa a avaliação de requisitos para o desenvolvimento de um software de análise de dados nutricionais integrado a um \sigla{LLM}{Large Language Model}.
+
+A seguir, são apresentados dez requisitos iniciais relacionados à proposta.
+
+\begin{itemize}
+    \item \textbf{REQ01} (desempenho): O sistema deve ser capaz de processar, sem atrasos significativos, 100 requisições por segundo, pelo menos;
+    \item \textbf{REQ02} (segurança): O sistema deve conter uma camada de segurança robusta para proteger as informações dos usuários, incluindo autenticação e autorização;
+    \item \textbf{REQ03} (disponibilidade): O sistema deve estar disponível 24/7;
+    % \item \textbf{REQ04} (escalabilidade): O sistema deve ser capaz de escalonar para atender a uma demanda crescente de usuários sem qualquer atraso significativo;
+    % \item \textbf{REQ05} (usabilidade): O sistema deve possuir uma interface fácil de usar e intuitiva, permitindo que os usuários naveguem fácilmente pelo sistema;
+    \item \textbf{REQ04} (cadastrar usuário): O sistema deve permitir que os usuários sejam cadastrados com informações como nome, e-mail e senha;
+    \item \textbf{REQ05} (realizar login): O sistema deve permitir que os usuários façam login utilizando sua conta e senha;
+    \item \textbf{REQ06} (gerenciar dados): O sistema deve permitir que os usuários gerenciem seus dados pessoais e de contato;
+    \item \textbf{REQ07} (registrar refeições): O sistema deve permitir que os usuários registrem refeições de forma livre e descritiva em um campo de texto;
+    \item \textbf{REQ08} (consultar dados): O sistema deve consultar valores de macro e micronutrientes relevantes dos alimentos em um modelo de linguagem local LLM e armazená-los em um banco de dados relacional.
+    \item \textbf{REQ09} (visualizar dados): O sistema deve permitir que os usuários visualizem os dados nutricionais da refeição, incluindo valores de kcal e macronutrientes.;
+    \item \textbf{REQ10} (conversação com llm): O sistema deve permitir que os usuários conversem com o modelo de linguagem local (LLM) sobre seus dados solicitando insights e hábitos alimentares que estão escondidos.
+\end{itemize}
+
+Após a criação desses requisitos iniciais, foi necessário que o autor solicitasse a sua avaliação a três colegas. Todos aqueles consultados são formados na área de \sigla{TI}{Tecnologia da Informação}.
+
+A avaliação foi realizada de acordo com a Escala de Likert \cite{ref:escala-likert} com os seguintes níveis de concordância e inteiros correspondentes: concordo totalmente (+2), concordo  parcialmente (+1), incerto (0), discordo parcialmente (-1) e discordo totalmente (-2).
+
+Na tabela \ref{tab:avaliacao-requisitos-avaliadores} a seguir, pode-se visualizar os requisitos dispostos linha a linha, as avaliações realizadas por cada um dos avaliadores (separadas por colunas), bem como o somatório da avaliação inteira dos avaliadores.
+
+\begin{table}[h]
+    \centering
+    \caption{Classificação na Escala Likert dos requisitos pelos entrevistados.}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{|l|l|l|l|l|}
+            \hline
+            \textbf{Requisito} & \begin{tabular}[c]{@{}l@{}}\textbf{Classificação}\\\textbf{Avaliador 1}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Classificação}\\ \textbf{Avaliador 2}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\textbf{Classificação}\\ \textbf{Avaliador 3}\end{tabular} & \textbf{Soma} \\ \hline
+            REQ01 & 2 & 2 & 2 & \textbf{6} \\ \hline
+            REQ02 & 2 & 2 & 2 & \textbf{6} \\ \hline
+            REQ03 & 1 & 0 & 2 & \textbf{3} \\ \hline
+            REQ04 & 1 & 1 & 1 & \textbf{3} \\ \hline
+            REQ05 & 1 & 1 & 1 & \textbf{3} \\ \hline
+            REQ06 & 1 & 0 & 1 & \textbf{2} \\ \hline
+            REQ07 & 2 & 1 & 2 & \textbf{5} \\ \hline
+            REQ08 & 2 & 1 & 2 & \textbf{5} \\ \hline
+            REQ09 & 2 & 1 & 2 & \textbf{5} \\ \hline
+            REQ10 & 1 & 1 & 2 & \textbf{4} \\ \hline
+        \end{tabular}%
+    }
+    \small{\textbf{Fonte: Autor (2025).}}
+    \label{tab:avaliacao-requisitos-avaliadores}
+\end{table}
+
+
+A partir dos dados apresentados no quadro, torna-se evidente que os avaliadores demonstraram consenso sobre a importância dos requisitos relacionados ao desempenho (REQ01) e à segurança do sistema (REQ02), que receberam a pontuação máxima de 6 em uma escala de -2 a +2. Ao final, isso reflete o entendimento de que para um software de qualidade, seus pilares devem ser o desempenho e a segurança.
+
+Os requisitos relacionados à experiência do usuário, como registrar refeições (REQ07), consultar dados nutricionais (REQ08) e visualizar esses dados (REQ09), receberam somas de 5 pontos, indicando um alto nível de concordância entre os avaliadores. Esses dados sugerem que são essenciais para que o sistema cumpra sua proposta de valor: oferecer uma ferramenta capaz de integrar dados alimentares e fornecer análises relevantes ao usuário final.
+
+Em relação à funcionalidade de interação com o modelo de linguagem local (LLM) (REQ10), a pontuação de 4 indica uma aceitação positiva, ainda que não tão unânime quanto nos requisitos de desempenho ou segurança.
+
+Por outro lado, os requisitos relacionados ao cadastro de usuários (REQ04) e à realização de login (REQ05) apresentaram somas de 3 pontos, sugerindo que são vistos como componentes necessários, mas não críticos para o sucesso imediato do sistema. A mesma pontuação foi observada para o requisito de disponibilidade do sistema (REQ03), o que pode indicar que, embora seja desejável manter o serviço acessível continuamente, as preocupações com infraestrutura e monitoramento ainda não são prioritárias para todos os avaliadores, pelo menos no estágio atual de desenvolvimento.
+
+O requisito com a menor pontuação foi o de gerenciamento de dados pessoais e de contato (REQ06), com uma soma de 2 pontos. Essa baixa pontuação sugere que os avaliadores consideram a gestão desses dados como algo secundário neste momento.
+
+De forma geral, os resultados da tabela \ref{tab:avaliacao-requisitos-avaliadores} apontam para um alinhamento entre os avaliadores quanto à necessidade de consolidar primeiramente a performance, segurança e a funcionalidade principal do sistema, ao passo que requisitos relacionados à gestão de usuários ou elementos adicionais podem ser tratados em fases subsequentes, de acordo com a evolução do projeto.
