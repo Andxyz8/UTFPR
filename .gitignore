@@ -102,5 +102,10 @@ transcript
 *.fls
 *.gz
 
+# Arquivos do LaTeX
+*.lot
+*.toc
+*.lsg
+
 # Arquivos packet tracer
 *.pksz
