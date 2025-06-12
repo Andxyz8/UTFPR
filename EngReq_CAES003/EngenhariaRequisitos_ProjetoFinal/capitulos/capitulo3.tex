@@ -1,4 +1,139 @@
-
-
-
 \chapter{Requisitos Funcionais e Não Funcionais}\label{cap:3-reqs-f-e-nf}
+
+Este capítulo apresenta os requisitos funcionais e não funcionais do sistema de análise de dados nutricionais integrado a um LLM e também requisitos de design e de implementação. Esses requisitos foram definidos com base nos requisitos iniciais levantados no capítulo \ref{cap:2-lev-req}.
+
+\section{Requisitos Funcionais}
+
+Os requisitos funcionais (\sigla{RF}{Requisito Funcional}) são aqueles que descrevem o que o sistema deve fazer, ou seja, as funcionalidades que ele deve oferecer. A seguir, estão os requisitos funcionais identificados para o sistema:
+
+\begin{longtable}[c]{|l|l|l|l|l|}
+\caption{Requisitos Funcionais}
+\label{tab:reqs-funcionais}\\
+\hline
+\textbf{Código} &
+  \textbf{Descrição} &
+  \textbf{Visibilidade} &
+  \textbf{Prioridade} &
+  \textbf{RNFs Associados} \\ \hline
+\endfirsthead
+%
+\endhead
+%
+\textbf{RF01} &
+  \begin{tabular}[c]{@{}l@{}}Cadastro de usuário com\\ e-mail e senha\end{tabular} &
+  Externa &
+  Essencial &
+  \begin{tabular}[c]{@{}l@{}}RNF02,\\ RNF05\end{tabular} \\ \hline
+\textbf{RF02} &
+  \begin{tabular}[c]{@{}l@{}}Autenticação de usuário\\ (login/logout)\end{tabular} &
+  Externa &
+  Essencial &
+  \begin{tabular}[c]{@{}l@{}}RNF02,\\ RNF05\end{tabular} \\ \hline
+\textbf{RF03} &
+  \begin{tabular}[c]{@{}l@{}}Registro de refeições\\ (descrição livre ou\\ por ingredientes)\end{tabular} &
+  Externa &
+  Essencial &
+  \begin{tabular}[c]{@{}l@{}}RNF01,\\ RNF05,\\ RNF08\end{tabular} \\ \hline
+\textbf{RF04} &
+  \begin{tabular}[c]{@{}l@{}}Consulta automática\\ de dados nutricionais\\ via LLM\end{tabular} &
+  Interna &
+  Essencial &
+  \begin{tabular}[c]{@{}l@{}}RNF01,\\ RNF07,\\ RNF09\end{tabular} \\ \hline
+\textbf{RF05} &
+  \begin{tabular}[c]{@{}l@{}}Armazenamento de dados\\ nutricionais (kcal, macros,\\ micros)\end{tabular} &
+  Interna &
+  Essencial &
+  \begin{tabular}[c]{@{}l@{}}RNF03,\\ RNF07,\\ RNF08\end{tabular} \\ \hline
+\textbf{RF06} &
+  \begin{tabular}[c]{@{}l@{}}Dashboard com gráficos\\ de consumo (período\\ personalizável)\end{tabular} &
+  Externa &
+  Importante &
+  \begin{tabular}[c]{@{}l@{}}RNF01,\\ RNF04,\\ RNF06\end{tabular} \\ \hline
+\textbf{RF07} &
+  \begin{tabular}[c]{@{}l@{}}Filtros temporais para\\ análise (dia/semana/mês)\end{tabular} &
+  Externa &
+  Desejável &
+  \begin{tabular}[c]{@{}l@{}}RNF01,\\ RNF06\end{tabular} \\ \hline
+\textbf{RF08} &
+  \begin{tabular}[c]{@{}l@{}}Chat integrado para\\ consultar LLM\end{tabular} &
+  Externa &
+  Importante &
+  \begin{tabular}[c]{@{}l@{}}RNF01,\\ RNF07,\\ RNF09\end{tabular} \\ \hline
+\textbf{RF09} &
+  \begin{tabular}[c]{@{}l@{}}Exportação de relatórios\\ em PDF/CSV\end{tabular} &
+  Externa &
+  Desejável &
+  \begin{tabular}[c]{@{}l@{}}RNF06,\\ RNF10\end{tabular} \\ \hline
+\textbf{RF10} &
+  \begin{tabular}[c]{@{}l@{}}Edição/exclusão de\\ refeições registradas\end{tabular} &
+  Externa &
+  Importante &
+  \begin{tabular}[c]{@{}l@{}}RNF03,\\ RNF08\end{tabular} \\ \hline
+\end{longtable}
+
+\begin{center}
+    \textbf{Fonte: Autor (2025).}
+\end{center}
+
+
+\section{Requisitos Não Funcionais}
+
+Os requisitos não funcionais - \sigla{RNF}{Requisito Não Funcional} são aqueles que definem as qualidades e restrições do sistema, como desempenho, segurança, usabilidade, entre outros. A seguir, estão os requisitos não funcionais identificados para o sistema:
+\begin{longtable}[c]{|l|l|l|l|}
+\caption{Requisitos Não Funcionais}
+\label{tab:reqs-nao-funcionais}\\
+\hline
+\textbf{Código} & \textbf{Descrição}                                                                        & \textbf{Categoria} & \textbf{Prioridade} \\ \hline
+\endfirsthead
+\endhead
+
+\textbf{RNF01} & \begin{tabular}[c]{@{}l@{}}Tempo de resposta \textless{}30s para consultas\\ ao LLM\end{tabular} & Desempenho & Essencial \\ \hline
+\textbf{RNF02}  & Autenticação via JWT com refresh tokens                                                   & Segurança          & Essencial           \\ \hline
+\textbf{RNF03}  & Backup diário dos dados nutricionais                                                      & Confiabilidade     & Importante          \\ \hline
+\textbf{RNF04}  & Renderização de gráficos em \textless{}5s                                                 & Desempenho         & Importante          \\ \hline
+\textbf{RNF05}  & Interface acessível (WCAG AA)                                                             & Usabilidade        & Essencial           \\ \hline
+\textbf{RNF06}  & \begin{tabular}[c]{@{}l@{}}Dados analíticos consistentes (99.9\%\\ precisão)\end{tabular} & Confiabilidade     & Importante          \\ \hline
+\textbf{RNF07}  & \begin{tabular}[c]{@{}l@{}}Integração estável com Ollama (uptime \\ 99.95\%)\end{tabular} & Disponibilidade    & Essencial           \\ \hline
+\textbf{RNF08}  & \begin{tabular}[c]{@{}l@{}}Criptografia AES-256  para dados\\ sensíveis\end{tabular}      & Segurança          & Essencial           \\ \hline
+\textbf{RNF09}  & \begin{tabular}[c]{@{}l@{}}Processamento assíncrono de consultas\\ ao LLM\end{tabular}    & Escalabilidade     & Importante          \\ \hline
+\textbf{RNF10}  & Suporte a 10k registros/mês/usuario                                                       & Escalabilidade     & Desejável           \\ \hline
+\end{longtable}
+
+\begin{center}
+    \textbf{Fonte: Autor (2025).}
+\end{center}
+
+\subsection{Associação entre Requisitos Funcionais e Não Funcionais}
+
+A associação entre os requisitos funcionais e não funcionais é fundamental para garantir que o sistema atenda tanto às necessidades de negócio quanto aos padrões de qualidade esperados. Cada requisito funcional foi cuidadosamente vinculado a requisitos não funcionais que estabelecem restrições, padrões de desempenho, segurança, usabilidade, confiabilidade, disponibilidade e escalabilidade.
+
+Por exemplo, o requisito funcional RF01, responsável pelo cadastro de usuários, está associado aos requisitos não funcionais de segurança (RNF02), que exige autenticação robusta via JWT, e de usabilidade (RNF05), que determina a acessibilidade da interface. O RF02, referente à autenticação de usuários, também se apoia nesses mesmos requisitos, reforçando a importância de proteger dados sensíveis e garantir uma experiência de uso acessível.
+
+O RF03, que trata do registro de refeições, está vinculado ao desempenho (RNF01), para garantir respostas rápidas, à usabilidade (RNF05), para facilitar o registro, e à segurança (RNF08), assegurando a proteção dos dados inseridos. Já o RF04, responsável pela consulta automática de dados nutricionais via LLM, depende do desempenho (RNF01), da disponibilidade da integração com o LLM (RNF07) e da escalabilidade do processamento (RNF09), assegurando respostas rápidas e serviço estável.
+
+O armazenamento de dados nutricionais (RF05) está relacionado à confiabilidade (RNF03), à disponibilidade (RNF07) e à segurança (RNF08), garantindo que os dados estejam sempre protegidos, disponíveis e com backup regular. O dashboard analítico (RF06) associa-se ao desempenho (RNF01), à renderização eficiente de gráficos (RNF04) e à precisão dos dados (RNF06), proporcionando visualizações rápidas e confiáveis.
+
+Os filtros temporais para análise (RF07) dependem do desempenho (RNF01) e da precisão dos dados (RNF06), enquanto o chat integrado para consultas ao LLM (RF08) está atrelado ao desempenho (RNF01), à disponibilidade da integração (RNF07) e à escalabilidade (RNF09). A exportação de relatórios (RF09) está associada à precisão dos dados (RNF06) e à capacidade de suportar grandes volumes de registros (RNF10). Por fim, a edição e exclusão de refeições (RF10) relaciona-se à confiabilidade dos backups (RNF03) e à segurança dos dados (RNF08).
+
+Dessa forma, a matriz de associação entre requisitos funcionais e não funcionais garante que cada funcionalidade do sistema seja implementada considerando as restrições e qualidades necessárias para o correto funcionamento, segurança, desempenho e experiência do usuário.
+\section{Requisitos de Design e Implementação}
+
+Os requisitos de design - \sigla{RD}{Requisito de Design} e implementação são aqueles que orientam a arquitetura do sistema e as tecnologias a serem utilizadas. A seguir, estão os requisitos de design e implementação identificados para o sistema:
+
+\begin{longtable}[c]{|l|l|l|}
+\caption{Requisitos de Design e Projeto}
+\label{tab:reqs-design-projeto}\\
+\hline
+\textbf{Código} & \textbf{Descrição}            & \textbf{Prioridade} \\ \hline
+\endfirsthead
+%
+\endhead
+%
+\textbf{RD01}   & Frontend deve ser desenvolvido com Next.js & Importante          \\ \hline
+\textbf{RD02} & \begin{tabular}[c]{@{}l@{}}Fluxo linear para registro de refeições\\ (4 passos máx.)\end{tabular} & Essencial \\ \hline
+\textbf{RD03}   & Backend deve ser desenvolvido com Python     & Essencial           \\ \hline
+\end{longtable}
+
+\begin{center}
+    \textbf{Fonte: Autor (2025).}
+\end{center}
