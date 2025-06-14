@@ -47,21 +47,18 @@ Com os casos de uso definidos, o próximo passo é fazer a sua associação com 
 
 \section{Definição completa dos Casos de Uso}
 
-A seguir, são apresentados os casos de uso detalhados, com suas descrições, pré-condições, pós-condições e fluxos de eventos. Esses detalhes são essenciais para compreender como cada funcionalidade será implementada e como o usuário interagirá com o sistema.
+A seguir, são apresentados os casos de uso detalhados, das tabelas \ref{tab:uc01} a \ref{tab:uc10}, com suas descrições, pré-condições, pós-condições e fluxos de eventos. Esses detalhes são essenciais para compreender como cada funcionalidade será implementada e como o usuário interagirá com o sistema.
 
-% UC01 - Cadastrar Usuário
 \subsection{UC01 - Cadastrar Usuário}
 
 \begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
-\caption{UC01: Cadastrar Usuário}
+\caption{UC01 - Cadastrar Usuário}
 \label{tab:uc01}\\
 \hline
 \multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
   \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC01: Cadastrar Usuário\end{tabular} \\ \hline
 \endfirsthead
-%
 \endhead
-%
 \multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
   \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
 \multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
@@ -176,19 +173,17 @@ A seguir, são apresentados os casos de uso detalhados, com suas descrições, p
   \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Recarrega a tela de cadastro, perdendo todos os dados não salvos.\end{tabular} \\ \hline
 \end{longtable}
 
-% UC02 - Autenticar Usuário
+
 \subsection{UC02 - Autenticar Usuário}
 
 \begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
-\caption{UC02: Autenticar Usuário}
+\caption{UC02 - Autenticar Usuário}
 \label{tab:uc02}\\
 \hline
 \multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
   \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC02: Autenticar Usuário\end{tabular} \\ \hline
 \endfirsthead
-%
 \endhead
-%
 \multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
   \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
 \multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
@@ -280,4 +275,323 @@ A seguir, são apresentados os casos de uso detalhados, com suas descrições, p
   \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Recarrega a tela de login, perdendo todos os dados não salvos.\end{tabular} \\ \hline
 \end{longtable}
 
+
 \subsection{UC03 - Registrar Refeição}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC03 - Registrar Refeição}
+\label{tab:uc03}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC03: Registrar Refeição\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário registrar uma refeição, informando descrição livre ou ingredientes, para posterior análise nutricional e acompanhamento.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado no sistema.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Refeição registrada e associada ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Acessa a funcionalidade de registro de refeição.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Exibe formulário para registro de refeição com campos obrigatórios (descrição, data/hora, ingredientes).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Preenche as informações da refeição.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}4. Clica em ``Registrar'' para submeter os dados.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}5. Valida preenchimento dos campos obrigatórios (RN14).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}6. Armazena a refeição associada ao usuário (RN15).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}7. Exibe mensagem de sucesso ``Refeição registrada com sucesso!''\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN14} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Todos os campos obrigatórios do registro de refeição devem ser preenchidos.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN15} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}A refeição deve ser associada ao usuário autenticado e armazenada de forma segura.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Alternativo A: campos obrigatórios não preenchidos}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Deixa um ou mais campos obrigatórios em branco e clica em ``Registrar''.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Valida preenchimento dos campos e identifica ausência.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Exibe mensagem de erro informando quais campos precisam ser preenchidos.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Alternativo B: recarregamento da página}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Durante o preenchimento do formulário, recarrega a página do navegador.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Recarrega a tela de registro, perdendo todos os dados não salvos.\end{tabular} \\ \hline
+\end{longtable}
+
+
+\subsection{UC04 - Consulta Dados Nutricionais via LLM}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC04 - Consulta Automática de Dados Nutricionais via LLM}
+\label{tab:uc04}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC04: Consulta Automática de Dados Nutricionais via LLM\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário consultar automaticamente os dados nutricionais de uma refeição registrada, utilizando integração com LLM para obtenção das informações.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado; refeição previamente registrada.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Dados nutricionais apresentados ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Seleciona uma refeição registrada e solicita consulta nutricional.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Envia os dados da refeição ao LLM para análise (RN16).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Recebe resposta do LLM com os dados nutricionais (RN17).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}4. Exibe os dados nutricionais ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN16} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}A consulta nutricional deve ser realizada por meio de integração com LLM.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN17} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve apresentar os dados nutricionais recebidos do LLM ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Alternativo A: LLM indisponível}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Solicita consulta nutricional e o LLM está indisponível.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Exibe mensagem de erro informando a indisponibilidade do serviço e sugere tentar novamente mais tarde.\end{tabular} \\ \hline
+\end{longtable}
+
+\subsection{UC05 - Armazenar Dados Nutricionais}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC05 - Armazenar Dados Nutricionais}
+\label{tab:uc05}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC05: Armazenar Dados Nutricionais\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Sistema\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Armazena automaticamente os dados nutricionais obtidos para cada refeição, garantindo sua integridade e disponibilidade para consultas futuras.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Dados nutricionais disponíveis após consulta ao LLM.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Dados nutricionais armazenados e associados à refeição do usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{-} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Recebe os dados nutricionais da consulta ao LLM.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Armazena os dados nutricionais associados à refeição do usuário (RN18).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Garante integridade e disponibilidade dos dados (RN19).\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN18} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Os dados nutricionais devem ser armazenados de forma associada à refeição e ao usuário.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN19} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve garantir a integridade e disponibilidade dos dados nutricionais armazenados.\end{tabular} \\ \hline
+\end{longtable}
+
+
+\subsection{UC06 - Visualizar Dashboard Analítico}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC06 - Visualizar Dashboard Analítico}
+\label{tab:uc06}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC06: Visualizar Dashboard Analítico\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário visualizar gráficos e análises de consumo nutricional, com base nos dados registrados e processados pelo sistema.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado; dados nutricionais registrados.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Gráficos e análises exibidos ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Acessa a funcionalidade de dashboard analítico.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Processa os dados nutricionais do usuário (RN20).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Gera gráficos e análises de consumo (RN21).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}4. Exibe o dashboard ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN20} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve processar os dados nutricionais do usuário para análise.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN21} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Os gráficos e análises devem ser gerados com base nos dados registrados e apresentados de forma clara e acessível.\end{tabular} \\ \hline
+\end{longtable}
+
+
+\subsection{UC07 - Filtros Temporais para Análise}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC07 - Filtros Temporais para Análise}
+\label{tab:uc07}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC07: Filtros Temporais para Análise\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário filtrar os dados e gráficos do dashboard por períodos específicos (dia, semana, mês), facilitando a análise temporal do consumo nutricional.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado; dados nutricionais registrados.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Dados filtrados exibidos conforme o período selecionado.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Seleciona o período desejado para análise (dia, semana, mês).\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Aplica o filtro temporal aos dados do usuário (RN22).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Atualiza os gráficos e análises exibidos conforme o filtro selecionado (RN23).\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN22} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve permitir a filtragem dos dados por diferentes períodos de tempo.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN23} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Os gráficos e análises devem ser atualizados dinamicamente conforme o filtro aplicado.\end{tabular} \\ \hline
+\end{longtable}
+
+
+\subsection{UC08 - Chat Integrado para Consultar LLM}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC08 - Chat Integrado para Consultar LLM}
+\label{tab:uc08}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC08: Chat Integrado para Consultar LLM\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário interagir com o LLM por meio de um chat integrado, para tirar dúvidas e obter sugestões nutricionais personalizadas.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado no sistema.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Resposta do LLM apresentada ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Acessa o chat integrado e envia uma mensagem ao LLM.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Encaminha a mensagem ao LLM para processamento (RN24).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Recebe a resposta do LLM (RN25).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}4. Exibe a resposta ao usuário.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN24} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve encaminhar as mensagens do usuário ao LLM para processamento.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN25} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve apresentar ao usuário a resposta recebida do LLM.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Alternativo A: LLM indisponível}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Envia mensagem ao LLM e o serviço está indisponível.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Exibe mensagem de erro informando a indisponibilidade do serviço e sugere tentar novamente mais tarde.\end{tabular} \\ \hline
+\end{longtable}
+
+
+\subsection{UC09 - Exportação de Relatórios}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC09 - Exportação de Relatórios}
+\label{tab:uc09}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC09: Exportação de Relatórios\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário exportar relatórios de consumo nutricional em formatos como PDF ou CSV, para análise externa ou compartilhamento.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado; dados disponíveis para exportação.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Relatório gerado e disponibilizado para download.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Solicita exportação de relatório em PDF ou CSV.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Gera o arquivo de relatório com os dados do usuário (RN26).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Disponibiliza o arquivo para download (RN27).\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN26} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve gerar relatórios em PDF ou CSV com os dados do usuário.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN27} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve disponibilizar o arquivo gerado para download imediato pelo usuário.\end{tabular} \\ \hline
+\end{longtable}
+
+
+\subsection{UC10 - Edição/Exclusão de Refeições}
+
+\begin{longtable}[c]{|p{0.48\textwidth}|p{0.48\textwidth}|}
+\caption{UC10 - Edição/Exclusão de Refeições}
+\label{tab:uc10}\\
+\hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Nome}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}UC10: Edição/Exclusão de Refeições\end{tabular} \\ \hline
+\endfirsthead
+\endhead
+
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Atores}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Descrição}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Permite ao usuário editar ou excluir refeições previamente registradas, mantendo a integridade dos dados e o histórico de alterações.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pré-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Usuário autenticado; refeição existente registrada pelo usuário.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\textbf{Pós-condições}} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}Refeição alterada ou removida, histórico atualizado.\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Fluxo Básico}} \\ \hline
+\multicolumn{1}{|c|}{\textbf{Ações do Ator}} &
+  \multicolumn{1}{c|}{\textbf{Ações do Sistema}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}1. Seleciona uma refeição registrada para editar ou excluir.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{\begin{tabular}[c]{@{}p{0.48\textwidth}@{}}2. Altera os dados desejados ou confirma a exclusão.\end{tabular}} & \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}3. Valida as alterações ou a solicitação de exclusão (RN28).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}4. Atualiza ou remove a refeição conforme solicitado (RN29).\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}5. Atualiza o histórico de alterações do usuário (RN30).\end{tabular} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Regras de Negócio}} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN28} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve validar as alterações ou exclusão de refeições para garantir integridade dos dados.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN29} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve atualizar ou remover a refeição conforme solicitado pelo usuário.\end{tabular} \\ \hline
+\multicolumn{1}{|p{0.48\textwidth}|}{RN30} &
+  \begin{tabular}[c]{@{}p{0.48\textwidth}@{}}O sistema deve manter o histórico de alterações e exclusões realizadas pelo usuário.\end{tabular} \\ \hline
+\end{longtable}
