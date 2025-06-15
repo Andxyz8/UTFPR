@@ -1,2 +1,186 @@
 \chapter{Verificação e Validação de Requisitos}\label{cap:6-verif-valid-req}
 
+A verificação e validação de requisitos são etapas fundamentais para garantir a qualidade, a clareza e a aderência dos requisitos às necessidades dos stakeholders e às restrições do projeto. Enquanto a verificação busca responder à pergunta ``O sistema está sendo construído corretamente?'', a validação busca garantir que ``O sistema que está sendo construído é o desejado pelos clientes e usuários?''. Ambas as atividades são essenciais para evitar retrabalho, ambiguidades e falhas no desenvolvimento do sistema.
+
+\section{Matriz de Verificação dos Requisitos Funcionais}
+
+A verificação dos requisitos funcionais foi realizada com base nos nove problemas clássicos apresentados em aula: validade, consistência, completeza, realismo, facilidade de verificação (compreensibilidade), ambiguidade, facilidade de rastreamento, redundância e conformidade. O tempo total gasto na análise foi de 18 minutos.
+
+\begin{longtable}{|p{0.14\textwidth}|*{10}{>{\centering\arraybackslash}p{0.057\textwidth}|}}
+\caption{Matriz de Verificação dos Requisitos Funcionais. \textbf{Legenda:} X = apresenta o problema; célula em branco = não apresenta o problema.}
+\label{tab:verificacao-reqs-funcionais}\\
+\hline
+\textbf{Ponto de Verificação} & \textbf{RF01} & \textbf{RF02} & \textbf{RF03} & \textbf{RF04} & \textbf{RF05} & \textbf{RF06} & \textbf{RF07} & \textbf{RF08} & \textbf{RF09} & \textbf{RF10} \\
+\hline
+\endfirsthead
+\endhead
+Validade &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Consistência &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Completeza &  &  & X &  &  & X & X &  &  &  \\
+\hline
+Realismo &  &  &  & X &  & X &  & X &  &  \\
+\hline
+Verificação &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Ambiguidade &  &  & X &  &  & X & X &  &  &  \\
+\hline
+Rastreamento &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Redundância &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Conformidade &  &  &  &  &  &  &  &  &  &  \\
+\hline
+\end{longtable}
+
+\section{Matriz de Verificação dos Requisitos Não Funcionais}
+
+A verificação dos requisitos não funcionais também foi realizada com base nos mesmos nove problemas. O tempo total gasto na análise foi de 15 minutos.
+
+\begin{longtable}{|p{0.14\textwidth}|*{10}{>{\centering\arraybackslash}p{0.057\textwidth}|}}
+\caption{Matriz de Verificação dos Requisitos Não Funcionais. \textbf{Legenda:} X = apresenta o problema; célula em branco = não apresenta o problema.}
+\label{tab:verificacao-reqs-naofuncionais}\\
+\hline
+\textbf{Ponto de Verificação} & \textbf{RNF 01} & \textbf{RNF 02} & \textbf{RNF 03} & \textbf{RNF 04} & \textbf{RNF 05} & \textbf{RNF 06} & \textbf{RNF 07} & \textbf{RNF 08} & \textbf{RNF 09} & \textbf{RNF 10} \\
+\hline
+\endfirsthead
+\endhead
+Validade &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Consistência &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Completeza &  &  &  &  & X &  &  &  &  & X \\
+\hline
+Realismo &  &  &  &  &  &  & X &  &  & X \\
+\hline
+Verificação &  &  &  &  & X &  &  &  &  &  \\
+\hline
+Ambiguidade &  &  &  &  & X & X &  &  &  &  \\
+\hline
+Rastreamento &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Redundância &  &  &  &  &  &  &  &  &  &  \\
+\hline
+Conformidade &  &  &  &  &  &  &  &  &  &  \\
+\hline
+\end{longtable}
+
+\section{Ações para Resolução dos Problemas Identificados}
+
+A partir das matrizes de verificação, foram identificados alguns requisitos que apresentam problemas de completeza, ambiguidade, realismo ou verificabilidade. As principais ações propostas para resolução ou mitigação desses problemas são:
+
+\begin{itemize}
+    \item \textbf{RF03, RF06, RF07, RNF05, RNF06, RNF10}: Refinar as descrições para detalhar critérios objetivos, remover termos vagos e garantir que todos os aspectos esperados estejam descritos.
+    \item \textbf{RF04, RF08, RNF07, RNF10}: Consultar a equipe técnica para garantir que a integração, tempo de resposta e capacidade são factíveis.
+    \item \textbf{RNF05}: Especificar critérios mensuráveis para acessibilidade (ex: conformidade com WCAG AA).
+    \item \textbf{RNF05, RF06, RF07, RNF06}: Especificar termos e métricas claras para eliminar ambiguidade.
+\end{itemize}
+
+\section{Casos de Teste para os Requisitos Funcionais}
+
+A seguir, são apresentados casos de teste para cada um dos 10 requisitos funcionais, seguindo a estrutura recomendada:
+
+\begin{longtable}{|p{0.06\textwidth}|p{0.20\textwidth}|p{0.15\textwidth}|p{0.12\textwidth}|p{0.15\textwidth}|p{0.12\textwidth}|}
+\caption{Casos de Teste para os Requisitos Funcionais}
+\label{tab:casos-teste-reqs-funcionais}\\
+\hline
+\textbf{Req.} & \textbf{Descrição} & \textbf{Pré-condição} & \textbf{Entrada} & \textbf{Procedimento} & \textbf{Resultado Esperado} \\
+\hline
+\endfirsthead
+\endhead
+RF01 & Cadastro de usuário com e-mail e senha & Usuário não cadastrado & E-mail válido, senha válida & Preencher formulário e submeter & Usuário cadastrado com sucesso \\
+\hline
+RF02 & Autenticação de usuário (login/logout) & Usuário cadastrado & E-mail e senha corretos & Preencher login e submeter & Usuário autenticado e sessão iniciada \\
+\hline
+RF03 & Registro de refeições (descrição livre ou por ingredientes) & Usuário autenticado & Descrição da refeição, ingredientes & Preencher e submeter registro & Refeição registrada e associada ao usuário \\
+\hline
+RF04 & Consulta automática de dados nutricionais via LLM & Refeição registrada & Seleção de refeição & Solicitar consulta nutricional & Dados nutricionais exibidos \\
+\hline
+RF05 & Armazenamento de dados nutricionais (kcal, macros, micros) & Dados nutricionais disponíveis & Dados nutricionais & Armazenar dados & Dados salvos e disponíveis para consulta \\
+\hline
+RF06 & Dashboard com gráficos de consumo (período personalizável) & Dados nutricionais registrados & Seleção de período & Acessar dashboard & Gráficos exibidos corretamente \\
+\hline
+RF07 & Filtros temporais para análise (dia/semana/mês) & Dados registrados & Seleção de filtro (dia/semana/mês) & Aplicar filtro & Dados filtrados exibidos \\
+\hline
+RF08 & Chat integrado para consultar LLM & Usuário autenticado & Pergunta enviada ao chat & Enviar mensagem & Resposta do LLM exibida \\
+\hline
+RF09 & Exportação de relatórios em PDF/CSV & Dados disponíveis & Seleção de formato & Solicitar exportação & Arquivo gerado e disponível para download \\
+\hline
+RF10 & Edição/exclusão de refeições registradas & Refeição registrada & Seleção de refeição, nova informação ou comando de exclusão & Editar ou excluir refeição & Alteração ou exclusão realizada com sucesso \\
+\hline
+\end{longtable}
+
+\textbf{Fonte}: Elaborado pelo autor (2025).
+
+\section{Requisitos Refinados e Corrigidos}
+
+Com base nas ações corretivas propostas e na análise detalhada das matrizes de verificação, todos os requisitos funcionais e não funcionais foram revisados e aprimorados para garantir clareza, objetividade, mensurabilidade e aderência às melhores práticas de engenharia de requisitos. A seguir, apresentam-se os requisitos refinados, já com as correções implementadas, mantendo a coesão e o alinhamento com os capítulos anteriores.
+
+\subsection{Requisitos Funcionais Refinados}
+
+\begin{longtable}{|l|p{0.70\textwidth}|}
+\caption{Requisitos Funcionais Refinados}
+\label{tab:reqs-funcionais-refinados}\\
+\hline
+\textbf{Código} & \textbf{Descrição Refinada} \\
+\hline
+\endfirsthead
+\endhead
+RF01 & O sistema deve permitir o cadastro de novos usuários mediante preenchimento de e-mail válido e senha que atenda aos critérios de segurança definidos (mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial), garantindo unicidade do e-mail e confirmação do aceite dos termos de uso. \\
+\hline
+RF02 & O sistema deve autenticar usuários cadastrados por meio de login com e-mail e senha, utilizando autenticação JWT com refresh tokens, permitindo início e término de sessão de forma segura. \\
+\hline
+RF03 & O sistema deve possibilitar o registro de refeições, permitindo ao usuário inserir uma descrição livre ou selecionar ingredientes de uma lista padronizada, associando cada refeição ao usuário autenticado e armazenando data e hora do registro. \\
+\hline
+RF04 & O sistema deve consultar automaticamente, via integração com LLM, os dados nutricionais das refeições registradas, apresentando informações detalhadas de calorias, macronutrientes e micronutrientes em até 30 segundos após a solicitação. \\
+\hline
+RF05 & O sistema deve armazenar de forma estruturada os dados nutricionais (kcal, macronutrientes e micronutrientes) de cada refeição registrada, garantindo backup diário e criptografia dos dados sensíveis. \\
+\hline
+RF06 & O sistema deve disponibilizar um dashboard interativo com gráficos de consumo nutricional, permitindo ao usuário personalizar o período de análise (dia, semana, mês), com renderização dos gráficos em até 5 segundos e precisão mínima de 99,9\%. \\
+\hline
+RF07 & O sistema deve oferecer filtros temporais (dia, semana, mês) para análise dos dados nutricionais, assegurando que os resultados exibidos correspondam exatamente ao período selecionado pelo usuário. \\
+\hline
+RF08 & O sistema deve disponibilizar um chat integrado para que o usuário possa enviar perguntas ao LLM, recebendo respostas em linguagem natural em até 30 segundos, com registro do histórico de interações. \\
+\hline
+RF09 & O sistema deve permitir a exportação de relatórios nutricionais em formato PDF e CSV, contendo todos os dados registrados pelo usuário no período selecionado, com geração do arquivo em até 10 segundos e suporte a até 10.000 registros por mês por usuário. \\
+\hline
+RF10 & O sistema deve permitir a edição e exclusão de refeições previamente registradas pelo usuário, garantindo atualização imediata dos dados nutricionais e manutenção do histórico de alterações. \\
+\hline
+\end{longtable}
+
+\subsection{Requisitos Não Funcionais Refinados}
+
+\begin{longtable}{|l|p{0.70\textwidth}|}
+\caption{Requisitos Não Funcionais Refinados}
+\label{tab:reqs-naofuncionais-refinados}\\
+\hline
+\textbf{Código} & \textbf{Descrição Refinada} \\
+\hline
+\endfirsthead
+\endhead
+RNF01 & O tempo de resposta para consultas ao LLM deve ser inferior a 30 segundos em 99,9\% das solicitações. \\
+\hline
+RNF02 & O sistema deve utilizar autenticação baseada em JWT com refresh tokens, protegendo todas as rotas sensíveis e garantindo renovação segura de sessão. \\
+\hline
+RNF03 & O sistema deve realizar backup automático diário de todos os dados nutricionais dos usuários, com retenção mínima de 30 dias e possibilidade de restauração completa. \\
+\hline
+RNF04 & Os gráficos do dashboard devem ser renderizados em até 5 segundos após a solicitação do usuário, independentemente do volume de dados. \\
+\hline
+RNF05 & A interface do sistema deve ser acessível, atendendo integralmente ao padrão WCAG 2.1 nível AA, incluindo navegação por teclado, contraste adequado e textos alternativos em imagens. \\
+\hline
+RNF06 & Os dados analíticos apresentados devem possuir precisão mínima de 99,9\%, com validação automática de consistência a cada atualização de dados. \\
+\hline
+RNF07 & A integração com o serviço Ollama (LLM) deve apresentar disponibilidade mínima de 99,95\% ao mês, com monitoramento contínuo e alertas automáticos em caso de falha. \\
+\hline
+RNF08 & Todos os dados sensíveis armazenados devem ser protegidos por criptografia AES-256, incluindo dados pessoais e nutricionais. \\
+\hline
+RNF09 & O processamento de consultas ao LLM deve ser assíncrono, permitindo múltiplas solicitações simultâneas sem bloqueio da interface do usuário. \\
+\hline
+RNF10 & O sistema deve suportar, no mínimo, 10.000 registros de refeições por mês para cada usuário, sem degradação perceptível de desempenho. \\
+\hline
+\end{longtable}
+
+\begin{center}
+    \small{\textbf{Fonte}: Elaborado pelo autor (2025).}
+\end{center}
