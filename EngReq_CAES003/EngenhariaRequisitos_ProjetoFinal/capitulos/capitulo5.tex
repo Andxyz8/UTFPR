@@ -1,2 +1,142 @@
 \chapter{Rastreamento de Requisitos}\label{cap:5-rast-req}
 
+O rastreamento de requisitos é um dos pilares da engenharia de requisitos, sendo fundamental para garantir a consistência, a completude e a evolução controlada dos artefatos de software. Segundo \cite{gotel1994traceability}, rastreamento de requisitos é a habilidade de descrever e seguir a vida de um requisito desde sua origem, passando por seu desenvolvimento e especificação, até sua implementação e uso. Reforçado por \cite{goncalves2004ieee830}, uma especificação de requisitos é rastreável quando cada exigência pode ser identificada de forma clara e referenciada em versões futuras do desenvolvimento ou documentação.
+
+O rastreamento pode ser realizado em duas direções principais: para frente e para trás. O rastreamento para frente permite acompanhar o impacto de um requisito ao longo das etapas de desenvolvimento, facilitando a análise de impacto de mudanças. Já o rastreamento para trás possibilita identificar a origem de cada requisito, seja ela um stakeholder, documento, norma ou outro artefato, permitindo compreender o contexto e a motivação de sua existência \cite{wieringa1995introduction}.
+
+\cite{pinheiro2003requirements} destaca ainda a importância do intra-rastreamento (relacionamentos entre requisitos) e do extra-rastreamento (relacionamentos entre requisitos e outros artefatos, como casos de uso, código, testes e stakeholders). O processo de rastreamento envolve etapas como definição das entidades a serem rastreadas, registro dos elos, recuperação das associações e evolução dos relacionamentos ao longo do ciclo de vida do software.
+
+Neste capítulo, são apresentadas as matrizes de rastreabilidade para trás e para frente do sistema de análise de dados nutricionais integrado a LLM, evidenciando a relação entre requisitos funcionais e não funcionais, stakeholders e casos de uso. Essas matrizes são essenciais para garantir a rastreabilidade vertical e horizontal dos requisitos, conforme as melhores práticas recomendadas na literatura e nas normas de engenharia de requisitos.
+
+\section{Matriz de Rastreabilidade para Trás}
+
+A matriz de rastreabilidade para trás dos requisitos funcionais e não funcionais podem ser vistas nas tabelas \ref{tab:matriz-rastreabilidade-atras-funcionais} e \ref{tab:matriz-rastreabilidade-atras-naofuncionais}, respectivamente.
+
+\begin{longtable}{|>{\centering\arraybackslash}p{0.12\textwidth}|>{\arraybackslash}p{0.4\textwidth}|>{\centering\arraybackslash}p{0.09\textwidth}|>{\centering\arraybackslash}p{0.20\textwidth}|}
+    \caption{Matriz de Rastreabilidade para Trás: Requisitos Funcionais x Stakeholders}
+    \label{tab:matriz-rastreabilidade-atras-funcionais}\\
+    \hline 
+    \textbf{Requisito} & \textbf{Descrição Breve} & \textbf{Usuário Final} & \textbf{Equipe de Desenvolvimento} \\
+    \hline
+    \endfirsthead
+    \endhead
+    RF01 & Cadastro de usuário com e-mail e senha & X & X \\
+    \hline
+    RF02 & Autenticação de usuário (login/logout) & X & X \\
+    \hline
+    RF03 & Registro de refeições (descrição livre ou por ingredientes) & X & X \\
+    \hline
+    RF04 & Consulta automática de dados nutricionais via LLM & X & X \\
+    \hline
+    RF05 & Armazenamento de dados nutricionais (kcal, macros, micros) & X & X \\
+    \hline
+    RF06 & Dashboard com gráficos de consumo (período personalizável) & X & X \\
+    \hline
+    RF07 & Filtros temporais para análise (dia/semana/mês) & X & X \\
+    \hline
+    RF08 & Chat integrado para consultar LLM & X & X \\
+    \hline
+    RF09 & Exportação de relatórios em PDF/CSV & X & X \\
+    \hline
+    RF10 & Edição/exclusão de refeições registradas & X & X \\
+    \hline
+\end{longtable}
+\begin{center} \small{\textbf{Fonte}: Elaborado pelo autor (2025).} \end{center}
+
+\begin{longtable}{|>{\centering\arraybackslash}p{0.12\textwidth}|>{\arraybackslash}p{0.4\textwidth}|>{\centering\arraybackslash}p{0.09\textwidth}|>{\centering\arraybackslash}p{0.20\textwidth}|}
+    \caption{Matriz de Rastreabilidade para Trás: RNFs x Stakeholders}
+    \label{tab:matriz-rastreabilidade-atras-naofuncionais}\\
+    \hline 
+    \textbf{Requisito} & \textbf{Descrição Breve} & \textbf{Usuário Final} & \textbf{Equipe de Desenvolvimento} \\
+    \hline
+    \endfirsthead
+    \endhead
+    RNF01 & Tempo de resposta $<30$s para consultas ao LLM & X & X \\
+    \hline
+    RNF02 & Autenticação via JWT com refresh tokens & X & X \\
+    \hline
+    RNF03 & Backup diário dos dados nutricionais &  & X \\
+    \hline
+    RNF04 & Renderização de gráficos em $<5$s & X & X \\
+    \hline
+    RNF05 & Interface acessível (WCAG AA) & X & X \\
+    \hline
+    RNF06 & Dados analíticos consistentes (99.9\% precisão) & X & X \\
+    \hline
+    RNF07 & Integração estável com Ollama (uptime 99.95\%) & X & X \\
+    \hline
+    RNF08 & Criptografia AES-256 para dados sensíveis & X & X \\
+    \hline
+    RNF09 & Processamento assíncrono de consultas ao LLM & X & X \\
+    \hline
+    RNF10 & Suporte a 10k registros/mês/usuário & X & X \\
+    \hline
+\end{longtable}
+\begin{center} \small{\textbf{Fonte}: Elaborado pelo autor (2025).} \end{center}
+
+\section{Matriz de Rastreabilidade para Frente}
+
+A matriz de rastreabilidade para frente dos requisitos funcionais e não funcionais podem ser vistos, respectivamente, nas tabelas \ref{tab:matriz-rastreabilidade-frente-funcionais} e \ref{tab:matriz-rastreabilidade-frente-naofuncionais}.
+
+\begin{longtable}{|>{\centering\arraybackslash}p{0.10\textwidth}|*{10}{>{\centering\arraybackslash}p{0.06\textwidth}|}}
+    \caption{Matriz de Rastreabilidade para Frente: RFs x Casos de Uso}
+    \label{tab:matriz-rastreabilidade-frente-funcionais}\\
+    \hline
+    \textbf{Requisito} & \textbf{UC01} & \textbf{UC02} & \textbf{UC03} & \textbf{UC04} & \textbf{UC05} & \textbf{UC06} & \textbf{UC07} & \textbf{UC08} & \textbf{UC09} & \textbf{UC10} \\
+    \hline
+    \endfirsthead
+    \endhead
+    RF01 & X & & & & & & & & & \\
+    \hline
+    RF02 & & X & & & & & & & & \\
+    \hline
+    RF03 & & & X & & & & & & & \\
+    \hline
+    RF04 & & & & X & & & & & & \\
+    \hline
+    RF05 & & & & & X & & & & & \\
+    \hline
+    RF06 & & & & & & X & & & & \\
+    \hline
+    RF07 & & & & & & & X & & & \\
+    \hline
+    RF08 & & & & & & & & X & & \\
+    \hline
+    RF09 & & & & & & & & & X & \\
+    \hline
+    RF10 & & & & & & & & & & X \\
+    \hline
+\end{longtable}
+\begin{center} \small{\textbf{Fonte}: Elaborado pelo autor (2025).} \end{center}
+
+
+\begin{longtable}{|>{\centering\arraybackslash}p{0.10\textwidth}|*{10}{>{\centering\arraybackslash}p{0.06\textwidth}|}}
+    \caption{Matriz de Rastreabilidade para Frente: RNFs x Casos de Uso}
+    \label{tab:matriz-rastreabilidade-frente-naofuncionais}\\
+    \hline
+    \textbf{Requisito} & \textbf{UC01} & \textbf{UC02} & \textbf{UC03} & \textbf{UC04} & \textbf{UC05} & \textbf{UC06} & \textbf{UC07} & \textbf{UC08} & \textbf{UC09} & \textbf{UC10} \\
+    \hline
+    \endfirsthead
+    \endhead
+    RNF01 & & & & X & & & & X & & \\
+    \hline
+    RNF02 & X & X & & & & & & & & \\
+    \hline
+    RNF03 & & & & & X & & & & & X \\
+    \hline
+    RNF04 & & & & & & X & & & & \\
+    \hline
+    RNF05 & X & & X & & & & & & & \\
+    \hline
+    RNF06 & & & & & & X & X & & X & \\
+    \hline
+    RNF07 & & & & X & & & & X & & \\
+    \hline
+    RNF08 & X & & & & & & & & & X \\
+    \hline
+    RNF09 & & & & X & & & & X & & \\
+    \hline
+    RNF10 & & & & & & & & & X & \\
+    \hline 
+\end{longtable}
+\begin{center} \small{\textbf{Fonte}: Elaborado pelo autor (2025).} \end{center}
