@@ -101,6 +101,7 @@ transcript
 *.fdb_latexmk
 *.fls
 *.gz
+*.lof
 
 # Arquivos do LaTeX
 *.lot
