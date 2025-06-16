@@ -1,2 +1,49 @@
 \chapter{Gerência de Requisitos com Rastreamento de Dependências}\label{cap:7-ger-req-rast-dep}
 
+A gerência de requisitos com rastreamento de dependências é uma etapa fundamental para garantir o controle das mudanças e a compreensão do impacto que alterações em um requisito podem causar em outros artefatos do sistema. Segundo \cite{oberg2000usecases}, o gerenciamento de requisitos visa estabelecer e manter a concordância entre cliente e desenvolvedores durante todo o ciclo de vida do projeto, especialmente diante de mudanças inevitáveis. Já \cite{sommerville2003engenharia} destaca que o gerenciamento de requisitos é o processo de compreender e controlar as mudanças nos requisitos, sendo o rastreamento de dependências essencial para identificar relações, dependências e impactos entre requisitos funcionais e não funcionais.
+
+Neste capítulo, será apresentada uma matriz de rastreamento de dependências entre os requisitos funcionais e não funcionais do sistema de análise de dados nutricionais integrado a LLM, conforme refinados no capítulo anterior. Essa matriz permite visualizar de forma clara como requisitos de diferentes naturezas se influenciam, facilitando a análise de impacto e o planejamento de mudanças. Além disso, será calculado o custo de alteração de cada requisito, considerando o número de dependências cruzadas, conforme metodologia sugerida em aula: para cada dependência identificada, soma-se 1 ponto ao custo de alteração do requisito.
+
+\section{Matriz de Rastreamento de Dependências}
+
+A matriz a seguir apresenta as dependências entre os requisitos funcionais (RF) e não funcionais (RNF). Uma célula marcada com ``X'' indica que o requisito funcional depende diretamente do requisito não funcional correspondente, conforme detalhado na seção de requisitos refinados. O custo de alteração de cada requisito é calculado pela soma das dependências identificadas na matriz.
+
+\begin{longtable}{|p{0.07\textwidth}|*{10}{p{0.0555\textwidth}|}|p{0.06\textwidth}|}
+\caption{Matriz de Dependências: Requisitos Não Funcionais x Funcionais e Custo de Alteração}
+\label{tab:matriz-dependencias-rnf-rf}\\
+\hline
+ & RF01 & RF02 & RF03 & RF04 & RF05 & RF06 & RF07 & RF08 & RF09 & RF10 & \textbf{Custo} \\
+\hline
+\endfirsthead
+\endhead
+RNF01 &  &  & X & X &  & X & X & X &  &  & 5 \\
+\hline
+RNF02 & X & X &  &  &  &  &  &  &  &  & 2 \\
+\hline
+RNF03 &  &  &  &  & X &  &  &  &  & X & 2 \\
+\hline
+RNF04 &  &  &  &  &  & X &  &  &  &  & 1 \\
+\hline
+RNF05 & X & X & X &  &  &  &  &  &  &  & 3 \\
+\hline
+RNF06 &  &  &  &  &  & X & X &  & X &  & 3 \\
+\hline
+RNF07 &  &  &  & X & X &  &  & X &  &  & 3 \\
+\hline
+RNF08 &  &  & X &  & X &  &  &  &  & X & 3 \\
+\hline
+RNF09 &  &  &  & X &  &  &  & X &  &  & 2 \\
+\hline
+RNF10 &  &  &  &  &  &  &  &  & X &  & 1 \\
+\hline
+\textbf{Custo} & 2 & 2 & 3 & 3 & 3 & 3 & 2 & 3 & 2 & 2 & \textbf{25} \\
+\hline
+\end{longtable}
+
+\noindent O custo total para alterar os requisitos não funcionais, considerando suas dependências com os requisitos funcionais, é de \textbf{25 pontos}.
+
+\section{Análise dos Custos de Alteração}
+
+A análise das matrizes evidencia que alterações em requisitos funcionais ou não funcionais podem ter impactos significativos em outros requisitos, devido ao alto grau de dependência cruzada. Requisitos funcionais fortemente dependentes de requisitos não funcionais críticos (como desempenho, segurança e disponibilidade) tendem a ter custos de alteração mais elevados. Da mesma forma, requisitos não funcionais que suportam múltiplas funcionalidades também apresentam custos elevados para mudanças.
+
+O rastreamento de dependências, portanto, é essencial para subsidiar decisões de gerenciamento de mudanças, permitindo estimar o esforço necessário, priorizar solicitações e mitigar riscos de impacto negativo na qualidade e na integridade do sistema.
