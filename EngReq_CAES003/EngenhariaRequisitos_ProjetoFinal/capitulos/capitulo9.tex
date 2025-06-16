@@ -107,18 +107,20 @@ Neste ponto, o UUCP total é 60, o que representa uma redução de 33 pontos em 
 \begin{itemize}
     \item RF01: Cadastro de usuário (5 pontos)
     \item RF03: Registro de refeições (10 pontos)
-    \item RF04: Consulta nutricional via LLM (15 pontos)
+    \item RF04: Consulta automática de dados nutricionais via LLM (15 pontos)
     \item RF05: Armazenamento de dados nutricionais (10 pontos)
-    \item RF06: Dashboard (15 pontos)
+    \item RF06: Dashboard com gráficos de consumo (15 pontos)
 \end{itemize}
 
 \textbf{Total UUCW mantido:} 5 + 10 + 15 + 10 + 15 = 55
 
 \textbf{UUCP final:} 5 (UAW) + 55 (UUCW) = 60
 
-\textbf{Redução de UCCP final:} (93 - 60) / 93 = 35,5\%
+\textbf{Redução de UUCP final:} (93 - 60) / 93 = 35,5\%
 
 A redução obtida supera a meta estabelecida, mantendo o equilíbrio entre otimização de custos e atendimento aos objetivos do projeto.
+
+\textbf{Atores Remanescentes:} Após a redução de escopo, permanecem os seguintes atores no sistema: usuário final via interface web (ator complexo), serviço externo de autenticação (removido junto com RF02), e demais serviços associados aos casos de uso mantidos. O UAW final é 5, compatível com os casos de uso remanescentes.
 
 \section{Listagem dos Casos de Uso Após Redução}
 
@@ -132,13 +134,13 @@ A redução obtida supera a meta estabelecida, mantendo o equilíbrio entre otim
 \endhead
 RF01 & Cadastro de usuário & Essencial \\
 \hline
-RF02 & Registro de refeições & Essencial \\
+RF03 & Registro de refeições & Essencial \\
 \hline
-RF03 & Consulta automática de dados nutricionais via LLM & Essencial \\
+RF04 & Consulta automática de dados nutricionais via LLM & Essencial \\
 \hline
-RF04 & Armazenamento de dados nutricionais & Essencial \\
+RF05 & Armazenamento de dados nutricionais & Essencial \\
 \hline
-RF05 & Dashboard com gráficos de consumo & Importante \\
+RF06 & Dashboard com gráficos de consumo & Importante \\
 \hline
 \end{longtable}
 
