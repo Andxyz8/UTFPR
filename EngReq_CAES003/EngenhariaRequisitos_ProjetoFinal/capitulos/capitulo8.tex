@@ -1,2 +1,167 @@
 \chapter{Gerenciamento de Requisitos com Use Case Points}\label{cap:8-ger-req-use-case-points}
 
+A técnica de Use Case Points (UCP) é amplamente utilizada para estimar o tamanho funcional e o esforço de desenvolvimento de sistemas orientados a casos de uso. Proposta por Gustav Karner (1993), a abordagem baseia-se na análise dos atores, casos de uso, fatores técnicos e fatores ambientais, permitindo uma estimativa quantitativa fundamentada e alinhada às melhores práticas de engenharia de requisitos. Este capítulo apresenta o cálculo completo dos Use Case Points para o sistema de análise de dados nutricionais integrado a LLM, utilizando os requisitos funcionais e não funcionais refinados no capítulo anterior.
+
+\section{Cálculo dos Use Case Points}
+
+O cálculo dos Use Case Points segue os seguintes passos:
+
+\subsection{Classificação e Peso dos Atores (UAW)}
+
+Considerando o contexto do sistema:
+\begin{itemize}
+    \item \textbf{Usuário final via interface web (ator complexo):} 1 (peso 3)
+    \item \textbf{Sistema externo de autenticação (ator médio):} 1 (peso 2)
+    \item \textbf{Serviço LLM/Ollama Local (ator médio):} 1 (peso 2)
+    \item \textbf{Serviço de exportação de relatórios (ator simples):} 1 (peso 1)
+\end{itemize}
+
+\textbf{Cálculo:}
+\\
+UAW = (1 x 3) + (2 x 2) + (1 x 1) = 3 + 4 + 1 = \textbf{8}
+
+\subsection{Classificação e Peso dos Casos de Uso (UUCW)}
+
+Com base nos requisitos funcionais refinados, a classificação dos casos de uso é:
+\begin{itemize}
+    \item \textbf{Simples (até 3 transações):} RF01, RF02, RF07, RF09, RF10 (5 casos, peso 5)
+    \item \textbf{Médio (4 a 7 transações):} RF03, RF05, RF08 (3 casos, peso 10)
+    \item \textbf{Complexo (mais de 7 transações):} RF04, RF06 (2 casos, peso 15)
+\end{itemize}
+
+\textbf{Cálculo:}
+\\
+UUCW = (5 x 5) + (3 x 10) + (2 x 15) = 25 + 30 + 30 = \textbf{85}
+
+\subsection{Pontos de Caso de Uso Não Ajustados (UUCP)}
+
+UUCP = UAW + UUCW = 8 + 85 = \textbf{93}
+
+\subsection{Fatores Técnicos (TCF)}
+
+Os fatores técnicos são avaliados conforme a influência dos requisitos não funcionais e as características do sistema. Atribui-se um valor de 0 (irrelevante) a 5 (essencial) para cada fator, multiplicado pelo peso correspondente:
+
+\begin{longtable}{|p{0.45\textwidth}|c|c|c|}
+\caption{Fatores Técnicos para o Sistema}
+\label{tab:fatores-tecnicos}\\
+\hline
+\textbf{Fator} & \textbf{Peso} & \textbf{Valor} & \textbf{Total} \\
+\hline
+\endfirsthead
+\endhead
+F1. Sistemas distribuídos (integração LLM, exportação) & 2 & 4 & 8 \\
+\hline
+F2. Tempo de resposta (RNF01, RNF04) & 1 & 4 & 4 \\
+\hline
+F3. Eficiência para o usuário final (dashboard, filtros) & 1 & 4 & 4 \\
+\hline
+F4. Processamento interno complexo (análise, LLM) & 1 & 4 & 4 \\
+\hline
+F5. Código reusável & 1 & 3 & 3 \\
+\hline
+F6. Facilidade de instalação & 0.5 & 2 & 1 \\
+\hline
+F7. Facilidade de uso (usabilidade, acessibilidade) & 0.5 & 5 & 2.5 \\
+\hline
+F8. Portabilidade & 2 & 2 & 4 \\
+\hline
+F9. Facilidade de mudança (requisitos rastreáveis) & 1 & 4 & 4 \\
+\hline
+F10. Concorrência (acesso simultâneo) & 1 & 3 & 3 \\
+\hline
+F11. Recursos de segurança (autenticação, criptografia) & 1 & 5 & 5 \\
+\hline
+F12. Fornece acesso direto para terceiros & 1 & 2 & 2 \\
+\hline
+F13. Requer treinamento especial para o usuário & 1 & 1 & 1 \\
+\hline
+\textbf{Total} & & & \textbf{45,5} \\
+\hline
+\end{longtable}
+
+\begin{center}
+    \small{\textbf{Fonte}: Elaborado pelo autor (2025).}
+\end{center}
+
+
+\textbf{TCF = 0,6 + (0,01 x 45,5) = 0,6 + 0,455 = 1,055}
+
+\subsection{5. Fatores Ambientais (ECF)}
+
+Os fatores ambientais refletem o contexto da equipe e do projeto. Atribui-se um valor de 0 (irrelevante) a 5 (essencial) para cada fator, multiplicado pelo peso correspondente:
+
+\begin{longtable}{|p{0.45\textwidth}|c|c|c|}
+\caption{Fatores Ambientais para o Sistema}
+\label{tab:fatores-ambientais}\\
+\hline
+\textbf{Fator} & \textbf{Peso} & \textbf{Valor} & \textbf{Total} \\
+\hline
+\endfirsthead
+\endhead
+F1. Familiaridade da equipe com processo formal & 1.5 & 5 & 7,5 \\
+\hline
+F2. Colaboradores de meio período & -1 & 0 & 0 \\
+\hline
+F3. Capacidade do líder em análise/modelagem & 0.5 & 4 & 2 \\
+\hline
+F4. Experiência em aplicações do gênero & 0.5 & 3 & 1.5 \\
+\hline
+F5. Experiência em OO & 1 & 5 & 5 \\
+\hline
+F6. Motivação da equipe & 1 & 5 & 5 \\
+\hline
+F7. Dificuldade com linguagem de programação & -1 & 0 & 0 \\
+\hline
+F8. Requisitos estáveis & 2 & 4 & 8 \\
+\hline
+\textbf{Total} & & & \textbf{29} \\
+\hline
+\end{longtable}
+
+\begin{center}
+    \small{\textbf{Fonte}: Elaborado pelo autor (2025).}
+\end{center}
+
+
+
+\textbf{ECF = 1,4 + (-0,03 x 29) = 1,4 - 0,765 = 0,53}
+
+\subsection{Cálculo Final dos Use Case Points (UCP)}
+
+UCP = UUCP x TCF x ECF = 93 x 1,055 x 0,53 = \textbf{52}
+
+Considerando a recomendação de Karner de 10 horas por UCP para ambientes modernos:
+\\
+\textbf{Tempo estimado total = 52 x 10 = 520 horas de trabalho}
+
+\section{Justificativa dos Valores dos Fatores Técnicos e Ambientais}
+
+\textbf{Fatores Técnicos:}
+\begin{itemize}
+    \item \textbf{Sistemas distribuídos:} integração com LLM, exportação e autenticação externa justificam valor alto.
+    \item \textbf{Tempo de resposta:} requisitos de desempenho rigorosos (RNF01, RNF04) exigem alta prioridade.
+    \item \textbf{Eficiência para o usuário:} dashboard, filtros e exportação demandam respostas rápidas e interface fluida.
+    \item \textbf{Processamento interno complexo:} análise nutricional, integração com IA e geração de relatórios são processos sofisticados.
+    \item \textbf{Código reusável:} o sistema prevê componentes reutilizáveis, mas não é o foco principal.
+    \item \textbf{Facilidade de instalação:} moderada, pois o sistema será web, mas pode envolver dependências externas.
+    \item \textbf{Facilidade de uso:} usabilidade e acessibilidade são essenciais (RNF05).
+    \item \textbf{Portabilidade:} importante, mas não crítica, pois o sistema é web.
+    \item \textbf{Facilidade de mudança:} o rastreamento e a documentação favorecem mudanças controladas.
+    \item \textbf{Concorrência:} acesso simultâneo é relevante, mas não extremo.
+    \item \textbf{Segurança:} criptografia, autenticação e proteção de dados são essenciais (RNF02, RNF08).
+    \item \textbf{Acesso para terceiros:} integrações externas existem, mas não são o foco central.
+    \item \textbf{Treinamento especial:} o sistema é intuitivo, mas pode exigir treinamento mínimo para uso avançado.
+\end{itemize}
+
+\textbf{Fatores Ambientais:}
+\begin{itemize}
+    \item \textbf{Familiaridade com processo formal:} equipe experiente em processos de engenharia de requisitos.
+    \item \textbf{Colaboradores de meio período:} não se aplica ao contexto.
+    \item \textbf{Capacidade do líder:} liderança técnica consolidada.
+    \item \textbf{Experiência em aplicações do gênero:} equipe possui experiência moderada.
+    \item \textbf{Experiência em OO:} equipe domina orientação a objetos.
+    \item \textbf{Motivação da equipe:} alta motivação devido ao desafio tecnológico.
+    \item \textbf{Dificuldade com linguagem:} a equipe domina as tecnologias propostas.
+    \item \textbf{Requisitos estáveis:} requisitos bem definidos e rastreados, com baixa volatilidade esperada.
+\end{itemize}
+
