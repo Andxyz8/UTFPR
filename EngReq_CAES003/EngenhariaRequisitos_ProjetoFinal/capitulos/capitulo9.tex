@@ -53,7 +53,7 @@ Com base nos requisitos funcionais refinados (capítulo 6), a classificação do
     \item \textbf{Desejáveis:} RF07 (Filtros temporais), RF09 (Exportação de relatórios)
 \end{itemize}
 
-\subsection{Remoção dos Casos de Uso de Menor Prioridade}
+\subsection{Processo de Remoção de Casos de Uso}
 
 A distribuição dos pontos dos casos de uso (UUCW) é:
 
@@ -63,9 +63,8 @@ A distribuição dos pontos dos casos de uso (UUCW) é:
     \item \textbf{Complexo (15 pontos):} RF04, RF06
 \end{itemize}
 
-O UAW permanece constante em 8, pois não há alteração nos atores do sistema. Portanto, a redução será realizada exclusivamente sobre o UUCW.
+Para reduzir o UUCP de 93 para 65,1, serão removidos os casos de uso desejáveis e, se necessário, os importantes de menor impacto. A seguir, detalha-se o processo de remoção:
 
-% Remoção dos casos de uso de menor prioridade
 Removendo inicialmente os casos de uso desejáveis (RF07 e RF09):
 
 \begin{itemize}
@@ -149,7 +148,7 @@ RF06 & Dashboard com gráficos de consumo & Importante \\
 O diagrama de casos de uso atualizado, refletindo a redução de escopo, é apresentado na Figura \ref{fig:casos-uso-reducao}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{Figuras/casos-uso-reducao.png}
+    \includegraphics[width=0.7\textwidth]{Figuras/casos-uso-reducao.png}
     \caption{Diagrama de Casos de Uso após redução de escopo}
     \label{fig:casos-uso-reducao}
 \end{figure}
