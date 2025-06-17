@@ -10,7 +10,7 @@ Neste trabalho, labirintos em ASCII são empregados como um domínio controlado 
 
 \subsection{LLMs - Large Language Models}
 
-Os modelos de linguagem de grande escala (\textit{Large Language Models} - LLMs) representam um marco no avanço do Processamento de Linguagem Natural (PLN), resultado de uma trajetória que abrange desde: modelos estatísticos, como n-gram; passando por modelos baseados em \textit{word embeddings}, como Word2Vec \cite{mikolov2013distributed}; \textit{Recurrent Neural Networks} (RNNs) e \textit{Long Short-Term Memory} (LSTM) \cite{hochreiter1997long} e, mais recentemente, arquiteturas baseadas em \textit{transformers} \cite{jurafsky2025slp3}.
+Os LLMs representam um marco no avanço do Processamento de Linguagem Natural (PLN), resultado de uma trajetória que abrange: modelos estatísticos, como n-gram; passando por modelos baseados em \textit{word embeddings}, como Word2Vec \cite{mikolov2013distributed}; \textit{Recurrent Neural Networks} (RNNs) e \textit{Long Short-Term Memory} (LSTM) \cite{hochreiter1997long} e, mais recentemente, arquiteturas baseadas em \textit{transformers} \cite{jurafsky2025slp3}.
 
 \subsubsection{Arquitetura Transformer e Mecanismo de Atenção}
 
@@ -72,7 +72,7 @@ Em outra abordagem, \cite{hsu2025whatmakesmazelooklike} propuseram o framework D
 
 \subsubsection{Raciocínio Espacial em LLMs}
 
-O raciocínio espacial em LLMs tem sido explorado por diferentes abordagens, buscando adaptar esses modelos para tarefas que exigem compreensão e manipulação de ambientes estruturados, como labirintos em ASCII.
+O raciocínio espacial em LLMs tem sido explorado por diferentes abordagens, buscando adaptar esses modelos para tarefas que exigem compreensão e manipulação de ambientes estruturados.
 
 O AlphaMaze \cite{dao2025alphamaze} propõe um processo em duas etapas: inicialmente, o modelo é ajustado via Supervised Fine-Tuning (SFT) para aprender comandos de movimentação em labirintos textuais; em seguida, utiliza-se o Group Relative Policy Optimization (GRPO) para aprimorar o raciocínio e a autocorreção. O MazeBench é empregado para avaliar o desempenho dos modelos em diferentes níveis de dificuldade, evidenciando ganhos após o GRPO.
 
@@ -80,7 +80,7 @@ Em paralelo, \cite{wang2024pictureworththousandwords} questionam a vantagem de m
 
 Outras abordagens, como o Chain-of-Symbol (COS) Prompting \cite{hu2024chainofsymbol}, convertem descrições em linguagem natural para representações simbólicas intermediárias, otimizando o planejamento espacial e reduzindo o uso de tokens. Já o Visualization of Thought (VoT) \cite{wu2024visualizationofthought} estimula a geração de representações visuais em ASCII art, inspirando-se na cognição humana para melhorar o acompanhamento de estados e o planejamento de ações. Embora o VoT apresente avanços em determinados cenários, sua eficácia depende das habilidades emergentes dos modelos e da qualidade dos prompts, sendo limitado em tarefas mais complexas ou com modelos menos robustos.
 
-Ainda, mesmo com avanços recentes, variantes como os Large Reasoning Models (LRMs) — que incorporam mecanismos explícitos de raciocínio, como cadeias de pensamento (\textit{Chain-of-Thought} \cite{wei2023chainofthought}) e auto-reflexão — ainda enfrentam desafios em tarefas de alta complexidade, apresentando limitações na generalização e fenômenos como raciocínio redundante ou ineficiente \cite{shojaee2025illusionthinking}.
+Ainda, mesmo com avanços recentes, variantes como os LRMs, que incorporam mecanismos explícitos de raciocínio, como cadeias de pensamento (\textit{Chain-of-Thought} \cite{wei2023chainofthought}) e auto-reflexão, ainda enfrentam desafios em tarefas de alta complexidade, apresentando limitações na generalização e fenômenos como raciocínio redundante ou ineficiente \cite{shojaee2025illusionthinking}.
 
 Por fim, no contexto deste trabalho, o raciocínio espacial é central, pois o objetivo é investigar como LLMs podem ser ajustados e analisados para resolver labirintos representados em ASCII. As abordagens discutidas na literatura fornecem subsídios para a escolha de técnicas de fine-tuning e avaliação, além de motivar o uso de ferramentas de explicabilidade para compreender como as representações internas dos modelos evoluem ao longo do treinamento.
 
@@ -88,12 +88,10 @@ Por fim, no contexto deste trabalho, o raciocínio espacial é central, pois o o
 
 O fine-tuning de LLMs para tarefas específicas é um tema amplamente investigado, com diferentes estratégias sendo propostas para aprimorar a adaptação dos modelos. Por exemplo, \cite{jiang2024supervised} demonstra que o uso de SFT pode melhorar tanto as representações internas quanto a capacidade de generalização, mesmo em modelos visuais, evidenciando a importância do ajuste direcionado para tarefas de raciocínio espacial.
 
-Além disso, \cite{hsieh2023distillingstepbystep} propõem a utilização de rationales gerados por LLMs como supervisão adicional em um cenário multitarefa, combinando rótulos e explicações para enriquecer o sinal de treinamento. Essa abordagem, baseada em Chain-of-Thought prompting \cite{wei2023chainofthought}, permite que modelos menores alcancem desempenho superior a LLMs maiores, mesmo com menos dados, ao tornar o processo de ajuste mais eficiente e interpretável.
-
-No contexto deste trabalho, a integração de racionalizações se mostra relevante para aprimorar a eficiência e a interpretabilidade dos modelos em tarefas como a resolução de labirintos ASCII.
+Além disso, \cite{hsieh2023distillingstepbystep} propõem a utilização de rationales gerados por LLMs como supervisão adicional em um cenário multitarefa, combinando rótulos e explicações para enriquecer o sinal de treinamento. Essa abordagem, baseada em Chain-of-Thought prompting \cite{wei2023chainofthought}, permite que modelos menores alcancem desempenho superior a LLMs maiores, mesmo com menos dados, ao tornar o processo de ajuste mais eficiente e interpretável. No contexto deste trabalho, a integração de racionalizações se mostra relevante para aprimorar a eficiência e a interpretabilidade dos modelos.
 
 \subsubsection{Explicabilidade em LLMs}
 
-A explicabilidade em LLMs é um campo em expansão, com abordagens que buscam tornar os modelos mais transparentes e compreensíveis. A biblioteca LLM-MRI \cite{costa2024llmmri} destaca-se por permitir a análise e visualização das ativações neuronais, facilitando a interpretação de como os modelos se adaptam a tarefas específicas, como a navegação em labirintos ASCII.
+A explicabilidade em LLMs é um campo em expansão, com abordagens que buscam tornar os modelos mais transparentes e compreensíveis. A biblioteca LLM-MRI \cite{costa2024llmmri} destaca-se por permitir a análise e visualização das ativações neuronais, facilitando a interpretação de como os modelos se adaptam a tarefas específicas.
 
 Complementarmente, \cite{wu2025usablexai10strategies} propõem o conceito de Usable XAI, que enfatiza a aplicação prática das explicações para diagnóstico e aprimoramento dos modelos. Entre as estratégias discutidas estão métodos de atribuição, análise das ativações internas e explicações baseadas em exemplos, todas relevantes para entender a evolução das representações internas durante o fine-tuning. A integração dessas abordagens contribui para identificar limitações, corrigir vieses e aprimorar o desempenho dos modelos em tarefas que exigem alto grau de interpretabilidade.
