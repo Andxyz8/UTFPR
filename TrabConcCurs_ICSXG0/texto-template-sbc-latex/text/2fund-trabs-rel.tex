@@ -27,7 +27,7 @@ Modelos recentes, como o BERT \cite{devlin2019bert}, utilizam apenas o encoder, 
 
 \subsubsection{Pré-treinamento e fine-tuning}
 
-O treinamento dos LLMs ocorre em duas etapas principais: pré-treinamento e ajuste fino (\textit{fine-tuning}). No pré-treinamento, os modelos são expostos a grandes volumes de dados textuais não rotulados, aprendendo representações linguísticas gerais por meio de tarefas como predição de palavras mascaradas ou geração de texto \cite{tunstall2022nlptransformers}. Essa etapa é fundamental para fornecer aos modelos capacidades de compreensão e geração de linguagem \cite{zhao2025surveyllms}. O \textit{fine-tuning}, abordado em seção específica deste trabalho (\ref{sec:fund-finetuning}), especializa o modelo para tarefas ou domínios específicos.
+O treinamento dos LLMs ocorre em duas etapas principais: pré-treinamento e ajuste fino (\textit{fine-tuning}). No pré-treinamento, os modelos são expostos a grandes volumes de dados textuais não rotulados, aprendendo representações linguísticas gerais por meio de tarefas como predição de palavras mascaradas ou geração de texto \cite{tunstall2022nlptransformers}. Essa etapa é fundamental para fornecer aos modelos capacidades de compreensão e geração de linguagem \cite{zhao2025surveyllms}. O \textit{fine-tuning}, abordado em seção específica deste trabalho (\ref{sec:fund-finetuning}), permite especializar o modelo para tarefas ou domínios específicos.
 
 \subsubsection{Modelos Atuais}
 
@@ -43,7 +43,7 @@ O \textbf{SFT} consiste no ajuste supervisionado do modelo utilizando conjuntos 
 
 Já o \textbf{GRPO} é uma técnica baseada em otimização de políticas relativas a grupos, utilizada para aprimorar o desempenho do modelo considerando preferências coletivas de múltiplos usuários ou agentes. No GRPO, o modelo é ajustado para maximizar a satisfação de critérios definidos por grupos, promovendo respostas mais alinhadas a contextos colaborativos ou multiusuário \cite{dao2025alphamaze}. Essa abordagem é especialmente relevante em cenários onde a diversidade de preferências e estratégias é importante para o sucesso da tarefa.
 
-Essas estratégias são relevantes para o presente estudo, pois permitem investigar como diferentes métodos de ajuste impactam o desempenho dos LLMs em tarefas de raciocínio espacial.
+Essas estratégias são relevantes para o presente estudo, pois permitem investigar como diferentes métodos de ajuste podem impactar o desempenho dos LLMs em tarefas de raciocínio espacial.
 
 \subsection{Explicabilidade em LLMs}
 
@@ -51,7 +51,7 @@ Apesar do alto desempenho, LLMs são frequentemente criticados por seu caráter 
 
 A explicabilidade em LLMs pode ser abordada sob diferentes perspectivas. Do ponto de vista do usuário final, explicações claras e acessíveis são essenciais para promover confiança e permitir o uso responsável dos modelos em aplicações sensíveis, como saúde, educação e finanças. Para pesquisadores e desenvolvedores, a explicabilidade atua como ferramenta de diagnóstico, facilitando a identificação de vieses, falhas e oportunidades de aprimoramento dos modelos \cite{zhao2023explainability, luo2024fromunderstanding}.
 
-As principais técnicas de explicabilidade para LLMs incluem métodos de atribuição de importância a tokens (feature attribution), análise de camadas internas, visualização de mecanismos de atenção e explicações baseadas em exemplos. Recentemente, abordagens baseadas em prompts e cadeias de raciocínio (\textit{chain-of-thought}) também têm sido exploradas para tornar o processo de decisão dos modelos mais interpretável \cite{zhao2023explainability}. No entanto, o aumento da escala e da complexidade dos LLMs impõe desafios adicionais, tornando a geração de explicações confiáveis e compreensíveis uma tarefa ainda em aberto.
+As principais técnicas de explicabilidade para LLMs incluem métodos de atribuição de importância a tokens (feature attribution), análise de camadas internas, visualização de mecanismos de atenção e explicações baseadas em exemplos. Recentemente, abordagens baseadas em prompts e cadeias de raciocínio (\textit{chain-of-thought} \cite{wei2023chainofthought}) também têm sido exploradas para tornar o processo de decisão dos modelos mais interpretável \cite{zhao2023explainability}. No entanto, o aumento da escala e da complexidade dos LLMs impõe desafios adicionais, tornando a geração de explicações confiáveis e compreensíveis uma tarefa ainda em aberto.
 
 Além disso, a literatura destaca a importância de desenvolver métricas e benchmarks específicos para avaliar a qualidade das explicações geradas, bem como de promover a integração entre avanços em LLMs e técnicas de XAI (Explainable AI) \cite{cambria2024xai}. O avanço conjunto dessas áreas é fundamental para garantir o uso ético, seguro e transparente dos modelos de linguagem em aplicações reais.
 
@@ -88,7 +88,7 @@ Por fim, no contexto deste trabalho, o raciocínio espacial é central, pois o o
 
 O fine-tuning de LLMs para tarefas específicas é um tema amplamente investigado, com diferentes estratégias sendo propostas para aprimorar a adaptação dos modelos. Por exemplo, \cite{jiang2024supervised} demonstra que o uso de SFT pode melhorar tanto as representações internas quanto a capacidade de generalização, mesmo em modelos visuais, evidenciando a importância do ajuste direcionado para tarefas de raciocínio espacial.
 
-Além disso, \cite{hsieh2023distillingstepbystep} propõem a utilização de rationales gerados por LLMs como supervisão adicional em um cenário multitarefa, combinando rótulos e explicações para enriquecer o sinal de treinamento. Essa abordagem, baseada em Chain-of-Thought prompting \cite{wei2023chainofthought}, permite que modelos menores alcancem desempenho superior a LLMs maiores, mesmo com menos dados, ao tornar o processo de ajuste mais eficiente e interpretável. No contexto deste trabalho, a integração de racionalizações se mostra relevante para aprimorar a eficiência e a interpretabilidade dos modelos.
+Além disso, \cite{hsieh2023distillingstepbystep} propõem a utilização de \textit{rationales} gerados por LLMs como supervisão adicional em um cenário multitarefa, combinando rótulos e explicações para enriquecer o sinal de treinamento. Essa abordagem, baseada em Chain-of-Thought prompting \cite{wei2023chainofthought}, permite que modelos menores alcancem desempenho superior a LLMs maiores, mesmo com menos dados, ao tornar o processo de ajuste mais eficiente e interpretável. No contexto deste trabalho, a integração de racionalizações se mostra relevante para aprimorar a eficiência e a interpretabilidade dos modelos.
 
 \subsubsection{Explicabilidade em LLMs}
 
