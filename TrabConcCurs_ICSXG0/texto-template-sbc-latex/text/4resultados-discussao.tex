@@ -1,1 +1,33 @@
 \section{Resultados Preliminares e Discussão}\label{sec:resultados-discussao}
+
+Nesta seção, apresentamos os resultados preliminares obtidos a partir da interação inicial com a biblioteca LLM-MRI, utilizando o modelo \textit{distilbert-base-uncased} para análise das ativações internas.
+
+O intuito desta etapa foi validar o funcionamento da principal ferramenta que permitirá explorar visualmente como as ativações internas dos modelos serão influenciadas por diferentes características dos labirintos e por diferentes métodos de ajuste fino. Assim, buscou-se uma familiarização com a ferramenta e estabelecer uma base para análises mais aprofundadas com modelos mais robustos em etapas futuras.
+
+O modelo distilbert-base-uncased, empregado nesta fase, é uma versão compacta e eficiente do BERT, projetada para manter boa parte do desempenho do modelo original, porém com menos parâmetros e menor custo computacional. Apesar de suas capacidades em tarefas linguísticas gerais, este modelo não foi treinado, nem aplicado qualquer técnica de fine-tunning, para compreender ou resolver tarefas de raciocínio espacial, servindo aqui apenas como prova de conceito para a integração com a LLM-MRI.
+
+Os dados utilizados para essa prova de conceito foram dois corpus distintos: o primeiro composto por 20 labirintos de tamanho 7x7 (\textit{small}), e o segundo por 20 labirintos de tamanho 20x20 (\textit{large}). Em ambos os corpus, os labirintos foram ainda classificados em duas categorias de dificuldade: easy (quando a solução ótima exige menos de 10 passos) e complex (10 passos ou mais). Vale ressaltar que os tamanhos 7x7 e 20x20 referem-se à quantidade de caracteres por quantidade de caracteres do labirinto, ou seja, cada labirinto possui 7 linhas e 7 colunas ou 20 linhas e 20 colunas de caracteres, respectivamente. Além disso, cada labirinto contém apenas uma posição de origem e uma de destino, sendo essas posições distintas e não coincidentes dentro da estrutura do labirinto.
+
+\subsection*{Comparação por Tamanho dos Labirintos (\textit{small} vs \textit{\textit{large}})}
+
+Na visualização do grafo de ativações para o critério de tamanho dos labirintos (\textit{small}/\textit{large}), observou-se a formação de dois ramos bem definidos, cada um associado a um tamanho específico. Os nós referentes aos labirintos \textit{small} e \textit{large} apresentam colorações distintas, com pouca sobreposição entre eles. Esse padrão sugere que, mesmo sem treinamento específico para raciocínio espacial, o modelo é capaz de diferenciar internamente, em termos de ativação, os labirintos de tamanhos distintos. Por se tratar de um modelo relativamente simples, essa distinção também pode ser atribuída a uma maior quantidade de texto ou uma menor quantidade de texto, de acordo com a entrada. A figura \ref{fig:llmmri-size} ilustra essa separação clara entre as categorias.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{figure/llmmri-interaction-size.png}
+    \caption{Grafo de ativações do distilbert-base-uncased para labirintos de tamanhos \textit{small} (7x7) e \textit{large} (20x20).}
+    \label{fig:llmmri-size}
+\end{figure}
+
+\subsection*{Comparação por Dificuldade dos Labirintos (\textit{easy} vs \textit{complex})}
+
+Ao analisar o grafo de ativações considerando a dificuldade dos labirintos (\textit{easy} vs \textit{complex}), foi possível identificar um ramo de nós claramente ativado por labirintos \textit{easy}, sem sobreposição com a categoria \textit{complex}. A melhor informação que podemos extrair dessa visualização é que para a maioria dos casos complexos, o modelo ativa padrões similares aos observados em labirintos fáceis. Novamente, o modelo distilbert-base-uncased não foi treinado para raciocínio espacial, e portanto, não se pode afirmar que ele compreende a dificuldade, essas são apenas as ativações que as entradas com os labirintos dos corpus utilizados geraram.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{figure/llmmri-interaction-difficulty.png}
+    \caption{Grafo de ativações do distilbert-base-uncased para labirintos classificados por dificuldade (\textit{easy} e \textit{complex}).}
+    \label{fig:llmmri-difficulty}
+\end{figure}
+
+Essas visualizações demonstram que a biblioteca LLM-MRI pode ser utilizada com sucesso para gerar e analisar grafos de ativação a partir de diferentes corpus e configurações experimentais. A realização desta prova de conceito foi fundamental para validar a integração da ferramenta ao fluxo experimental, garantindo que ela está pronta para ser empregada em análises mais avançadas e com modelos mais robustos na continuação do desenvolvimento dessa proposta. O domínio das funcionalidades da LLM-MRI e a experiência adquirida nesta etapa inicial abrem caminho para investigações futuras mais aprofundadas no que diz respeito ao tema dessa proposta.
