@@ -1,0 +1,36 @@
+\section{Metodologia}\label{sec:metodologia}
+
+Esta seção apresenta o planejamento metodológico para investigar como LLMs abertos podem aprender a resolver labirintos em ASCII, analisando as mudanças nas ativações internas das redes neurais após diferentes estratégias de \textit{fine-tuning}. O objetivo é detalhar os procedimentos que serão adotados, de modo a garantir a replicabilidade do estudo, incluindo a preparação dos dados, o ajuste dos modelos, a avaliação de desempenho e a análise das ativações neuronais.
+
+\subsection{Preparação dos Dados}
+
+Será utilizado um conjunto de dados composto por labirintos representados em ASCII, gerados automaticamente para garantir diversidade de estruturas e níveis de dificuldade. Existe a possibilidade de empregar os mesmos datasets de treinamento utilizados no trabalho AlphaMaze, uma vez que esses dados e configurações estão disponíveis publicamente. No entanto, ainda não está definido se as configurações dos labirintos e a forma de representação textual seguirão exatamente o padrão do AlphaMaze ou se será desenvolvida uma nova abordagem de geração e representação dos labirintos. Cada instância do conjunto conterá a representação textual do labirinto, a posição inicial e final, e a sequência de comandos esperada para a solução. Os dados serão divididos em conjuntos de treinamento, validação e teste, assegurando que os labirintos do conjunto de teste não sejam vistos durante o treinamento.
+
+\subsection{Modelos e Estratégias de Fine-tuning}
+
+Serão selecionados LLMs abertos com até 8 bilhões de parâmetros, compatíveis com a biblioteca LLM-MRI. Existe também a possibilidade de utilizar os mesmos modelos empregados no AlphaMaze, visto que esses modelos estão disponíveis publicamente, o que facilitaria a comparação de resultados. O processo de especialização dos modelos será realizado por meio de diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura:
+\begin{itemize}
+    \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
+    \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
+\end{itemize}
+Cada modelo será treinado separadamente em cada estratégia, utilizando os mesmos dados de entrada para garantir comparabilidade.
+
+\subsection{Avaliação de Desempenho}
+
+O desempenho dos modelos será avaliado antes e após o \textit{fine-tuning}, utilizando métricas objetivas como taxa de sucesso na resolução dos labirintos, número médio de passos até a solução e precisão na geração dos comandos. Para garantir rigor na avaliação, os resultados serão comparados com abordagens tradicionais e com benchmarks da literatura, como o MazeBench.
+
+\subsection{Análise das Ativações Neuronais}
+
+A análise das ativações internas será conduzida com o auxílio da biblioteca LLM-MRI \cite{costa2024llmmri}. Para cada modelo e estratégia de ajuste, serão coletados os vetores de ativação das camadas intermediárias ao processar diferentes labirintos. Uma redução de dimensionalidade será aplicada para visualizar e comparar as distribuições das ativações antes e depois do treinamento. O objetivo será identificar padrões emergentes, alterações estruturais e possíveis mecanismos de raciocínio espacial desenvolvidos pelos modelos.
+
+\subsection{Hipóteses do Estudo}
+
+Este estudo parte das seguintes hipóteses principais:
+\begin{itemize}
+    \item[H1:] Estratégias distintas de \textit{fine-tuning}, como SFT e GRPO, produzirão padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e representação da tarefa.
+    \item[H2:] A análise das ativações neuronais, por meio da LLM-MRI, permitirá identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
+\end{itemize}
+
+\subsection{Discussão e Interpretação dos Resultados}
+
+Os resultados quantitativos e qualitativos serão analisados de forma integrada, buscando compreender como as diferentes estratégias de \textit{fine-tuning} influenciam tanto o desempenho quanto as representações internas dos LLMs. A discussão considerará limitações, possíveis vieses e implicações para o desenvolvimento de modelos mais interpretáveis e eficientes em tarefas que exigem raciocínio espacial.
