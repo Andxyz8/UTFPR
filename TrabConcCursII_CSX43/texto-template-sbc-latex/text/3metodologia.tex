@@ -1,10 +1,29 @@
 \section{Metodologia}\label{sec:metodologia}
 
-Esta seção apresenta o planejamento metodológico para investigar como LLMs abertos podem aprender a resolver labirintos em ASCII, analisando as mudanças nas ativações internas das redes neurais após diferentes estratégias de \textit{fine-tuning}. O objetivo é detalhar os procedimentos que serão adotados, de modo a garantir a replicabilidade do estudo, incluindo a preparação dos dados, o ajuste dos modelos, a avaliação de desempenho e a análise das ativações neuronais.
+Esta seção apresenta a metodologia aplicada na investigação, sobre como como LLMs podem aprender, ou como se diferenciam nesta representação, da tarefa de solução de labirintos em ASCII, por meio da análise das mudanças nas ativações internas das redes neurais, após diferentes estratégias de \textit{fine-tuning}. O objetivo desta seção é detalhar os procedimentos adotados, de modo a garantir a replicabilidade do estudo, incluindo preparação dos dados, modelos utilizados, métricas utilizadas e estratégias de análise estatísticas.
 
-\subsection{Preparação dos Dados}
+\subsection{Dados}
 
-Será utilizado um conjunto de dados composto por labirintos representados em ASCII, gerados automaticamente para garantir diversidade de estruturas e níveis de dificuldade. Existe a possibilidade de empregar os mesmos datasets de treinamento utilizados no trabalho AlphaMaze, uma vez que esses dados e configurações estão disponíveis publicamente. No entanto, ainda não está definido se as configurações dos labirintos e a forma de representação textual seguirão exatamente o padrão do AlphaMaze ou se será desenvolvida uma nova abordagem de geração e representação dos labirintos. Cada instância do conjunto conterá a representação textual do labirinto, a posição inicial e final, e a sequência de comandos esperada para a solução. Os dados serão divididos em conjuntos de treinamento, validação e teste, assegurando que os labirintos do conjunto de teste não sejam vistos durante o treinamento.
+Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \cite{dao2025alphamaze}, representados em ASCII, uma vez que esses dados estão disponíveis publicamente e permitiram uma redução considerável no tempo que seria empregado na elaboração dos datasets e ajuste dos modelos.
+
+\begin{itemize}
+    \item \textbf{Formato geral dos exemplos}: cada exemplo é um prompt textual que (i) instrui o modelo sobre a tarefa; (ii) apresenta a grade completa do labirinto com origem e destino; e (iii) define que a saída deve conter apenas os tokens de movimento.
+
+    \item \textbf{Tokenização do labirinto}: a descrição é composta por tokens delimitados no padrão \verb!<|...|>!, incluindo:
+    \begin{itemize}
+        \item Coordenadas: \verb!<|row-col|>! (ex.: \verb!<|0-0|>!, \verb!<|3-2|>!) indicam a posição absoluta da célula na grade.
+        \item Paredes: um único token resume as paredes presentes na célula, combinando direções com underscore, por exemplo \verb!<|up_wall|>!, \verb!<|left_right_wall|>!, \verb!<|up_left_right_wall|>!.
+        \item Marcadores especiais: \verb!<|origin|>! (origem) e \verb!<|target|>! (destino).
+        \item Separador: \verb!<|blank|>! atua como espaçamento explícito entre grupos de tokens/células, reduzindo ambiguidade de fronteiras.
+        \item Vocabulário de movimentos (saída do modelo): \verb!<|up|>!, \verb!<|down|>!, \verb!<|left|>!, \verb!<|right|>!.
+    \end{itemize}
+
+    \item \textbf{Padrão por célula}: cada célula segue tipicamente \verb!<|row-col|><|wall_pattern|><|blank|>!, com este último podendo incluir \verb!<|origin|>! ou \verb!<|target|>! quando aplicável.
+
+    \item \textbf{Semântica das paredes}: o token de paredes compacta o estado de fronteiras da célula. Por exemplo, \verb!<|up_left_wall|>! indica a existência de paredes acima e à esquerda; \verb!<|left_right_wall|>! bloqueia as laterais; a ausência de uma direção implica passagem livre.
+    
+    \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem ao destino. Em alguns prompts incentiva-se ``\textit{pensar passo a passo}'', mas a saída final deve conter exclusivamente os tokens de movimento.
+\end{itemize}
 
 \subsection{Modelos e Estratégias de Fine-tuning}
 
