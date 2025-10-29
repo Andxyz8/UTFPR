@@ -27,12 +27,37 @@ Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \c
 
 \subsection{Modelos e Estratégias de Fine-tuning}
 
-Serão selecionados LLMs abertos com até 8 bilhões de parâmetros, compatíveis com a biblioteca LLM-MRI. Existe também a possibilidade de utilizar os mesmos modelos empregados no AlphaMaze, visto que esses modelos estão disponíveis publicamente, o que facilitaria a comparação de resultados. O processo de especialização dos modelos será realizado por meio de diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura:
+Foram selecionados três LLMs, de 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, sendo obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}.
+
+\begin{table}[ht]
+    \centering
+    \caption{Resumo dos modelos empregados.}
+    \label{tab:modelos-utilizados}
+    \begin{tabular}{|l|l|c|l|}
+        \hline
+        Nome & Tipo & Parâmetros & Licença \\
+        \hline
+        DeepSeek-R1-Distill-Qwen-1.5B & Base & 1.5B & MIT \\
+        AlphaMaze-v0.2-1.5B-SFT & SFT & 1.5B & Apache-2.0 \\
+        AlphaMaze-v0.2-1.5B & GRPO & 1.5B & Apache-2.0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Portanto, o papel específico de cada uma das três variantes utilizadas é detalhado a seguir:
+
+\begin{itemize}
+    \item \textbf{DeepSeek-R1-Distill-Qwen-1.5B} (\cite{hf-deepseek-r1-dq-1p5b}): modelo denso destilado a partir do DeepSeek-R1 sobre a família Qwen2.5, utilizado como ponto de partida antes de ajustes específicos \cite{hf-deepseek-r1-dq-1p5b}.
+    \item \textbf{AlphaMaze-v0.2-1.5B-SFT} (\cite{hf-jan-alpha-sft-1p5b}): variante ajustada por SFT, empregada para avaliar o impacto do ajuste supervisionado na tarefa de labirintos \cite{hf-jan-alpha-sft-1p5b}.
+    \item \textbf{AlphaMaze-v0.2-1.5B} (\cite{hf-menlo-alphamaze-v02-1p5b}): variante ajustada por GRPO, usada para comparar a dinâmica de aprendizado por otimização de política relativa a preferências \cite{hf-menlo-alphamaze-v02-1p5b, dao2025alphamaze}.
+\end{itemize}
+
+De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura e listadas a seguir:
+
 \begin{itemize}
     \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
     \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
 \end{itemize}
-Cada modelo será treinado separadamente em cada estratégia, utilizando os mesmos dados de entrada para garantir comparabilidade.
 
 \subsection{Avaliação de Desempenho}
 
