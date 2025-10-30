@@ -59,6 +59,20 @@ De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em
     \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
 \end{itemize}
 
+\subsection{Procedimentos de Processamento, Métricas e Estatística}
+
+A análise das ativações internas dos modelos foi conduzida utilizando a biblioteca LLM-MRI \cite{costa2024llmmri}, que permite a extração e, também, a visualização das ativações neuronais de LLMs. Portanto, aqui estão descritos os procedimentos adotados para o processamento dos dados e a extração das ativações, bem como as análises estatísticas subsequentes.
+
+\subsubsection{Pré-processamento e Validação Inicial}
+
+O pré-processamento dos dados envolveu as seguintes etapas:
+\begin{itemize}
+    \item Obtenção dos arquivos Parquet do dataset de treinamento usado para o modelo SFT do AlphaMaze, contendo os exemplos de labirintos e respostas geradas pelos modelos.
+    \item Atribuição de \textit{label} binária (easy = 0, complex = 1) via limiar de passos (\> 10 = complex) para comportar análises classificatórias, necessárias para utilização da biblioteca LLM-MRI.
+    \item Validação dos \textit{embbeddings}, extraídos dos modelos pela biblioteca LLM-MRI, com modelos de aprendizado de máquina de regressão logística. Etapa necessária para assegurar a consistência da redução de dimensionalidade aplicada pela biblioteca. Esta validação foi realizada antes e depois da aplicação da redução de dimensionalidade. Realizada somente antes do início dos experimentos para análises estatísticas.
+\end{itemize}
+
+
 \subsection{Avaliação de Desempenho}
 
 O desempenho dos modelos será avaliado antes e após o \textit{fine-tuning}, utilizando métricas objetivas como taxa de sucesso na resolução dos labirintos, número médio de passos até a solução e precisão na geração dos comandos. Para garantir rigor na avaliação, os resultados serão comparados com abordagens tradicionais e com benchmarks da literatura, como o MazeBench.
