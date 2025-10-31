@@ -100,9 +100,14 @@ De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem re
 \end{enumerate}
 
 Sementes de pseudoaleatoriedade foram fixadas para reprodutibilidade, bem como versões de bibliotecas foram anotadas. Para cada métrica e modelo, foram gerados: histogramas; estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa por índice de experimento, visando inspecionar estabilização. Este mesmo procedimento foi replicado para a configuração de ``todas as camadas'' e para ``últimas 5 camadas''.
+
+\subsection{Significância Estatística}
+
+Ao término do \textit{bootstrapping}, foram realizados testes de significância estatística para investigar diferenças entre as distribuições das métricas de rede dos três modelos, nas configurações ``todas as camadas'' e ``últimas 5 camadas''. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
+
 \begin{itemize}
-    \item[H1:] Estratégias distintas de \textit{fine-tuning}, como SFT e GRPO, produzirão padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e representação da tarefa.
-    \item[H2:] A análise das ativações neuronais, por meio da LLM-MRI, permitirá identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
+\item \textbf{Hipótese nula (H0)}: as distribuições de cada métrica são equivalentes entre os modelos comparados.
+\item \textbf{Hipótese alternativa (H1)}: existe diferença estatisticamente significativa entre pelo menos dois modelos para a métrica analisada.
 \end{itemize}
 
 \subsection{Discussão e Interpretação dos Resultados}
