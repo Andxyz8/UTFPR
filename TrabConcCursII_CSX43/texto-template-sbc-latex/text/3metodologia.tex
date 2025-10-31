@@ -110,6 +110,15 @@ Ao término do \textit{bootstrapping}, foram realizados testes de significância
 \item \textbf{Hipótese alternativa (H1)}: existe diferença estatisticamente significativa entre pelo menos dois modelos para a métrica analisada.
 \end{itemize}
 
-\subsection{Discussão e Interpretação dos Resultados}
+\subsection{Síntese e Hipóteses Iniciais}
 
-Os resultados quantitativos e qualitativos serão analisados de forma integrada, buscando compreender como as diferentes estratégias de \textit{fine-tuning} influenciam tanto o desempenho quanto as representações internas dos LLMs. A discussão considerará limitações, possíveis vieses e implicações para o desenvolvimento de modelos mais interpretáveis e eficientes em tarefas que exigem raciocínio espacial.
+Os procedimentos descritos nesta seção estabelecem um fluxo experimental reprodutível para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de LLMs na tarefa de solução de labirintos em ASCII.
+
+Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses iniciais:
+
+\begin{itemize}
+    \item[H1:] Estratégias distintas de \textit{fine-tuning} (SFT e GRPO) induzem padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e de representação da tarefa.
+    \item[H2:] A análise das ativações neuronais por meio da LLM-MRI permite identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
+\end{itemize}
+
+Na seção seguinte, serão apresentadas as visualizações, estatísticas descritivas e análises comparativas como material para a discussão sobre como diferentes técnicas de especialização de LLMs para tarefas que exigem raciocínio espacial atuam sobre a representação das camadas de ativações desses LLMs.
