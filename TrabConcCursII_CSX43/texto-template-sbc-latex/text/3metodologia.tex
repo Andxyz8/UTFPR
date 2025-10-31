@@ -86,19 +86,20 @@ As métricas de ciências das redes utilizadas para caracterizar os grafos de at
     \item \textbf{Comprimento Médio de Caminho} ($\bar{L}$): distância média entre todos os pares de nós na LCC.
 \end{itemize}
 
+\subsubsection{Bootstrapping}
 
+Empregou-se \textit{bootstrapping} para estimar a variabilidade das métricas de rede, sem amostragem repetida de prompts em um mesmo experimento, e para comparar modelos sob entradas idênticas por experimento.
 
-\subsection{Avaliação de Desempenho}
+De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem reposição) e repetimos o procedimento em 1000 experimentos (e mais 1000 usando apenas as últimas 5 camadas), mantendo o mesmo lote por experimento entre os três modelos. Os passos, com maior detalhamento, estão descritos a seguir. Em cada experimento:
+\begin{enumerate}
+    \item Selecionou-se um lote de 40 prompts;
+    \item Coletaram-se as ativações em cada modelo via LLM-MRI;
+    \item Obteve-se o grafo das ativações;
+    \item Calcularam-se todas as métricas mencionadas anteriormente.
+    \item Registrou-se o tempo total de processamento por experimento e modelo.
+\end{enumerate}
 
-O desempenho dos modelos será avaliado antes e após o \textit{fine-tuning}, utilizando métricas objetivas como taxa de sucesso na resolução dos labirintos, número médio de passos até a solução e precisão na geração dos comandos. Para garantir rigor na avaliação, os resultados serão comparados com abordagens tradicionais e com benchmarks da literatura, como o MazeBench.
-
-\subsection{Análise das Ativações Neuronais}
-
-A análise das ativações internas será conduzida com o auxílio da biblioteca LLM-MRI \cite{costa2024llmmri}. Para cada modelo e estratégia de ajuste, serão coletados os vetores de ativação das camadas intermediárias ao processar diferentes labirintos. Uma redução de dimensionalidade será aplicada para visualizar e comparar as distribuições das ativações antes e depois do treinamento. O objetivo será identificar padrões emergentes, alterações estruturais e possíveis mecanismos de raciocínio espacial desenvolvidos pelos modelos.
-
-\subsection{Hipóteses do Estudo}
-
-Este estudo parte das seguintes hipóteses principais:
+Sementes de pseudoaleatoriedade foram fixadas para reprodutibilidade, bem como versões de bibliotecas foram anotadas. Para cada métrica e modelo, foram gerados: histogramas; estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa por índice de experimento, visando inspecionar estabilização. Este mesmo procedimento foi replicado para a configuração de ``todas as camadas'' e para ``últimas 5 camadas''.
 \begin{itemize}
     \item[H1:] Estratégias distintas de \textit{fine-tuning}, como SFT e GRPO, produzirão padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e representação da tarefa.
     \item[H2:] A análise das ativações neuronais, por meio da LLM-MRI, permitirá identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
