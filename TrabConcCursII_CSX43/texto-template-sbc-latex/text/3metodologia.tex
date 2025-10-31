@@ -72,6 +72,21 @@ O pré-processamento dos dados envolveu as seguintes etapas:
     \item Validação dos \textit{embbeddings}, extraídos dos modelos pela biblioteca LLM-MRI, com modelos de aprendizado de máquina de regressão logística. Etapa necessária para assegurar a consistência da redução de dimensionalidade aplicada pela biblioteca. Esta validação foi realizada antes e depois da aplicação da redução de dimensionalidade. Realizada somente antes do início dos experimentos para análises estatísticas.
 \end{itemize}
 
+\subsubsection{Métricas de Ciências das Redes}
+
+As métricas de ciências das redes utilizadas para caracterizar os grafos de ativações para as camada dos modelos, estão descritas a seguir. Os grafos utilizados foram construídos conforme a LLM-MRI. As métricas dependentes de caminhos foram calculadas sobre a maior componente conexa (Largest Connected Component - LCC).
+
+\begin{itemize}
+    \item \textbf{Número de Nós} ($|V|$): número total de nós (ordem) do grafo.
+    \item \textbf{Número de Arestas} ($|E|$): número total de arestas do grafo.
+    \item \textbf{Grau Médio} ($\bar{k}$): média do grau dos nós.
+    \item \textbf{Densidade} ($\rho$): fração de arestas observadas em relação ao máximo possível. Valores mais altos indicam conectividade mais densa.
+    \item \textbf{Assortatividade} ($r$): coeficiente de assortatividade. Valores positivos indicam tendência de nós de alto grau conectarem-se entre si; negativos indicam conexões preferenciais entre nós de alto e baixo grau.
+    \item \textbf{Diâmetro} ($D$): maior distância entre pares de nós na LCC do grafo, isto é, comprimento do caminho mais curto máximo. Quando o grafo não é totalmente conexo, $D$ é calculado na LCC.
+    \item \textbf{Comprimento Médio de Caminho} ($\bar{L}$): distância média entre todos os pares de nós na LCC.
+\end{itemize}
+
+
 
 \subsection{Avaliação de Desempenho}
 
