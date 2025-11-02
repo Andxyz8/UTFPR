@@ -86,16 +86,16 @@ As métricas de ciências das redes utilizadas para caracterizar os grafos de at
     \item \textbf{Comprimento Médio de Caminho} ($\bar{L}$): distância média entre todos os pares de nós na LCC.
 \end{itemize}
 
-\subsubsection{Bootstrapping}
+\subsubsection{Amostragem para Inferência de Distribuições}
 
-Empregou-se \textit{bootstrapping} para estimar a variabilidade das métricas de rede, sem amostragem repetida de prompts em um mesmo experimento, e para comparar modelos sob entradas idênticas por experimento.
+Empregou-se um protocolo de amostragem repetida de lotes para estimar a variabilidade das métricas de rede, sem amostragem repetida de prompts em um mesmo experimento, e para comparar modelos sob entradas idênticas por experimento.
 
 De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem reposição) e repetimos o procedimento em 1000 experimentos (e mais 1000 usando apenas as últimas 5 camadas), mantendo o mesmo lote por experimento entre os três modelos. Os passos, com maior detalhamento, estão descritos a seguir. Em cada experimento:
 \begin{enumerate}
     \item Selecionou-se um lote de 40 prompts;
     \item Coletaram-se as ativações em cada modelo via LLM-MRI;
     \item Obteve-se o grafo das ativações;
-    \item Calcularam-se todas as métricas mencionadas anteriormente.
+    \item Calcularam-se as métricas mencionadas anteriormente.
     \item Registrou-se o tempo total de processamento por experimento e modelo.
 \end{enumerate}
 
@@ -103,22 +103,22 @@ Sementes de pseudoaleatoriedade foram fixadas para reprodutibilidade, bem como v
 
 \subsection{Significância Estatística}
 
-Ao término do \textit{bootstrapping}, foram realizados testes de significância estatística para investigar diferenças entre as distribuições das métricas de rede dos três modelos, nas configurações ``todas as camadas'' e ``últimas 5 camadas''. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
+Ao término do procedimento de amostragem, foram realizados testes de significância estatística para investigar diferenças entre as distribuições das métricas de rede dos três modelos, nas configurações ``todas as camadas'' e ``últimas 5 camadas''. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
 
 \begin{itemize}
 \item \textbf{Hipótese nula (H0)}: as distribuições de cada métrica são equivalentes entre os modelos comparados.
 \item \textbf{Hipótese alternativa (H1)}: existe diferença estatisticamente significativa entre pelo menos dois modelos para a métrica analisada.
 \end{itemize}
 
-\subsection{Síntese e Hipóteses Iniciais}
+\subsection{Síntese Metodológica e Hipóteses}
 
-Os procedimentos descritos nesta seção estabelecem um fluxo experimental reprodutível para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de LLMs na tarefa de solução de labirintos em ASCII.
+Os procedimentos descritos nesta seção estabelecem o fluxo experimental aplicado para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de LLMs na tarefa de solução de labirintos em ASCII.
 
-Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses iniciais:
+Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses:
 
 \begin{itemize}
     \item[H1:] Estratégias distintas de \textit{fine-tuning} (SFT e GRPO) induzem padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e de representação da tarefa.
     \item[H2:] A análise das ativações neuronais por meio da LLM-MRI permite identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
 \end{itemize}
 
-Na seção seguinte, serão apresentadas as visualizações, estatísticas descritivas e análises comparativas como material para a discussão sobre como diferentes técnicas de especialização de LLMs para tarefas que exigem raciocínio espacial atuam sobre a representação das camadas de ativações desses LLMs.
+Na seção seguinte, serão apresentadas as visualizações, estatísticas descritivas e análises comparativas como material para embasar a discussão sobre como diferentes técnicas de especialização de LLMs para tarefas que exigem raciocínio espacial atuam sobre a representação das camadas de ativações desses LLMs.
