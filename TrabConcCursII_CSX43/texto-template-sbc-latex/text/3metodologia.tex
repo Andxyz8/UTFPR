@@ -22,7 +22,7 @@ Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \c
 
     \item \textbf{Semântica das paredes}: o token de paredes compacta o estado de fronteiras da célula. Por exemplo, \verb!<|up_left_wall|>! indica a existência de paredes acima e à esquerda; \verb!<|left_right_wall|>! bloqueia as laterais; a ausência de uma direção implica passagem livre.
     
-    \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem ao destino. Em alguns prompts incentiva-se ``\textit{pensar passo a passo}'', mas a saída final deve conter exclusivamente os tokens de movimento.
+    \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem ao destino. Nos prompts, incentiva-se como diretriz para melhor resolução de problemas a ação ``think step-by-step'' \(``\textit{pensar passo a passo}''\), em tradução livre, mas a saída final deve conter exclusivamente os tokens de movimento.
 \end{itemize}
 
 \subsection{Modelos e Estratégias de Fine-tuning}
@@ -65,11 +65,11 @@ A análise das ativações internas dos modelos foi conduzida utilizando a bibli
 
 \subsubsection{Pré-processamento e Validação Inicial}
 
-O pré-processamento dos dados envolveu as seguintes etapas:
+O pré-processamento dos dados envolveu as etapas descritas a seguir.
 \begin{itemize}
-    \item Obtenção dos arquivos Parquet do dataset de treinamento usado para o modelo SFT do AlphaMaze, contendo os exemplos de labirintos e respostas geradas pelos modelos.
-    \item Atribuição de \textit{label} binária (easy = 0, complex = 1) via limiar de passos (\> 10 = complex) para comportar análises classificatórias, necessárias para utilização da biblioteca LLM-MRI.
-    \item Validação dos \textit{embbeddings}, extraídos dos modelos pela biblioteca LLM-MRI, com modelos de aprendizado de máquina de regressão logística. Etapa necessária para assegurar a consistência da redução de dimensionalidade aplicada pela biblioteca. Esta validação foi realizada antes e depois da aplicação da redução de dimensionalidade. Realizada somente antes do início dos experimentos para análises estatísticas.
+    \item Obtenção dos arquivos Parquet do \textit{dataset} de treinamento usado para o modelo SFT do AlphaMaze, contendo os exemplos de labirintos e respostas geradas pelos modelos.
+    \item Atribuição de \textit{label} binária (\textit{easy} = 0, \textit{complex} = 1) por um limiar de passos (menor do que 10 passos, \textit{easy}; \textit{complex}, caso contrário) para comportar análises classificatórias, necessárias para utilização da biblioteca LLM-MRI.
+    \item Validação de \textit{embbeddings} extraídos dos modelos pela biblioteca LLM-MRI com modelos de aprendizado de máquina de regressão logística. Validação realizada antes e depois da aplicação da redução de dimensionalidade para assegurar a consistência do funcionamento da biblioteca.
 \end{itemize}
 
 \subsubsection{Métricas de Ciências das Redes}
@@ -88,9 +88,10 @@ As métricas de ciências das redes utilizadas para caracterizar os grafos de at
 
 \subsubsection{Amostragem para Inferência de Distribuições}
 
-Empregou-se um protocolo de amostragem repetida de lotes para estimar a variabilidade das métricas de rede, sem amostragem repetida de prompts em um mesmo experimento, e para comparar modelos sob entradas idênticas por experimento.
+Empregou-se um protocolo de amostragem repetida para estimar a variabilidade das métricas de rede, sem amostragem repetida de prompts em um mesmo experimento, e para comparar modelos sob entradas idênticas por experimento.
 
-De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem reposição) e repetimos o procedimento em 1000 experimentos (e mais 1000 usando apenas as últimas 5 camadas), mantendo o mesmo lote por experimento entre os três modelos. Os passos, com maior detalhamento, estão descritos a seguir. Em cada experimento:
+De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem reposição) e foi repetido o procedimento em 1000 experimentos, mantendo o mesmo lote (40 prompts) por experimento entre os três modelos. Além disso, em vista dos resultados obtidos, que serão discutidos na seção a seguir, foram realizados outros 1000 experimentos considerando os dados, do grafo das ativações, apenas das últimas 5 camadas. Os passos estão descritos com maior detalhamento a seguir.
+
 \begin{enumerate}
     \item Selecionou-se um lote de 40 prompts;
     \item Coletaram-se as ativações em cada modelo via LLM-MRI;
@@ -99,7 +100,7 @@ De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem re
     \item Registrou-se o tempo total de processamento por experimento e modelo.
 \end{enumerate}
 
-Sementes de pseudoaleatoriedade foram fixadas para reprodutibilidade, bem como versões de bibliotecas foram anotadas. Para cada métrica e modelo, foram gerados: histogramas; estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa por índice de experimento, visando inspecionar estabilização. Este mesmo procedimento foi replicado para a configuração de ``todas as camadas'' e para ``últimas 5 camadas''.
+Sementes pseudoaleatorias foram fixadas para reprodutibilidade, bem como versões de bibliotecas foram anotadas. Para cada métrica e modelo, foram gerados: histogramas; estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa por índice de experimento, visando inspecionar estabilização. Este mesmo procedimento foi replicado para a configuração de ``todas as camadas'' e para ``últimas 5 camadas''.
 
 \subsection{Significância Estatística}
 
