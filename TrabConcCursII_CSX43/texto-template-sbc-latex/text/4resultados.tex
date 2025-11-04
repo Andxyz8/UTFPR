@@ -5,3 +5,18 @@ Nesta seção, estão apresentados os resultados obtidos a partir dos experiment
 Desta forma, esta seção está estruturada de maneira que, inicialmente, são apresentados os dados e gráficos, para os experimentos de inferência de distribuição das métricas de redes complexas (apresentadas na seção anterior), considerando todas as camadas dos modelos e, em seguida, os dados e gráficos considerando apenas as últimas cinco camadas de ativações dos modelos.
 
 Para cada uma das configurações mencionadas, estão apresentados, também, os resultados relevantes para as métricas observados descritas na Seção~\ref{sec:metodologia-metricas}, demonstrado, quando relevante, gráficos de \textit{boxplot}, histogramas e estimativas de densidade por núcleo (KDE) para as métricas que obtiveram visualizações relevantes. Ainda, de modo a facilitar a comparação entre os modelos, as figuras apresentadas estarão com as medidas dos três modelos, ajustes distintos e base, demonstrados.
+
+\subsection{Resultados considerando todas as camadas}
+
+Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando todas as camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
+
+\begin{itemize}
+    \item \textbf{Número de Nós ($|V|$) e Número de Arestas ($|E|$)}: não foram observadas diferenças significativas entre os modelos, resultando em distribuições bastante similares e com pouca variabilidade entre os experimentos realizados. Dessa forma, não foram incluídas figuras para estas métricas.
+\end{itemize}
+\subsection{Resultados considerando apenas as últimas cinco camadas}
+
+Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando apenas as últimas cinco camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
+
+\begin{itemize}
+    \item \textbf{Número de Nós ($|V|$) e Número de Arestas ($|E|$)}: de modo similar ao observado na seção anterior, não foram observadas diferenças significativas entre os modelos, resultando em distribuições bastante similares e com pouca variabilidade entre os experimentos realizados. Dessa forma, não foram incluídas figuras para estas métricas.
+\end{itemize}
