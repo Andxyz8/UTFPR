@@ -31,6 +31,24 @@ A média cumulativa dos graus médios obtidos para os três modelos, considerand
     \caption{KDE do Grau Médio ($\bar{k}$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
     \label{fig:complete-kde-grau-medio}
 \end{figure}
+
+\subsubsection{Densidade ($\rho$)}
+
+A média cumulativa das densidades é apresentada na Figura~\ref{fig:complete-cumulative-mean-densidade}. Nota-se que, após as flutuações iniciais, as curvas convergem para valores próximos, indicando estabilidade na métrica ao longo dos experimentos. Conforme ilustrado na Figura~\ref{fig:complete-kde-densidade}, as distribuições estimadas por KDE também revelam comportamentos semelhantes entre os modelos, com leve diferença nas regiões de maior densidade de probabilidade. Essas variações, embora sutis, sugerem que os ajustes realizados via GRPO e SFT tendem a produzir grafos com maior compactação estrutural quando comparados ao modelo Base.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure/complete/cumulative-mean/densidade.png}
+    \caption{Média cumulativa da Densidade ($\rho$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
+    \label{fig:complete-cumulative-mean-densidade}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure/complete/kde/densidade.png}
+    \caption{KDE da Densidade ($\rho$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
+    \label{fig:complete-kde-densidade}
+\end{figure}
 \subsection{Resultados considerando apenas as últimas cinco camadas}
 
 Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando apenas as últimas cinco camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
