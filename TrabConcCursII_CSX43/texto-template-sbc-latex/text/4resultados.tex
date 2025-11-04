@@ -13,6 +13,24 @@ Nesta seção, estão apresentados os resultados obtidos a partir dos experiment
 \begin{itemize}
     \item \textbf{Número de Nós ($|V|$) e Número de Arestas ($|E|$)}: não foram observadas diferenças significativas entre os modelos, resultando em distribuições bastante similares e com pouca variabilidade entre os experimentos realizados. Dessa forma, não foram incluídas figuras para estas métricas.
 \end{itemize}
+
+\subsubsection{Grau Médio ($\bar{k}$)}
+
+A média cumulativa dos graus médios obtidos para os três modelos, considerando todas as camadas, estão apresentados na Figura~\ref{fig:complete-cumulative-mean-grau-medio}. Observa-se, na Figura~\ref{fig:complete-kde-grau-medio}, que os três modelos apresentaram distribuições bastante similares. Com valores de médias próximas, o modelo ajustado com GRPO foi o que apresentou a maior média, seguido do modelo Base e, por fim, o modelo ajustado com SFT.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure/complete/cumulative-mean/grau-medio.png}
+    \caption{Média cumulativa do Grau Médio ($\bar{k}$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
+    \label{fig:complete-cumulative-mean-grau-medio}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure/complete/kde/grau-medio.png}
+    \caption{KDE do Grau Médio ($\bar{k}$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
+    \label{fig:complete-kde-grau-medio}
+\end{figure}
 \subsection{Resultados considerando apenas as últimas cinco camadas}
 
 Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando apenas as últimas cinco camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
