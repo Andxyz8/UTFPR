@@ -70,6 +70,27 @@ As distribuições estimadas por KDE revela um comportamento similar entre os mo
     \label{fig:complete-kde-assortatividade}
 \end{figure}
 
+\subsubsection{Diâmetro ($D$)}
+
+A Figura~\ref{fig:complete-cumulative-mean-diametro} apresenta a média cumulativa do diâmetro. Os três modelos convergem para valores próximos, com o modelo Base ligeiramente maior e médias ligeiramente menores após SFT e GRPO, sugerindo grafos de ativação um pouco mais compactos que o modelo Base.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/diametro.png}
+    \caption{Média cumulativa do Diâmetro ($D$).}
+    \label{fig:complete-cumulative-mean-diametro}
+\end{figure}
+
+Na Figura~\ref{fig:complete-kde-diametro}, as curvas KDE dos três modelos quase se sobrepõem, nos picos e na leve cauda à direita. Embora as distribuições de densidade sejam visualmente quase idênticas, a análise das médias cumulativas clarifica que os ajustes realizados via SFT e GRPO tendem a reduzir sutilmente o diâmetro médio dos grafos de ativação.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/complete/kde/diametro.png}
+    \caption{KDE do Diâmetro ($D$).}
+    \label{fig:complete-kde-diametro}
+\end{figure}
+
+
 \subsection{Resultados considerando apenas as últimas cinco camadas}
 
 Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando apenas as últimas cinco camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
