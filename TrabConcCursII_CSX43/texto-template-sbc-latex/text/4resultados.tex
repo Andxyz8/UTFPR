@@ -118,3 +118,23 @@ Nesta seção, estão apresentados os resultados obtidos a partir dos experiment
     \item \textbf{Número de Nós ($|V|$) e Número de Arestas ($|E|$)}: de modo similar ao observado na seção anterior, não foram observadas diferenças significativas entre os modelos, resultando em distribuições bastante similares e com pouca variabilidade entre os experimentos realizados. Dessa forma, não foram incluídas figuras para estas métricas.
     \item \textbf{Grau Médio ($\bar{k}$), Diâmetro ($D$) e Comprimento Médio do Caminho ($\bar{L}$)}: para estas métricas, não foram observadas diferenças representativas. Foram obtidas distribuições bastante similares entre os modelos, com diferenças mínimas de sobreposição entre as curvas de KDE, valores recorrentes, obtidos durante os experimentos, para as métricas calculadas e médias relativamente reduzidas, se comparadas àquelas obtidas quando consideradas todas as camadas. Sendo assim, não foram incluídas figuras para estas métricas.
 \end{itemize}
+
+\subsubsection{Densidade ($\rho$)}
+
+Para a densidade, levando em consideração apenas as últimas cinco camadas de ativações, pode-se observar, na Figura~\ref{fig:last-five-cumulative-mean-densidade}, a evolução da média cumulativa. Apesar de médias estabilizadas próximas entre os modelos, é interessante notar a diferença obtida no valor da média, relativamente maior, quando comparada àquela obtida, para a mesma métrica, considerando todas as camadas.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/last-five/cumulative-mean/densidade.png}
+    \caption{Média cumulativa da Densidade ($\rho$)}
+    \label{fig:last-five-cumulative-mean-densidade}
+\end{figure}
+
+Conforme ilustrado na Figura~\ref{fig:last-five-kde-densidade}, as distribuições estimadas por KDE revelam comportamentos muito parecidos entre os modelos. É possível visualizar alguns picos de densidade variados no domínio, evidenciando a repetição de certos valores de densidade ao longo dos experimentos realizados. Apesar disso, as curvas apresentam uma sobreposição considerável, com poucas diferenças visuais entre os modelos e o modelo GRPO apresentando uma leve tendência a valores de densidade mais concentrados.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/last-five/kde/densidade.png}
+    \caption{KDE da Densidade ($\rho$)}
+    \label{fig:last-five-kde-densidade}
+\end{figure}
