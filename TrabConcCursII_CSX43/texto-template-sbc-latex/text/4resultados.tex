@@ -49,6 +49,27 @@ A média cumulativa das densidades é apresentada na Figura~\ref{fig:complete-cu
     \caption{KDE da Densidade ($\rho$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
     \label{fig:complete-kde-densidade}
 \end{figure}
+
+\subsubsection{Assortatividade ($r$)}
+
+A média cumulativa das assortatividades é apresentada na Figura~\ref{fig:complete-cumulative-mean-assortatividade}. Observa-se que os três modelos convergem para valores negativos bastante próximos, indicando tendência geral a uma conectividade disassortativa ao longo dos experimentos, com o modelo Base tendendo a apresentar valores médios ligeiramente menos negativos que os modelos ajustados com SFT e GRPO.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.66\textwidth]{figure/complete/cumulative-mean/assortatividade.png}
+    \caption{Média cumulativa da Assortatividade ($r$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
+    \label{fig:complete-cumulative-mean-assortatividade}
+\end{figure}
+
+As distribuições estimadas por KDE revela um comportamento similar entre os modelos e estão apresentadas na Figura~\ref{fig:complete-kde-assortatividade}. Com picos concentrados nas regiões próximas de zero e em valores levemente negativos, apesar da proximidade entre as curvas, nota-se que os modelos ajustados com SFT e GRPO exibem distribuições ligeiramente deslocadas para regiões mais negativas. Essas diferenças sugerem que os ajustes realizados via SFT e GRPO tendem a intensificar, ainda que de forma sutil, a característica disassortativa das redes em comparação ao modelo Base.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.66\textwidth]{figure/complete/kde/assortatividade.png}
+    \caption{KDE da Assortatividade ($r$) considerando todas as camadas de ativações dos modelos a partir de 1000 experimentos.}
+    \label{fig:complete-kde-assortatividade}
+\end{figure}
+
 \subsection{Resultados considerando apenas as últimas cinco camadas}
 
 Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando apenas as últimas cinco camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
