@@ -90,6 +90,25 @@ Na Figura~\ref{fig:complete-kde-diametro}, as curvas KDE dos três modelos quase
     \label{fig:complete-kde-diametro}
 \end{figure}
 
+\subsubsection{Comprimento Médio do Caminho ($\bar{L}$)}
+
+A evolução da média cumulativa do comprimento médio do caminho é apresentada na Figura~\ref{fig:complete-cumulative-mean-path-length}. Pode-se perceber que o modelo Base tende a estabilizar em um valor médio superior em comparação aos modelos ajustados. Em contraste, os modelos SFT e GRPO convergem para valores inferiores e bastante próximos entre si, com o GRPO sendo ligeiramente maior.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/comprimento-medio-caminho.png}
+    \caption{Média cumulativa do Comprimento Médio do Caminho ($\bar{L}$).}
+    \label{fig:complete-cumulative-mean-path-length}
+\end{figure}
+
+As distribuições estimadas por KDE, ilustradas na Figura~\ref{fig:complete-kde-path-length}, condizem com o comportamento observado nas médias cumulativas. As diferenças, picos ligeiramente mais acentuados e o leve deslocamento à esquerda, indicam que os ajustes realizados tendem a reduzir o comprimento médio do caminho na rede de ativações, sugerindo uma maior eficiência na conectividade global quando comparada ao modelo original.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figure/complete/kde/comprimento-medio-caminho.png}
+    \caption{KDE do Comprimento Médio do Caminho ($\bar{L}$).}
+    \label{fig:complete-kde-path-length}
+\end{figure}
 
 \subsection{Resultados considerando apenas as últimas cinco camadas}
 
