@@ -158,3 +158,51 @@ Para a assortatividade, pode-se observar, na Figura~\ref{fig:last-five-kde-assor
     \caption{KDE da Assortatividade ($r$).}
     \label{fig:last-five-kde-assortatividade}
 \end{figure}
+
+\subsection{Testes de Significância Estatística}
+
+Para avaliar a significância estatística das diferenças nos gráficos de distribuições e médias observadas para as métricas analisadas, foram realizados testes de hipótese apropriados. Utilizou-se o teste ANOVA para comparar as médias das métricas entre os três modelos, além de Testes t pareados para comparações específicas entre pares de modelos (BASE vs SFT e BASE vs GRPO).
+
+De acordo com os testes, as diferenças, devido ao ajuste dos modelos (SFT ou GRPO), nas estruturas do grafo de ativações neurais dos modelos \textbf{não são estatisticamente significativas} ($p < 0.05$). Do ponto de vista estatístico, isto sugere que as sutis variações observadas, nas distribuições e médias das métricas, podem não ser relevantes o suficiente para serem consideradas significativas.
+
+A Tabela \ref{tab:anova-ttest-full}, a seguir, apresenta os valores \textit{p-value}'s obtidos nos Testes t e ANOVA realizados para as métricas relevantes, considerando todas as camadas dos modelos.
+
+\begin{table}[ht]
+\centering
+\caption{p-values ANOVA e Testes t pareados (Base vs SFT, Base vs GRPO) – Todas as camadas.}
+\label{tab:anova-ttest-full}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Métrica & ANOVA & Base vs SFT & Base vs GRPO \\
+\hline
+Número de Nós & 0.3125 & 0.3553 & 0.5641 \\
+Grau Médio & 0.2682 & 0.2932 & 0.5934 \\
+Densidade & 0.2882 & 0.3193 & 0.5821 \\
+Assortatividade & 0.3473 & 0.1904 & 0.2345 \\
+Diâmetro & 0.2640 & 0.1191 & 0.2272 \\
+Comprimento Médio do Caminho & 0.1927 & 0.0851 & 0.1693 \\
+\hline
+\end{tabular}
+\end{table}
+
+Os mesmos testes foram realizados para o cenário considerando apenas as últimas cinco camadas do grafo de ativações neuronais dos modelos, resultados de \textit{p-value}'s descritos na Tabela \ref{tab:anova-ttest-lastfive} e, de forma semelhante, não indicaram diferenças estatisticamente significativas entre o modelo base e os modelos ajustados.
+
+\begin{table}[ht]
+\centering
+\caption{p-values ANOVA e Testes t pareados (Base vs SFT, Base vs GRPO) – Últimas 5 camadas.}
+\label{tab:anova-ttest-lastfive}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Métrica & ANOVA & Bas3 vs SFT & Base vs GRPO \\
+\hline
+Número de Nós & 0.9282 & 0.7060 & 0.8496 \\
+Grau Médio & 0.9257 & 0.7094 & 0.9104 \\
+Densidade & 0.9205 & 0.6960 & 0.8902 \\
+Assortatividade & 0.6877 & 0.4310 & 0.4893 \\
+Diâmetro & 0.4160 & 0.4847 & 0.1785 \\
+Comprimento Médio do Caminho & 0.5064 & 0.4727 & 0.2395 \\
+\hline
+\end{tabular}
+\end{table}
+
+Para os dois cenários verificados, os testes de significância estatística da métrica Número de Arestas, por apresentarem valores, no decorrer dos experimentos, muito próximos entre para os diferentes modelos, com pouca variabilidade e muito recorrentes, foi omitida a apresentação dos resultados dos testes estatísticos para esta métrica. A próxima seção apresenta a discussão dos resultados obtidos, interpretando os achados integrando com os objetivos do estudo e das hipóteses formuladas inicialmente.
