@@ -7,35 +7,32 @@ Esta seção apresenta a metodologia aplicada na investigação, sobre como como
 Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \cite{dao2025alphamaze}, representados em ASCII, uma vez que esses dados estão disponíveis publicamente e permitiram uma redução considerável no tempo que seria empregado na elaboração dos datasets e ajuste dos modelos.
 
 \begin{itemize}
-    \item \textbf{Formato geral dos exemplos}: cada exemplo é um prompt textual que (i) instrui o modelo sobre a tarefa; (ii) apresenta a grade completa do labirinto com origem e destino; e (iii) define que a saída deve conter apenas os tokens de movimento.
+    \item \textbf{Formato geral dos exemplos}: cada exemplo é um \textit{prompt} textual que instrui o modelo sobre a tarefa, apresenta a grade completa do labirinto com origem e destino e define que a saída deve conter apenas tokens de movimento.
 
     \item \textbf{Tokenização do labirinto}: a descrição é composta por tokens delimitados no padrão \verb!<|...|>!, incluindo:
     \begin{itemize}
-        \item Coordenadas: \verb!<|row-col|>! (ex.: \verb!<|0-0|>!, \verb!<|3-2|>!) indicam a posição absoluta da célula na grade.
-        \item Paredes: um único token resume as paredes presentes na célula, combinando direções com underscore, por exemplo \verb!<|up_wall|>!, \verb!<|left_right_wall|>!, \verb!<|up_left_right_wall|>!.
-        \item Marcadores especiais: \verb!<|origin|>! (origem) e \verb!<|target|>! (destino).
-        \item Separador: \verb!<|blank|>! atua como espaçamento explícito entre grupos de tokens/células, reduzindo ambiguidade de fronteiras.
-        \item Vocabulário de movimentos (saída do modelo): \verb!<|up|>!, \verb!<|down|>!, \verb!<|left|>!, \verb!<|right|>!.
+        \item \textit{Coordenadas}: \verb!<|row-col|>! (ex.: \verb!<|0-0|>!, \verb!<|3-2|>!) indicam a posição absoluta da célula na grade.
+        \item \textit{Paredes}: um único token resume as paredes presentes na célula, combinando direções com \textit{underscore} (\_), por exemplo \verb!<|up_wall|>!, \verb!<|left_right_wall|>!, \verb!<|up_left_right_wall|>! que indicam a existência de paredes acima, à esquerda e à direita e acima, esquerda e direita, respectivamente.
+        \item \textit{Marcadores especiais}: \verb!<|origin|>!, indica a origem (ponto de partida) e \verb!<|target|>! indica o destino final (ponto de chegada) do labirinto.
+        \item \textit{Separador}: \verb!<|blank|>! atua como espaçamento explícito entre grupos de tokens/células, reduzindo ambiguidade de fronteiras.
+        \item \textit{Vocabulário de movimentos} (saída do modelo): tokens que os modelos devem utilizar para descrever a sua resposta, sendo eles, \verb!<|up|>!, \verb!<|down|>!, \verb!<|left|>!, \verb!<|right|>! que representam movimentos para cima, para baixo, para a esquerda e para a direita, respectivamente.
     \end{itemize}
 
-    \item \textbf{Padrão por célula}: cada célula segue tipicamente \verb!<|row-col|><|wall_pattern|><|blank|>!, com este último podendo incluir \verb!<|origin|>! ou \verb!<|target|>! quando aplicável.
-
-    \item \textbf{Semântica das paredes}: o token de paredes compacta o estado de fronteiras da célula. Por exemplo, \verb!<|up_left_wall|>! indica a existência de paredes acima e à esquerda; \verb!<|left_right_wall|>! bloqueia as laterais; a ausência de uma direção implica passagem livre.
+    \item \textbf{Padrão por célula}: cada célula descrita em uma solicitação segue tipicamente o padrão \verb!<|row-col|><|wall_pattern|><|blank|>!, com este último podendo incluir \verb!<|origin|>! ou \verb!<|target|>!, quando aplicável.
     
-    \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem ao destino. Nos prompts, incentiva-se como diretriz para melhor resolução de problemas a ação ``think step-by-step'' \(``\textit{pensar passo a passo}''\), em tradução livre, mas a saída final deve conter exclusivamente os tokens de movimento.
+    \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem (\verb!<|origin|>!) ao destino (\verb!<|target|>!). Nos prompts, incentiva-se, como diretriz adicional para melhor resolução de problemas, a ação ``think step-by-step'' (``\textit{pense passo a passo}''), em tradução livre. Entretanto, de qualquer forma, a saída final deve conter exclusivamente os tokens de movimento, conforme especificado anteriormente.
 \end{itemize}
 
 \subsection{Modelos e Estratégias de Fine-tuning}
 
-Foram selecionados três LLMs, de 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, sendo obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}.
-
-\begin{table}[ht]
+Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}. Informações gerais acerca dos modelos são apresentados na Tabela \ref{tab:modelos-utilizados}.
+\begin{table}[h]
     \centering
-    \caption{Resumo dos modelos empregados.}
+    \caption{Informações dos modelos utilizados nos experimentos.}
     \label{tab:modelos-utilizados}
     \begin{tabular}{|l|l|c|l|}
         \hline
-        Nome & Tipo & Parâmetros & Licença \\
+        Nome & Tipo Ajuste & Parâmetros & Licença \\
         \hline
         DeepSeek-R1-Distill-Qwen-1.5B & Base & 1.5B & MIT \\
         AlphaMaze-v0.2-1.5B-SFT & SFT & 1.5B & Apache-2.0 \\
@@ -44,15 +41,13 @@ Foram selecionados três LLMs, de 1,5B de parâmetros, compatíveis com a biblio
     \end{tabular}
 \end{table}
 
-Portanto, o papel específico de cada uma das três variantes utilizadas é detalhado a seguir:
-
 \begin{itemize}
     \item \textbf{DeepSeek-R1-Distill-Qwen-1.5B} (\cite{hf-deepseek-r1-dq-1p5b}): modelo denso destilado a partir do DeepSeek-R1 sobre a família Qwen2.5, utilizado como ponto de partida antes de ajustes específicos \cite{hf-deepseek-r1-dq-1p5b}.
     \item \textbf{AlphaMaze-v0.2-1.5B-SFT} (\cite{hf-jan-alpha-sft-1p5b}): variante ajustada por SFT, empregada para avaliar o impacto do ajuste supervisionado na tarefa de labirintos \cite{hf-jan-alpha-sft-1p5b}.
     \item \textbf{AlphaMaze-v0.2-1.5B} (\cite{hf-menlo-alphamaze-v02-1p5b}): variante ajustada por GRPO, usada para comparar a dinâmica de aprendizado por otimização de política relativa a preferências \cite{hf-menlo-alphamaze-v02-1p5b, dao2025alphamaze}.
 \end{itemize}
 
-De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura e listadas a seguir:
+De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia, com conjuntos de dados de treino específicos para o modelo ajustado com SFT e para o modelo ajustado com GRPO, em que seu conjunto de dados de treino possui orientações adicionais para potencializar sua autocorreção conforme a otimização política relativa a preferências. Ambos os modelos ajustados compartilham a mesma arquitetura e número de parâmetros do modelo base DeepSeek-R1-Distill-Qwen-1.5B. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura que estão descritas a seguir:
 
 \begin{itemize}
     \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
@@ -61,14 +56,14 @@ De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em
 
 \subsection{Procedimentos de Processamento, Métricas e Estatística}
 
-A análise das ativações internas dos modelos foi conduzida utilizando a biblioteca LLM-MRI \cite{costa2024llmmri}, que permite a extração e, também, a visualização das ativações neuronais de LLMs. Portanto, aqui estão descritos os procedimentos adotados para o processamento dos dados e a extração das ativações, bem como as análises estatísticas subsequentes.
+A obtenção das ativações internas dos modelos foi feita com a utilização da biblioteca LLM-MRI \cite{costa2024llmmri}, que permite, além da extração, a visualização das ativações neuronais de LLMs. Portanto, aqui estão descritos os procedimentos adotados para o processamento dos dados e a extração das ativações, bem como as análises estatísticas subsequentes.
 
 \subsubsection{Pré-processamento e Validação Inicial}
 
 O pré-processamento dos dados envolveu as etapas descritas a seguir.
 \begin{itemize}
-    \item Obtenção dos arquivos Parquet do \textit{dataset} de treinamento usado para o modelo SFT do AlphaMaze, contendo os exemplos de labirintos e respostas geradas pelos modelos.
-    \item Atribuição de \textit{label} binária (\textit{easy} = 0, \textit{complex} = 1) por um limiar de passos (menor do que 10 passos, \textit{easy}; \textit{complex}, caso contrário) para comportar análises classificatórias, necessárias para utilização da biblioteca LLM-MRI.
+    \item Obtenção dos arquivos Parquet do \textit{dataset} de treinamento do modelo AlphaMaze-v0.2-1.5B-SFT, contendo os prompts e as respostas geradas pelos modelos.
+    \item Atribuição de \textit{label} binária (\textit{easy} = 0, \textit{complex} = 1) por um limiar de passos ($<10$ passos, \textit{easy}; \textit{complex}, caso contrário) para se adequar a análises categóricas, necessário para utilizar a biblioteca LLM-MRI.
     \item Validação de \textit{embbeddings} extraídos dos modelos pela biblioteca LLM-MRI com modelos de aprendizado de máquina de regressão logística. Validação realizada antes e depois da aplicação da redução de dimensionalidade para assegurar a consistência do funcionamento da biblioteca.
 \end{itemize}
 
@@ -90,36 +85,34 @@ As métricas de ciências das redes utilizadas para caracterizar os grafos de at
 
 Empregou-se um protocolo de amostragem repetida para estimar a variabilidade das métricas de rede, sem amostragem repetida de prompts em um mesmo experimento, e para comparar modelos sob entradas idênticas por experimento.
 
-De um modo geral, em cada experimento, selecionamos 40 prompts distintos (sem reposição) e foi repetido o procedimento em 1000 experimentos, mantendo o mesmo lote (40 prompts) por experimento entre os três modelos. Além disso, em vista dos resultados obtidos, que serão discutidos na seção a seguir, foram realizados outros 1000 experimentos considerando os dados, do grafo das ativações, apenas das últimas 5 camadas. Os passos estão descritos com maior detalhamento a seguir.
+De um modo geral, em cada experimento, foram selecionados 40 prompts distintos (sem reposição) e foi repetido o procedimento em 1000 experimentos, mantendo o mesmo lote (40 prompts) por experimento entre os três modelos. Além disso, foi realizado uma segunda bateria de 1000 experimentos, neste caso, considerando os dados do grafo das ativações apenas das últimas cinco camadas. Os passos por experimento estão descritos com maior detalhamento a seguir.
 
 \begin{enumerate}
     \item Selecionou-se um lote de 40 prompts;
     \item Coletaram-se as ativações em cada modelo via LLM-MRI;
     \item Obteve-se o grafo das ativações;
     \item Calcularam-se as métricas mencionadas anteriormente.
-    \item Registrou-se o tempo total de processamento por experimento e modelo.
+    \item Registrou-se as métricas e o tempo total de processamento por experimento e modelo.
 \end{enumerate}
 
-Sementes pseudoaleatorias foram fixadas para reprodutibilidade, bem como versões de bibliotecas foram anotadas. Para cada métrica e modelo, foram gerados: histogramas; estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa por índice de experimento, visando inspecionar estabilização. Este mesmo procedimento foi replicado para a configuração de ``todas as camadas'' e para ``últimas 5 camadas''.
+Sementes pseudoaleatorias foram fixadas para reprodutibilidade, bem como versões de bibliotecas foram anotadas. Para cada métrica e modelo, foram gerados: histogramas; estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa por índice de experimento, visando inspecionar estabilização. Este mesmo procedimento foi replicado para a configuração de ``todas as camadas'' e para ``últimas cinco camadas'' de ativações.
 
 \subsection{Significância Estatística}
 
-Ao término do procedimento de amostragem, foram realizados testes de significância estatística para investigar diferenças entre as distribuições das métricas de rede dos três modelos, nas configurações ``todas as camadas'' e ``últimas 5 camadas''. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
+Ao término do procedimento de amostragem, foram realizados testes de significância estatística entre as distribuições das métricas de rede dos três modelos, para as duas configurações especificadas (todas as camadas e últimas cinco camadas). Inicialmente, foi aplicado o teste ANOVA de uma via para verificar a existência de diferenças globais entre as distribuições das métricas dos três modelos. Em seguida, foram realizados testes t pareados entre os pares de modelos (Base vs SFT e Base vs GRPO) para identificar quais pares apresentavam diferenças estatisticamente significativas. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
 
 \begin{itemize}
 \item \textbf{Hipótese nula (H0)}: as distribuições de cada métrica são equivalentes entre os modelos comparados.
 \item \textbf{Hipótese alternativa (H1)}: existe diferença estatisticamente significativa entre pelo menos dois modelos para a métrica analisada.
 \end{itemize}
 
-\subsection{Síntese Metodológica e Hipóteses}
+\subsection{Síntese Metodológica e Hipóteses Iniciais}
 
-Os procedimentos descritos nesta seção estabelecem o fluxo experimental aplicado para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de LLMs na tarefa de solução de labirintos em ASCII.
-
-Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses:
+Os procedimentos descritos nesta seção estabelecem o fluxo experimental aplicado para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de LLMs na tarefa de solução de labirintos em ASCII. Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses:
 
 \begin{itemize}
     \item[H1:] Estratégias distintas de \textit{fine-tuning} (SFT e GRPO) induzem padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e de representação da tarefa.
     \item[H2:] A análise das ativações neuronais por meio da LLM-MRI permite identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
 \end{itemize}
 
-Na seção seguinte, serão apresentadas as visualizações, estatísticas descritivas e análises comparativas como material para embasar a discussão sobre como diferentes técnicas de especialização de LLMs para tarefas que exigem raciocínio espacial atuam sobre a representação das camadas de ativações desses LLMs.
+Na seção seguinte, estão apresentados os resultados para embasar a discussão sobre as hipóteses formuladas.
