@@ -1,14 +1,10 @@
 \section{Resultados}\label{sec:resultados}
 
-Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, com os dados coletados organizados, de modo a facilitar a compreensão das informações encontradas.
+Os resultados mais relevantes obtidos estão apresentados nesta seção e estruturados de maneira que, para cada uma das configurações mencionadas, e algumas das métricas descritas na Seção~\ref{sec:metodologia-metricas}, são apresentadas as curvas de médias cumulativas e estimativas de densidade por núcleo (KDE), além dos respectivos resultados dos testes de significância estatística. 
 
-Desta forma, esta seção está estruturada de maneira que, inicialmente, são apresentados os dados e gráficos, para os experimentos de inferência de distribuição das métricas de redes complexas (apresentadas na seção anterior), considerando todas as camadas dos modelos e, em seguida, os dados e gráficos considerando apenas as últimas cinco camadas de ativações dos modelos.
+\subsection{Resultados Considerando Todas as Camadas de Ativações}\label{sec:resultados-complete}
 
-Para cada uma das configurações mencionadas, estão apresentados, também, os resultados relevantes para as métricas observados descritas na Seção~\ref{sec:metodologia-metricas}, demonstrado, quando relevante, gráficos de \textit{boxplot}, histogramas e estimativas de densidade por núcleo (KDE) para as métricas que obtiveram visualizações relevantes. Ainda, de modo a facilitar a comparação entre os modelos, as figuras apresentadas estarão com as medidas dos três modelos, ajustes distintos e base, demonstrados.
-
-\subsection{Resultados considerando todas as camadas}
-
-Nesta seção, estão apresentados os resultados, obtidos a partir dos 1000 experimentos realizados, considerando todas as camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
+A seguir, estão apresentados os resultados da configuração que considerou as ativações de todas as camadas, capturadas com a biblioteca LLM-MRI, gerados a partir da entrada dos prompts de labirintos pelos modelos.
 
 \begin{itemize}
     \item \textbf{Número de Nós ($|V|$) e Número de Arestas ($|E|$)}: não foram observadas diferenças significativas entre os modelos, resultando em distribuições bastante similares e com pouca variabilidade entre os experimentos realizados. Dessa forma, não foram incluídas figuras para estas métricas.
@@ -16,56 +12,61 @@ Nesta seção, estão apresentados os resultados, obtidos a partir dos 1000 expe
 
 \subsubsection{Grau Médio ($\bar{k}$)}
 
-A média cumulativa dos graus médios obtidos para os três modelos, considerando todas as camadas, estão apresentados na Figura~\ref{fig:complete-cumulative-mean-grau-medio}. Observa-se, na Figura~\ref{fig:complete-kde-grau-medio}, que os três modelos apresentaram distribuições bastante similares. Com valores de médias próximas, o modelo ajustado com GRPO foi o que apresentou a maior média, seguido do modelo Base e, por fim, o modelo ajustado com SFT.
+A média cumulativa dos graus médios obtidos para os três modelos, considerando todas as camadas, estão apresentados na Figura~\ref{fig:complete-cumulative-mean-grau-medio}. Na qual, observa-se que as curvas convergem para valores próximos, indicando, ao final, uma média estável maior para o modelo ajustado com GRPO, seguido do modelo Base e, por fim, o modelo ajustado com SFT.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figure/complete/cumulative-mean/grau-medio.png}
+    \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/grau-medio.png}
     \caption{Média cumulativa do Grau Médio ($\bar{k}$).}
     \label{fig:complete-cumulative-mean-grau-medio}
 \end{figure}
 
-\begin{figure}[h]
+
+Na Figura~\ref{fig:complete-kde-grau-medio}, observa-se que os três modelos apresentaram distribuições bastante similares para o KDE do grau médio. Apesar de médias muito próximas, pode-se notar que o modelo os modelos ajustados, SFT e GRPO, exibem um pico ligeiramente mais acentuado em relação ao modelo Base, sugerindo uma maior concentração de valores em torno da média, com este último apresentando uma distribuição levemente mais à esquerda.
+
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figure/complete/kde/grau-medio.png}
+    \includegraphics[width=0.75\textwidth]{figure/complete/kde/grau-medio.png}
     \caption{KDE do Grau Médio ($\bar{k}$).}
     \label{fig:complete-kde-grau-medio}
 \end{figure}
 
 \subsubsection{Densidade ($\rho$)}
 
-A média cumulativa das densidades é apresentada na Figura~\ref{fig:complete-cumulative-mean-densidade}. Nota-se que, após as flutuações iniciais, as curvas convergem para valores próximos, indicando estabilidade na métrica ao longo dos experimentos. Conforme ilustrado na Figura~\ref{fig:complete-kde-densidade}, as distribuições estimadas por KDE também revelam comportamentos semelhantes entre os modelos, com leve diferença nas regiões de maior densidade de probabilidade. Essas variações, embora sutis, sugerem que os ajustes realizados via GRPO e SFT tendem a produzir grafos com maior compactação estrutural quando comparados ao modelo Base.
+Nota-se, ao analisar a figura da média cumulativa da densidade do grafo das ativações na Figura~\ref{fig:complete-cumulative-mean-densidade} que, novamente, os três modelos convergem para valores muito próximos com GRPO apresentando a maior média, seguido do modelo Base e SFT.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figure/complete/cumulative-mean/densidade.png}
+    \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/densidade.png}
     \caption{Média cumulativa da Densidade ($\rho$).}
     \label{fig:complete-cumulative-mean-densidade}
 \end{figure}
 
-\begin{figure}[h]
+Conforme ilustrado na Figura~\ref{fig:complete-kde-densidade}, as distribuições estimadas por KDE também revelam um comportamento bastante semelhante àquela análisado para o grau médio anteriormente. Do ponto de vista de redes complexas, embora sutis, essa distribuição sugere que os ajustes realizados no modelo base tende a produzir grafos de ativações com maior compactação estrutural, refletida em densidades ligeiramente maiores.
+
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figure/complete/kde/densidade.png}
+    \includegraphics[width=0.75\textwidth]{figure/complete/kde/densidade.png}
     \caption{KDE da Densidade ($\rho$).}
     \label{fig:complete-kde-densidade}
 \end{figure}
 
 \subsubsection{Assortatividade ($r$)}
 
-A média cumulativa das assortatividades é apresentada na Figura~\ref{fig:complete-cumulative-mean-assortatividade}. Observa-se que os três modelos convergem para valores negativos bastante próximos, indicando tendência geral a uma conectividade disassortativa ao longo dos experimentos, com o modelo Base tendendo a apresentar valores médios ligeiramente menos negativos que os modelos ajustados com SFT e GRPO.
+Observa-se que a evolução da média cumulativa da assortatividade, apresentada na Figura~\ref{fig:complete-cumulative-mean-assortatividade}, indica que os três modelos convergem para valores negativos próximos, indicando tendência geral a uma conectividade disassortativa ao longo dos experimentos, com o modelo Base tendendo a apresentar valores médios ligeiramente menos negativos que os modelos ajustados com SFT e GRPO.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.66\textwidth]{figure/complete/cumulative-mean/assortatividade.png}
+    \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/assortatividade.png}
     \caption{Média cumulativa da Assortatividade ($r$).}
     \label{fig:complete-cumulative-mean-assortatividade}
 \end{figure}
 
-As distribuições estimadas por KDE revela um comportamento similar entre os modelos e estão apresentadas na Figura~\ref{fig:complete-kde-assortatividade}. Com picos concentrados nas regiões próximas de zero e em valores levemente negativos, apesar da proximidade entre as curvas, nota-se que os modelos ajustados com SFT e GRPO exibem distribuições ligeiramente deslocadas para regiões mais negativas. Essas diferenças sugerem que os ajustes realizados via SFT e GRPO tendem a intensificar, ainda que de forma sutil, a característica disassortativa das redes em comparação ao modelo Base.
+As distribuições estimadas, na Figura~\ref{fig:complete-kde-assortatividade}, revelam picos concentrados nas regiões próximas de zero e em valores levemente negativos, apesar da proximidade entre as curvas, nota-se que os modelos ajustados com SFT e GRPO exibem distribuições ligeiramente deslocadas e concentradas para regiões mais negativas. Podemos inferir que os ajustes realizados via SFT e GRPO tendem a intensificar, ainda que de forma sutil, a característica disassortativa das redes em comparação ao modelo Base.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.66\textwidth]{figure/complete/kde/assortatividade.png}
+    \includegraphics[width=0.75\textwidth]{figure/complete/kde/assortatividade.png}
     \caption{KDE da Assortatividade ($r$).}
     \label{fig:complete-kde-assortatividade}
 \end{figure}
@@ -74,7 +75,7 @@ As distribuições estimadas por KDE revela um comportamento similar entre os mo
 
 A Figura~\ref{fig:complete-cumulative-mean-diametro} apresenta a média cumulativa do diâmetro. Os três modelos convergem para valores próximos, com o modelo Base ligeiramente maior e médias ligeiramente menores após SFT e GRPO, sugerindo grafos de ativação um pouco mais compactos que o modelo Base.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/diametro.png}
     \caption{Média cumulativa do Diâmetro ($D$).}
@@ -83,7 +84,7 @@ A Figura~\ref{fig:complete-cumulative-mean-diametro} apresenta a média cumulati
 
 Na Figura~\ref{fig:complete-kde-diametro}, as curvas KDE dos três modelos quase se sobrepõem, nos picos e na leve cauda à direita. Embora as distribuições de densidade sejam visualmente quase idênticas, a análise das médias cumulativas clarifica que os ajustes realizados via SFT e GRPO tendem a reduzir sutilmente o diâmetro médio dos grafos de ativação.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{figure/complete/kde/diametro.png}
     \caption{KDE do Diâmetro ($D$).}
@@ -94,7 +95,7 @@ Na Figura~\ref{fig:complete-kde-diametro}, as curvas KDE dos três modelos quase
 
 A evolução da média cumulativa do comprimento médio do caminho é apresentada na Figura~\ref{fig:complete-cumulative-mean-path-length}. Pode-se perceber que o modelo Base tende a estabilizar em um valor médio superior em comparação aos modelos ajustados. Em contraste, os modelos SFT e GRPO convergem para valores inferiores e bastante próximos entre si, com o GRPO sendo ligeiramente maior.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{figure/complete/cumulative-mean/comprimento-medio-caminho.png}
     \caption{Média cumulativa do Comprimento Médio do Caminho ($\bar{L}$).}
@@ -103,27 +104,28 @@ A evolução da média cumulativa do comprimento médio do caminho é apresentad
 
 As distribuições estimadas por KDE, ilustradas na Figura~\ref{fig:complete-kde-path-length}, condizem com o comportamento observado nas médias cumulativas. As diferenças, picos ligeiramente mais acentuados e o leve deslocamento à esquerda, indicam que os ajustes realizados tendem a reduzir o comprimento médio do caminho na rede de ativações, sugerindo uma maior eficiência na conectividade global quando comparada ao modelo original.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{figure/complete/kde/comprimento-medio-caminho.png}
     \caption{KDE do Comprimento Médio do Caminho ($\bar{L}$).}
     \label{fig:complete-kde-path-length}
 \end{figure}
 
-\subsection{Resultados considerando apenas as últimas cinco camadas}
+\subsection{Resultados Considerando Apenas as Últimas Cinco Camadas de Ativações}\label{sec:resultados-last-five}
 
 Nesta seção, estão apresentados os resultados obtidos a partir dos experimentos realizados, considerando apenas as últimas cinco camadas do embbeddings gerados aos prompts de labirintos pelos modelos, capturados com a biblioteca LLM-MRI.
 
 \begin{itemize}
     \item \textbf{Número de Nós ($|V|$) e Número de Arestas ($|E|$)}: de modo similar ao observado na seção anterior, não foram observadas diferenças significativas entre os modelos, resultando em distribuições bastante similares e com pouca variabilidade entre os experimentos realizados. Dessa forma, não foram incluídas figuras para estas métricas.
-    \item \textbf{Grau Médio ($\bar{k}$), Diâmetro ($D$) e Comprimento Médio do Caminho ($\bar{L}$)}: para estas métricas, não foram observadas diferenças representativas. Foram obtidas distribuições bastante similares entre os modelos, com diferenças mínimas de sobreposição entre as curvas de KDE, valores recorrentes, obtidos durante os experimentos, para as métricas calculadas e médias relativamente reduzidas, se comparadas àquelas obtidas quando consideradas todas as camadas. Sendo assim, não foram incluídas figuras para estas métricas.
+    \item \textbf{Grau Médio ($\bar{k}$), Diâmetro ($D$) e Comprimento Médio do Caminho ($\bar{L}$)}: para estas métricas, não foram observadas diferenças representativas. Foram obtidas distribuições bastante similares entre os modelos, com diferenças mínimas de sobreposição entre as curvas de KDE e valores recorrentes, obtidos durante os experimentos, para as métricas calculadas e médias relativamente reduzidas, se comparadas àquelas obtidas quando consideradas todas as camadas. Sendo assim, figuras para estas métricas não foram incluídas.
 \end{itemize}
 
 \subsubsection{Densidade ($\rho$)}
 
-Para a densidade, levando em consideração apenas as últimas cinco camadas de ativações, pode-se observar, na Figura~\ref{fig:last-five-cumulative-mean-densidade}, a evolução da média cumulativa. Apesar de médias estabilizadas próximas entre os modelos, é interessante notar a diferença obtida no valor da média, relativamente maior, quando comparada àquela obtida, para a mesma métrica, considerando todas as camadas.
+Para a densidade, levando em consideração apenas as últimas cinco camadas de ativações, pode-se observar, na Figura~\ref{fig:last-five-cumulative-mean-densidade}, a evolução da média cumulativa. Apesar de médias estabilizadas próximas entre os modelos, é interessante notar a diferença obtida no valor da média, relativamente maior, quando comparada àquela obtida, para a mesma métrica, considerando o cenário de todas as camadas.
 
-\begin{figure}[h]
+\newpage
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{figure/last-five/cumulative-mean/densidade.png}
     \caption{Média cumulativa da Densidade ($\rho$)}
@@ -132,7 +134,7 @@ Para a densidade, levando em consideração apenas as últimas cinco camadas de 
 
 Conforme ilustrado na Figura~\ref{fig:last-five-kde-densidade}, as distribuições estimadas por KDE revelam comportamentos muito parecidos entre os modelos. É possível visualizar alguns picos de densidade variados no domínio, evidenciando a repetição de certos valores de densidade ao longo dos experimentos realizados. Apesar disso, as curvas apresentam uma sobreposição considerável, com poucas diferenças visuais entre os modelos e o modelo GRPO apresentando uma leve tendência a valores de densidade mais concentrados.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.75\textwidth]{figure/last-five/kde/densidade.png}
     \caption{KDE da Densidade ($\rho$)}
@@ -143,7 +145,7 @@ Conforme ilustrado na Figura~\ref{fig:last-five-kde-densidade}, as distribuiçõ
 
 É apresentada a evolução da média cumulativa da assortatividade, considerando apenas as últimas cinco camadas, na Figura~\ref{fig:last-five-cumulative-mean-assortatividade}. Percebe-se que o comportamento reflete a tendência observada na análise global em que todos os modelos convergem para valores negativos, caracterizando redes disassortativas. Entretanto, com base no valor estável da média, os modelos Base e ajustados com apresentam uma intensificação da disassortatividade nas camadas finais, quando comparados ao cenário que considera todas as camadas.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{figure/last-five/cumulative-mean/assortatividade.png}
     \caption{Média cumulativa da Assortatividade ($r$).}
@@ -152,7 +154,7 @@ Conforme ilustrado na Figura~\ref{fig:last-five-kde-densidade}, as distribuiçõ
 
 Para a assortatividade, pode-se observar, na Figura~\ref{fig:last-five-kde-assortatividade}, as distribuições estimadas por KDE. De modo distinto, ao que foi apresentado para a assortatividade considerando todas as camadas, as curvas exibem dois picos principais de concentração em regiões mais negativas do domínio, sugerindo uma maior desassortatividade nas redes formadas pelas últimas cinco camadas. Além disso, visualmente, as curvas apresentam uma sobreposição considerável, com poucas diferenças visuais entre os modelos.
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.66\textwidth]{figure/last-five/kde/assortatividade.png}
     \caption{KDE da Assortatividade ($r$).}
