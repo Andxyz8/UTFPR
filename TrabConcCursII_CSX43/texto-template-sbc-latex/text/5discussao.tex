@@ -1,5 +1,55 @@
 \section{Discussão}\label{sec:discussao}
 
-Nesta seção, discutimos os principais achados obtidos a partir dos resultados obtidos.
+Nesta seção são discutidos os resultados obtidos, relacionando-os com as hipóteses formuladas, os gráficos apresentados na seção anterior e o entendimento subjacente deste estudo. Os principais pontos abordados incluem: análise dos prompts utilizados, interpretação sobre os resultados de métricas dos grafos de ativações recorrerentes, limitações do estudo,sugestões para trabalhos futuros e uma síntese final relacionando os achados com as hipóteses iniciais.
 
+\subsection{Análise dos Prompts Utilizados}
 
+Os prompts utilizados para gerar os grafos de ativações são fundamentais para compreender os resultados obtidos. A escolha para cada um deles foi realizada com sementes pseudoaleatórias, buscando diversidade e representatividade da base completa de dados.
+
+No entanto, é importante reconhecer que dado a natureza genérica e bastante similar dos prompts, pode ter havido limitações na capacidade de capturar nuances específicos que poderiam influenciar as métricas dos grafos de ativações, provocando, até mesmo, uma alteração no resultado relativo à significância estatística obtida relacionada às métricas análisadas.
+
+Os prompts si possuíam variações unicamente na estrutura da configuração do cenário do labirinto, mantendo sempre a mesma instrução de resolução e objetivo como entrada para os modelos, o que pode ter impactado na diversidade dos grafos gerados e consequentemente nas métricas analisadas, bem como na repetição de padrões observados para essas métricas calculadas.
+
+Futuras investigações poderiam explorar a utilização de prompts mais variados, com estruturas de labirintos diversificadas, inclusive, instruções diferentes, para avaliar como diferentes contextos podem impactar as estruturas dos grafos de ativações gerados.
+
+\subsection{Resultados das Métricas dos Grafos de Ativações Recorrentes}
+
+Especialmente durante a análise das métricas das ativações envolvendo o cenário que considerou apenas as últimas cinco camadas de ativações dos grafos, percebeu-se uma menor variabilidade nos resultados obtidos, de um modo geral, para todas as métricas analisadas.
+
+Essa redução na variabilidade pode ser atribuída ao fato de que, ao focar apenas nas últimas camadas, o modelo está considerando uma parte mais específica e refinada do processo de ativação, o que tende a resultar em grafos mais homogêneos e essa homogeneidade pode levar a uma menor dispersão nos valores das métricas, refletindo uma consistência maior nas estruturas dos grafos gerados a partir dessas camadas finais.
+
+Esse comportamento pode ser percebido ao avaliar as figuras \ref{fig:last-five-cumulative-mean-densidade} e \ref{fig:last-five-cumulative-mean-assortatividade} da Seção \ref{sec:resultados-last-five}, onde as médias cumulativas das métricas de densidade e assortatividade, respectivamente, apresentam curvas muito mais próximas entre si, praticamente coincidentes ao final. Isto indica uma menor variação nos valores dessas métricas, quando comparadas aos grafos completos, efeito que não é percebido com tanta intensidade em nenhuma das métricas analisadas na Seção \ref{sec:resultados-complete}.
+
+Além disso, ao analisar as distribuições estimadas por KDE para as métricas dos grafos considerando apenas as últimas cinco camadas, como apresentado nas Figuras \ref{fig:last-five-kde-densidade} e \ref{fig:last-five-kde-assortatividade}, observa-se que as curvas estão ainda mais sobrepostas, indicando uma similaridade ainda maior entre os modelos ajustados em comparação ao modelo Base. Por fim, também com relação às figuras de KDE, é possível verificar diversos picos mais pronunciados no domínio da métrica, sugerindo que os valores estão mais concentrados em torno de determinados pontos, reforçando a ideia de menor variabilidade nos resultados obtidos.
+
+\subsection{Limitações do Estudo}
+
+Apesar dos esforços para conduzir uma análise robusta, este estudo apresenta algumas limitações que devem ser consideradas ao interpretar os resultados:
+
+\begin{itemize}
+    \item \textbf{Diversidade dos Prompts:} a escolha dos prompts, embora tenha buscado diversidade, pode não ter sido suficientemente ampla para capturar todos os nuances possíveis na geração dos grafos de ativações. Prompts mais variados poderiam ter proporcionado uma visão mais completa do comportamento dos modelos.
+    \item \textbf{Tamanho da Amostra:} o número de prompts utilizados pode ter sido limitado, o que pode afetar a generalização dos resultados. Uma amostra maior poderia fornecer uma base mais sólida para as análises estatísticas em custo de maior necessidade de poder computacional.
+    \item \textbf{Foco nas Últimas Camadas:} embora a análise das últimas cinco camadas tenha revelado insights interessantes, essa abordagem pode ter negligenciado informações valiosas presentes nas camadas intermediárias. Uma análise mais abrangente poderia considerar diferentes combinações de camadas.
+    \item \textbf{Métricas Analisadas:} as métricas escolhidas para análise, embora relevantes, podem não abranger todos os aspectos importantes das estruturas dos grafos de ativações. Outras métricas poderiam ser exploradas para obter uma compreensão mais completa.
+    \item \textbf{Generalização dos Resultados:} Os resultados obtidos podem ser específicos para os modelos e configurações utilizados neste estudo. A generalização para outros modelos ou tarefas pode ser limitada.
+\end{itemize}
+
+\subsection{Trabalhos Futuros}
+
+Como forma de expandir os achados deste estudo, sugerem-se algumas direções para trabalhos futuros:
+
+\begin{itemize}
+    \item Investigar o impacto de diferentes tipos de prompts, incluindo variações mais complexas e contextuais, para entender como a diversidade na entrada afeta as métricas dos grafos.
+    \item Obter as ativações dos modelos para as saídas dos em diferentes etapas da resolução de uma mesma tarefa em uma mesma solicitação, buscando entender como as ativações evoluem ao longo do processo de geração da solução final do labirinto, com o intuito também de analisar como as métricas dos grafos de ativações se comportam em cada etapa.
+    \item Analisar a influência de diferentes técnicas de \textit{fine-tuning}, além do SFT e GRPO, na estrutura dos grafos de ativações, avaliando se outras abordagens resultam em mudanças significativas nas métricas analisadas além da avaliação de outras métricas de grafos que possam fornecer insights adicionais sobre as mudanças estruturais provocadas pelos diferentes métodos de ajuste fino.
+    \item Explorar a influência de diferentes arquiteturas de modelos de linguagem na estrutura dos grafos de ativações, avaliando se as tendências observadas se mantêm ou variam significativamente. Isto é, investigar se modelos com diferentes tamanhos, mecanismos de atenção ou outras características arquiteturais apresentam comportamentos distintos nas métricas dos grafos de ativações.
+    \item Aprimorar a implementação da biblioteca LLM-MRI, buscando otimizar o processo de geração dos grafos das ativações, explorar novas técnicas que possam enriquecer o nível de nuances capturados no processo de redução de dimensionalidade.
+\end{itemize}
+
+\subsection{Conclusão}
+
+Os achados deste estudo fornecem insumos valiosos sobre o impacto do \textit{fine-tuning} em modelos de linguagem, especialmente no contexto de resolução de labirintos em ASCII. As análises das métricas dos grafos de ativações revelaram mudanças sutis, apesar de não significativas estatisticamente, nas estruturas dos grafos gerados pelos modelos ajustados em comparação ao modelo Base.
+
+Essas mudanças sugerem que o \textit{fine-tuning} pode influenciar a forma como os modelos processam e representam informações, mesmo que essas alterações não sejam drasticamente evidentes nas métricas analisadas. A redução na variabilidade observada ao focar nas últimas cinco camadas de ativações destaca a importância de considerar diferentes níveis de abstração dentro dos modelos para compreender plenamente o impacto do ajuste fino.
+
+Por fim, as sugestões para trabalhos futuros apontam para diversas direções promissoras que podem aprofundar a compreensão sobre o comportamento dos modelos de linguagem e suas representações internas, contribuindo para avanços na área de processamento de linguagem natural.
