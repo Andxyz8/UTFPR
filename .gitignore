@@ -110,3 +110,22 @@ transcript
 
 # Arquivos packet tracer
 *.pksz
+
+# Outras extensões comuns do LaTeX
+*.acn*
+*.alg*
+*.acr*
+*.glg
+*.glo
+*.gls
+*.ist
+*.loc
+*.ist
+*.loc
+*.lod
+*.loh
+*.lop
+*.mw
+*.nlo
+*.nls
+*.xmpi
