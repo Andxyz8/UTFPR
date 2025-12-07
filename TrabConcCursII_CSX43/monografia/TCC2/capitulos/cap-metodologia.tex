@@ -26,6 +26,16 @@ Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \c
     \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem (\verb!<|origin|>!) ao destino (\verb!<|target|>!). Nos prompts, incentiva-se, como diretriz adicional para melhor resolução de problemas, a ação ``think step-by-step'' (``\textit{pense passo a passo}''), em tradução livre. Entretanto, de qualquer forma, a saída final deve conter exclusivamente os tokens de movimento, conforme especificado anteriormente.
 \end{itemize}
 
+A Figura \ref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset empregado, proveniente do trabalho de \cite{dao2025alphamaze}. Na parte inferior da figura, é apresentado um exemplo do labirinto em formato ASCII, conforme o padrão anteriormente descrito.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figuras/exemplo-prompt.png}
+    \caption{Exemplo de solicitação (\textit{prompt}) trabalhados.}
+    \label{fig:exemplo-prompt}
+\end{figure}
+
+
 \section{Modelos e Estratégias de Fine-tuning}
 
 Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}. Informações gerais acerca dos modelos são apresentados na Tabela \ref{tab:modelos-utilizados}.
