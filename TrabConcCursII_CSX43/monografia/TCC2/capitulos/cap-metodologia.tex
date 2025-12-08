@@ -7,7 +7,7 @@ Esta seção apresenta a metodologia aplicada na investigação, sobre como como
 
 \section{Dados}
 
-Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \cite{dao2025alphamaze}, representados em ASCII, uma vez que esses dados estão disponíveis publicamente e permitiram uma redução considerável no tempo que seria empregado na elaboração dos datasets e ajuste dos modelos.
+Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \citet{dao2025alphamaze}, representados em ASCII, uma vez que esses dados estão disponíveis publicamente e permitiram uma redução considerável no tempo que seria empregado na elaboração dos datasets e ajuste dos modelos.
 
 \begin{itemize}
     \item \textbf{Formato geral dos exemplos}: cada exemplo é um \textit{prompt} textual que instrui o modelo sobre a tarefa, apresenta a grade completa do labirinto com origem e destino e define que a saída deve conter apenas tokens de movimento.
@@ -26,7 +26,7 @@ Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \c
     \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem (\verb!<|origin|>!) ao destino (\verb!<|target|>!). Nos prompts, incentiva-se, como diretriz adicional para melhor resolução de problemas, a ação ``think step-by-step'' (``\textit{pense passo a passo}''), em tradução livre. Entretanto, de qualquer forma, a saída final deve conter exclusivamente os tokens de movimento, conforme especificado anteriormente.
 \end{itemize}
 
-A Figura \ref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset empregado, proveniente do trabalho de \cite{dao2025alphamaze}. Na parte inferior da figura, é apresentado um exemplo do labirinto em formato ASCII, conforme o padrão anteriormente descrito.
+A \autoref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset empregado, proveniente do trabalho de \citet{dao2025alphamaze}. Na parte inferior da figura, é apresentado um exemplo do labirinto em formato ASCII, conforme o padrão anteriormente descrito.
 
 \begin{figure}[h!]
     \centering
@@ -36,24 +36,25 @@ A Figura \ref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset em
     \fonte{}
 \end{figure}
 
-Ressalta-se, como diretriz metodológica, que embora o \textit{dataset} reaproveitado inclua a sequência de passos da resposta correta e o trabalho de \cite{dao2025alphamaze} avalie a acurácia e o desempenho dos modelos na resolução dos labirintos, tais informações externas de acertos não foram utilizadas como métrica neste estudo. O foco desta investigação restringe-se às dinâmicas das ativações internas, independentemente do sucesso final da navegação.
+Ressalta-se, como diretriz metodológica, que embora o \textit{dataset} reaproveitado inclua a sequência de passos da resposta correta e o trabalho de \citet{dao2025alphamaze} avalie a acurácia e o desempenho dos modelos na resolução dos labirintos, tais informações externas de acertos não foram utilizadas como métrica neste estudo. O foco desta investigação restringe-se às dinâmicas das ativações internas, independentemente do sucesso final da navegação.
 
 \section{Modelos e Estratégias de Fine-tuning}
 
-Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}. Informações gerais acerca dos modelos são apresentados na Tabela \ref{tab:modelos-utilizados}.
+Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}. Informações gerais acerca dos modelos são apresentados na \autoref{tab:modelos-utilizados}.
 \begin{table}[h!]
     \centering
-    \caption{Informações dos modelos utilizados nos experimentos.}
+    \caption{Informações dos modelos utilizados nos experimentos}
     \label{tab:modelos-utilizados}
     \begin{tabular}{|l|l|c|l|}
         \hline
-        Nome & Tipo Ajuste & Parâmetros & Licença \\
+        \textbf{Nome} & \textbf{Tipo Ajuste} & \textbf{Parâmetros} & \textbf{Licença} \\
         \hline
         DeepSeek-R1-Distill-Qwen-1.5B & Base & 1.5B & MIT \\
         AlphaMaze-v0.2-1.5B-SFT & SFT & 1.5B & Apache-2.0 \\
         AlphaMaze-v0.2-1.5B & GRPO & 1.5B & Apache-2.0 \\
         \hline
     \end{tabular}
+    \fonte{}
 \end{table}
 
 \begin{itemize}
@@ -62,7 +63,7 @@ Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a
     \item \textbf{AlphaMaze-v0.2-1.5B} (\cite{hf-menlo-alphamaze-v02-1p5b}): variante ajustada por GRPO, usada para comparar a dinâmica de aprendizado por otimização de política relativa a preferências \cite{hf-menlo-alphamaze-v02-1p5b, dao2025alphamaze}.
 \end{itemize}
 
-De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia, com conjuntos de dados de treino específicos para o modelo ajustado com SFT e para o modelo ajustado com GRPO, em que seu conjunto de dados de treino possui orientações adicionais para potencializar sua autocorreção conforme a otimização política relativa a preferências. Ambos os modelos ajustados compartilham a mesma arquitetura e número de parâmetros do modelo base DeepSeek-R1-Distill-Qwen-1.5B. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura que estão descritas a seguir:
+De acordo com \citet{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia, com conjuntos de dados de treino específicos para o modelo ajustado com SFT e para o modelo ajustado com GRPO, em que seu conjunto de dados de treino possui orientações adicionais para potencializar sua autocorreção conforme a otimização política relativa a preferências. Ambos os modelos ajustados compartilham a mesma arquitetura e número de parâmetros do modelo base DeepSeek-R1-Distill-Qwen-1.5B. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura que estão descritas a seguir:
 
 \begin{itemize}
     \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
