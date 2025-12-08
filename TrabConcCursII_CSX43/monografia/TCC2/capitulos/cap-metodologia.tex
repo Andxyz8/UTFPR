@@ -30,9 +30,10 @@ A Figura \ref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset em
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.75\textwidth]{figuras/exemplo-prompt.png}
     \caption{Exemplo de solicitação (\textit{prompt}) trabalhados.}
+    \includegraphics[width=0.75\textwidth]{figuras/exemplo-prompt.png}
     \label{fig:exemplo-prompt}
+    \fonte{}
 \end{figure}
 
 Ressalta-se, como diretriz metodológica, que embora o \textit{dataset} reaproveitado inclua a sequência de passos da resposta correta e o trabalho de \cite{dao2025alphamaze} avalie a acurácia e o desempenho dos modelos na resolução dos labirintos, tais informações externas de acertos não foram utilizadas como métrica neste estudo. O foco desta investigação restringe-se às dinâmicas das ativações internas, independentemente do sucesso final da navegação.
@@ -67,6 +68,24 @@ De acordo com \cite{dao2025alphamaze}, cada modelo foi treinado separadamente em
     \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
     \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
 \end{itemize}
+
+Para contextualizar a capacidade de raciocínio espacial dos modelos selecionados, é relevante observar o desempenho original reportado pelos autores do AlphaMaze. Conforme demonstrado na Tabela \autoref{tab:desempenho-mazebench}, o modelo base (DeepSeek-R1-Distill-Qwen-1.5B) não foi capaz de resolver nenhum dos labirintos do \textit{benchmark}, apresentando acurácia nula. A aplicação do Supervised Fine-Tuning (SFT) elevou drasticamente essa capacidade para 86,0\%, estabelecendo uma competência fundamental de navegação. Por fim, o refino via Group Relative Policy Optimization (GRPO) permitiu ao modelo alcançar 93,0\% de acurácia, indicando uma sofisticação no processo de decisão sequencial e autocorreção \cite{dao2025alphamaze}.
+
+\begin{table}[h!]
+    \centering
+    \caption{Acurácia de resolução de labirintos no \textit{MazeBench}}
+    \label{tab:desempenho-mazebench}
+    \begin{tabular}{|l|c|c|r|}
+        \hline
+        \textbf{Modelo} & \textbf{SFT} & \textbf{GRPO} & \textbf{Score (\%)} \\
+        \hline
+        DeepSeek-R1-Distill-Qwen-1.5B (Base) & Não & Não & 0,0 \\
+        AlphaMaze-v0.2-1.5B-SFT & Sim & Não & 86,0 \\
+        AlphaMaze-v0.2-1.5B (GRPO) & Sim & Não & \textbf{93,0} \\
+        \hline
+    \end{tabular}
+    \fonte{\citet{dao2025alphamaze}}
+\end{table}
 
 \section{Procedimentos de Processamento, Métricas e Estatística}
 
