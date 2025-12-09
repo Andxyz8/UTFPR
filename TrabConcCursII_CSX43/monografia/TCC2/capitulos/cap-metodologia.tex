@@ -94,11 +94,14 @@ A obtenção das ativações internas dos modelos foi feita com a utilização d
 
 \subsection{Pré-processamento e Validação Inicial}
 
-O pré-processamento dos dados envolveu as etapas descritas a seguir.
+O pré-processamento dos dados e a verificação da integridade das ferramentas de extração envolveram as etapas descritas a seguir:
+
 \begin{itemize}
-    \item Obtenção dos arquivos Parquet do \textit{dataset} de treinamento do modelo AlphaMaze-v0.2-1.5B-SFT, contendo os prompts e as respostas geradas pelos modelos.
-    \item Atribuição de \textit{label} binária (\textit{easy} = 0, \textit{complex} = 1) por um limiar de passos ($<10$ passos, \textit{easy}; \textit{complex}, caso contrário) para se adequar a análises categóricas, necessário para utilizar a biblioteca LLM-MRI.
-    \item Validação de \textit{embbeddings} extraídos dos modelos pela biblioteca LLM-MRI com modelos de aprendizado de máquina de regressão logística. Validação realizada antes e depois da aplicação da redução de dimensionalidade para assegurar a consistência do funcionamento da biblioteca. De acordo com os resulados obtidos na validação dos \textit{embeddings}, foi possível confirmar o funcionamento adequado da biblioteca LLM-MRI para extração das ativações dos modelos selecionados. Sendo que para o resultado do modelo de regressão logística aplicado sobre os \textit{embeddings} antes da redução de dimensionalidade, obteve-se uma acurácia de 100\%.
+    \item \textbf{Obtenção dos Dados}: utilização dos arquivos Parquet do \textit{dataset} de treinamento do modelo AlphaMaze-v0.2-1.5B-SFT, compreendendo os \textit{prompts} e as respostas geradas.
+    
+    \item \textbf{Adequação à Biblioteca LLM-MRI (Labeling)}: foi necessária a atribuição de rótulos binários (\textit{easy} = 0 e \textit{complex} = 1) baseados na quantidade de passos da solução ($<10$ passos, \textit{easy}). Essa categorização foi realizada estritamente para atender a um requisito de funcionamento da biblioteca LLM-MRI, que exige uma estrutura de comparação entre duas categorias para processar os dados. Portanto, tais rótulos não constituem objeto de análise deste trabalho, servindo apenas para viabilizar a execução da ferramenta com o \textit{dataset} de \citet{dao2025alphamaze}.
+
+    \item \textbf{Teste de Sanidade das Reduções (Regressão Logística)}: foi aplicado um modelo de regressão logística como um teste de sanidade (''\textit{sanity check}``) para validar a qualidade técnica das reduções de dimensionalidade e a extração de \textit{embeddings} realizadas pela LLM-MRI. O objetivo deste teste foi garantir que o processo de redução de dimensionalidade da biblioteca preservasse a estrutura dos dados. A acurácia de 100\% obtida na regressão (antes da redução) e a consistência observada após a redução confirmaram a viabilidade técnica do uso da biblioteca para a extração das ativações, assegurando que os dados processados não sofreram distorções que inviabilizassem o estudo.
 \end{itemize}
 
 \subsection{Métricas de Ciências das Redes}\label{sec:metodologia-metricas}
