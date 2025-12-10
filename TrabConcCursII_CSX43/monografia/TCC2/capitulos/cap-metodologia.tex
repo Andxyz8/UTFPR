@@ -183,14 +183,31 @@ A extração das ativações e o cálculo das métricas percorreram a totalidade
 
 \subsection{Configuração da máquina}
 
-As informações a seguir foram obtidas a partir do gerenciador de tarefas do Windows (captura de configuração e métricas no momento da execução/registro):
+As especificações técnicas da máquina utilizada para a execução dos experimentos estão detalhadas na \autoref{tab:config-maquina}. Os dados refletem a configuração de \textit{hardware} vigente durante a coleta das métricas e também o Sistema Operacional.
 
-\begin{itemize}
-    \item \textbf{CPU}: 13th Gen Intel(R) Core(TM) i7-13700HX (Velocidade base: 2,10 GHz; Núcleos: 16; Processadores lógicos: 24).
-    \item \textbf{Memória (RAM)}: 16,0 GB (SODIMM, 4800 MT/s; 2 de 4 slots usados).
-    \item \textbf{GPU (disponível, não utilizada)}: NVIDIA GeForce RTX 4050 Laptop GPU; Memória dedicada da GPU: 6,0 GB.
-    \item \textbf{Armazenamento:} SSD NVMe (477 GB).
-\end{itemize}
+\begin{table}[h!]
+    \centering
+    \caption{Configuração de \textit{hardware} e \textit{software} da máquina utilizada nos experimentos}
+    \label{tab:config-maquina}
+    \begin{tabular}{|l|p{10cm}|}
+        \hline
+        \textbf{Componente} & \textbf{Especificação} \\
+        \hline
+        Processador (CPU) & 13th Gen Intel(R) Core(TM) i7-13700HX \newline (Velocidade base: 2,10 GHz; 16 Núcleos; 24 Processadores lógicos) \\
+        \hline
+        Memória (RAM) & 16,0 GB (SODIMM, 4800 MT/s; 2 de 4 slots usados) \\
+        \hline
+        Placa de Vídeo (GPU) & NVIDIA GeForce RTX 4050 Laptop GPU (6,0 GB) \newline \textit{*Disponível no sistema, porém não utilizada no processamento.} \\
+        \hline
+        Armazenamento & SSD NVMe (477 GB) \\
+        \hline
+        Sistema Operacional & Windows 11 Home \\
+        \hline
+    \end{tabular}
+    \fonte{}
+\end{table}
+
+Cabe esclarecer que a opção pelo processamento exclusivo via CPU fundamentou-se nos resultados obtidos durante as etapas de validação preliminar do projeto. Testes iniciais de coleta de ativações, realizados com amostras reduzidas do \textit{dataset}, demonstraram que o desempenho da CPU era plenamente suficiente para a demanda computacional da tarefa. Diante disso, considerou-se desnecessária a implementação de rotinas de compatibilização para aceleração via GPU.
 
 \section{Síntese Metodológica e Hipóteses Iniciais}
 
