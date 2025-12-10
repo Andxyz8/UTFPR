@@ -129,3 +129,6 @@ transcript
 *.nlo
 *.nls
 *.xmpi
+*.idx
+*.ilg
+*.ind
