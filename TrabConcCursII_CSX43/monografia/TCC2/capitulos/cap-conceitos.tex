@@ -53,6 +53,27 @@ Além disso, a literatura destaca a importância de desenvolver métricas e benc
 
 \subsection{LLM-MRI}
 
-A biblioteca LLM-MRI (\textit{Large Language Model - Magnetic Resonance Imaging}) é uma ferramenta desenvolvida para facilitar a análise de padrões de ativação em LLMs baseados em \textit{transformer}. Conforme apresentado por \cite{costa2024llmmri}, a LLM-MRI permite coletar, organizar e projetar em dimensões reduzidas os vetores de ativação gerados pelos modelos ao processarem diferentes entradas. Técnicas de redução de dimensionalidade possibilitam visualizar como as ativações neuronais se distribuem, facilitando a identificação de padrões e a análise das mudanças provocadas por diferentes estratégias de fine-tuning.
+A biblioteca LLM-MRI (\textit{Large Language Model - Magnetic Resonance Imaging}) é uma ferramenta de código aberto desenvolvida para simplificar o estudo de padrões de ativação em LLMs baseados na arquitetura \textit{transformer}. Atuando de forma análoga a uma ressonância magnética em cérebros biológicos, a ferramenta permite mapear e visualizar regiões neurais ativas durante o processamento de textos, transformando vetores de alta dimensionalidade em representações analisáveis.
 
-No contexto deste trabalho, a LLM-MRI é empregada para investigar como LLMs se adaptam à tarefa de navegação em labirintos ASCII e como as estruturas internas dos modelos evoluem durante o processo de aprendizagem, contribuindo para a análise da interpretabilidade e do raciocínio espacial dos modelos.
+O funcionamento da biblioteca estrutura-se em três estágios sequenciais: (1) Extração de Ativações, (2) Mapeamento de Regiões Neurais e (3) Geração de Artefatos. O fluxo completo de processamento está ilustrado na Figura \ref{fig:fluxograma-llmmri}.
+
+\begin{figure}[h!]
+    \centering
+    \caption{Fluxograma de funcionamento da biblioteca LLM-MRI}
+    \includegraphics[width=1.0\textwidth]{figuras/fluxograma-funcionamento-llmmri.png}
+    \label{fig:fluxograma-llmmri}
+    \fonte{\citet{costa2024llmmri}}
+\end{figure}
+
+Na etapa inicial, denominada \textbf{Extração de Ativações} (passos 1 a 3 na \autoref{fig:fluxograma-llmmri}), o modelo e o \textit{corpus} de texto são carregados. A ferramenta foca na extração das ativações das camadas \textit{feed-forward}, partindo da premissa de que estas carregam maior significado semântico e são mais propícias ao mapeamento de áreas neurais do que os mecanismos de atenção isolados.
+
+O segundo estágio, \textbf{Mapeamento de Regiões Neurais}, constitui o núcleo de funcionamento da ferramenta. Devido à alta dimensionalidade dos LLMs, a biblioteca aplica técnicas de redução de dimensionalidade (como UMAP) para projetar os neurônios em um espaço bidimensional (passo 4). Em seguida, este espaço é discretizado em ''regiões neurais`` (passo 5), que agregam neurônios com padrões de ativações semelhantes. A partir desse mapeamento, a ferramenta constrói um grafo (passo 6) onde:
+
+\begin{itemize}
+    \item Os \textbf{nós} representam as regiões neurais ativas;
+    \item As \textbf{arestas} representam o fluxo de ativação entre camadas vizinhas, ponderadas pela frequência de coativação estimulada pelos documentos processados.
+\end{itemize}
+
+Por fim, no estágio de \textbf{Geração de Artefatos} (passo 7), a LLM-MRI produz visualizações das camadas ativas e modelos de grafos compatíveis com bibliotecas de análise de redes (como \textit{NetworkX}). Esses grafos permitem a aplicação de métricas de Redes Complexas (e.g. centralidade, densidade e clusterização) para realizar avaliações quantitativas e qualitativas da estrutura interna do modelo.
+
+No contexto deste trabalho, a capacidade da LLM-MRI de gerar grafos interconectados das camadas internas é utilizada para investigar se o aprendizado da tarefa de navegação em labirintos provoca alterações estruturais mensuráveis na topologia das ativações dos modelos, contribuindo para a análise da interpretabilidade e do raciocínio espacial dos modelos.
