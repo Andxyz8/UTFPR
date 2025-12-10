@@ -5,7 +5,7 @@
 
 Os resultados mais relevantes obtidos estão apresentados nesta seção e estruturados de maneira que, para cada uma das configurações mencionadas, e algumas das métricas descritas na \autoref{sec:metodologia-metricas}, são apresentadas as curvas de médias cumulativas e estimativas de densidade por núcleo (\gls{kde}), além dos respectivos resultados dos testes de significância estatística. 
 
-\section{Resultados Considerando Todas as Camadas de Ativações}\label{sec:resultados-complete}
+\section{Resultados Considerando Todas Camadas de Ativações}\label{sec:resultados-complete}
 
 A seguir, estão apresentados os resultados da configuração que considerou as ativações de todas as camadas, capturadas com a biblioteca LLM-MRI, gerados a partir da entrada dos prompts de labirintos pelos modelos.
 
@@ -20,7 +20,7 @@ A média cumulativa dos graus médios obtidos para os três modelos, considerand
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa do Grau Médio ($\bar{k}$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/cumulative-mean/grau-medio.png}
+    \includegraphics[width=0.7\textwidth]{figuras/complete/cumulative-mean/grau-medio.png}
     \label{fig:complete-cumulative-mean-grau-medio}
     \fonte{}
 \end{figure}
@@ -31,7 +31,7 @@ Na \autoref{fig:complete-kde-grau-medio}, observa-se que os três modelos aprese
 \begin{figure}[h!]
     \centering
     \caption{KDE do Grau Médio ($\bar{k}$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/kde/grau-medio.png}
+    \includegraphics[width=0.7\textwidth]{figuras/complete/kde/grau-medio.png}
     \label{fig:complete-kde-grau-medio}
     \fonte{}
 \end{figure}
@@ -43,7 +43,7 @@ Nota-se, ao analisar a figura da média cumulativa da densidade do grafo das ati
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa da Densidade ($\rho$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/cumulative-mean/densidade.png}
+    \includegraphics[width=0.7\textwidth]{figuras/complete/cumulative-mean/densidade.png}
     \label{fig:complete-cumulative-mean-densidade}
     \fonte{}
 \end{figure}
@@ -53,19 +53,19 @@ Conforme ilustrado na \autoref{fig:complete-kde-densidade}, as distribuições e
 \begin{figure}[h!]
     \centering
     \caption{KDE da Densidade ($\rho$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/kde/densidade.png}
+    \includegraphics[width=0.66\textwidth]{figuras/complete/kde/densidade.png}
     \label{fig:complete-kde-densidade}
     \fonte{}
 \end{figure}
 
 \subsection{Assortatividade ($r$)}
 
-Observa-se que a evolução da média cumulativa da assortatividade, apresentada na \autoref{fig:complete-cumulative-mean-assortatividade}, indica que os três modelos convergem para valores negativos próximos, indicando tendência geral a uma conectividade disassortativa ao longo dos experimentos, com o modelo Base tendendo a apresentar valores médios ligeiramente menos negativos que os modelos ajustados com \gls{sft} e \gls{grpo}.
+Observa-se que a evolução da média cumulativa da assortatividade, apresentada na \autoref{fig:complete-cumulative-mean-assortatividade}, indica que os três modelos convergem para valores negativos próximos, indicando tendência geral à disassortatividade, com o modelo Base tendendo a apresentar valores médios ligeiramente menos negativos que os modelos ajustados com \gls{sft} e \gls{grpo}.
 
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa da Assortatividade ($r$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/cumulative-mean/assortatividade.png}
+    \includegraphics[width=0.66\textwidth]{figuras/complete/cumulative-mean/assortatividade.png}
     \label{fig:complete-cumulative-mean-assortatividade}
     \fonte{}
 \end{figure}
@@ -75,7 +75,7 @@ As distribuições estimadas, na \autoref{fig:complete-kde-assortatividade}, rev
 \begin{figure}[h!]
     \centering
     \caption{KDE da Assortatividade ($r$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/kde/assortatividade.png}
+    \includegraphics[width=0.66\textwidth]{figuras/complete/kde/assortatividade.png}
     \label{fig:complete-kde-assortatividade}
     \fonte{}
 \end{figure}
@@ -87,7 +87,7 @@ A \autoref{fig:complete-cumulative-mean-diametro} apresenta a média cumulativa 
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa do Diâmetro ($D$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/cumulative-mean/diametro.png}
+    \includegraphics[width=0.66\textwidth]{figuras/complete/cumulative-mean/diametro.png}
     \label{fig:complete-cumulative-mean-diametro}
     \fonte{}
 \end{figure}
@@ -97,7 +97,7 @@ Na \autoref{fig:complete-kde-diametro}, as curvas \gls{kde} dos três modelos qu
 \begin{figure}[h!]
     \centering
     \caption{KDE do Diâmetro ($D$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/kde/diametro.png}
+    \includegraphics[width=0.7\textwidth]{figuras/complete/kde/diametro.png}
     \label{fig:complete-kde-diametro}
     \fonte{}
 \end{figure}
@@ -109,7 +109,7 @@ A evolução da média cumulativa do comprimento médio do caminho é apresentad
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa do Comprimento Médio do Caminho ($\bar{L}$).}
-    \includegraphics[width=0.75\textwidth]{figuras/complete/cumulative-mean/comprimento-medio-caminho.png}
+    \includegraphics[width=0.7\textwidth]{figuras/complete/cumulative-mean/comprimento-medio-caminho.png}
     \label{fig:complete-cumulative-mean-path-length}
     \fonte{}
 \end{figure}
@@ -140,17 +140,17 @@ Para a densidade, levando em consideração apenas as últimas cinco camadas de 
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa da Densidade ($\rho$)}
-    \includegraphics[width=0.75\textwidth]{figuras/last-five/cumulative-mean/densidade.png}
+    \includegraphics[width=0.66\textwidth]{figuras/last-five/cumulative-mean/densidade.png}
     \label{fig:last-five-cumulative-mean-densidade}
     \fonte{}
 \end{figure}
 
-Conforme ilustrado na \autoref{fig:last-five-kde-densidade}, as distribuições estimadas por \gls{kde} revelam comportamentos muito parecidos entre os modelos. É possível visualizar alguns picos de densidade variados no domínio, evidenciando a repetição de certos valores de densidade ao longo dos experimentos realizados. Apesar disso, as curvas apresentam uma sobreposição considerável, com poucas diferenças visuais entre os modelos e o modelo \gls{grpo} apresentando uma leve tendência a valores de densidade mais concentrados.
+Conforme ilustrado na \autoref{fig:last-five-kde-densidade}, as distribuições estimadas por \gls{kde} revelam comportamentos muito parecidos entre os modelos. É possível visualizar alguns picos de densidade variados no domínio, evidenciando a repetição de certos valores de densidade ao longo dos experimentos realizados. Apesar disso, as curvas apresentam uma sobreposição considerável, com poucas diferenças visuais entre os domínios do \gls{kde} dos modelos.
 
 \begin{figure}[h!]
     \centering
     \caption{KDE da Densidade ($\rho$)}
-    \includegraphics[width=0.75\textwidth]{figuras/last-five/kde/densidade.png}
+    \includegraphics[width=0.66\textwidth]{figuras/last-five/kde/densidade.png}
     \label{fig:last-five-kde-densidade}
     \fonte{}
 \end{figure}
@@ -162,12 +162,12 @@ Conforme ilustrado na \autoref{fig:last-five-kde-densidade}, as distribuições 
 \begin{figure}[h!]
     \centering
     \caption{Média cumulativa da Assortatividade ($r$).}
-    \includegraphics[width=0.8\textwidth]{figuras/last-five/cumulative-mean/assortatividade.png}
+    \includegraphics[width=0.66\textwidth]{figuras/last-five/cumulative-mean/assortatividade.png}
     \label{fig:last-five-cumulative-mean-assortatividade}
     \fonte{}
 \end{figure}
 
-Para a assortatividade, pode-se observar, na \autoref{fig:last-five-kde-assortatividade}, as distribuições estimadas por KDE. De modo distinto, ao que foi apresentado para a assortatividade considerando todas as camadas, as curvas exibem dois picos principais de concentração em regiões mais negativas do domínio, sugerindo uma maior desassortatividade nas redes formadas pelas últimas cinco camadas. Além disso, visualmente, as curvas apresentam uma sobreposição considerável, com poucas diferenças visuais entre os modelos.
+Para a assortatividade, pode-se observar, na \autoref{fig:last-five-kde-assortatividade}, as distribuições estimadas por KDE. As curvas, com uma sobreposição considerável, exibem dois picos principais de concentração em regiões mais negativas do domínio, sugerindo uma maior desassortatividade nas redes formadas pelas últimas cinco camadas.
 
 \begin{figure}[h!]
     \centering
@@ -212,7 +212,7 @@ Os mesmos testes foram realizados para o cenário considerando apenas as última
     \label{tab:anova-ttest-lastfive}
     \begin{tabular}{|l|c|c|c|}
         \hline
-        Métrica & ANOVA & Bas3 vs SFT & Base vs GRPO \\
+        Métrica & ANOVA & Base vs SFT & Base vs GRPO \\
         \hline
         Número de Nós & 0.9282 & 0.7060 & 0.8496 \\
         Grau Médio & 0.9257 & 0.7094 & 0.9104 \\
@@ -225,4 +225,4 @@ Os mesmos testes foram realizados para o cenário considerando apenas as última
     \fonte{}
 \end{table}
 
-Para os dois cenários verificados, os testes de significância estatística da métrica Número de Arestas, por apresentarem valores, no decorrer dos experimentos, muito próximos entre os diferentes modelos, com pouca variabilidade e muito recorrentes, foi omitida a apresentação dos resultados dos testes estatísticos para esta métrica. A próxima seção apresenta a discussão dos resultados obtidos, interpretando os achados integrando com os objetivos do estudo e das hipóteses formuladas inicialmente.
+Para os dois cenários verificados, os testes de significância estatística da métrica Número de Arestas, por apresentarem valores, no decorrer dos experimentos, muito próximos entre os diferentes modelos, com pouca variabilidade e muito recorrentes, foi omitida a apresentação dos resultados dos testes estatísticos para esta métrica.
