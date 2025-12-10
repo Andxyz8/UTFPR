@@ -162,12 +162,24 @@ Os experimentos foram executados em uma única máquina, utilizando exclusivamen
 
 \subsection{Tempos de Execução}
 
-\begin{itemize}
-    \item Duração total (1000 experimentos para todas as camadas): \textbf{64,24 horas}.
-    \item Duração média por experimento (todas as camadas): \textbf{77,09 segundos}.
-    \item Duração total (1000 experimentos para últimas 5 camadas): \textbf{88,68 horas}.
-    \item Duração média por experimento (últimas 5 camadas): \textbf{106,42 segundos}.
-\end{itemize}
+Os tempos de processamento registrados para as baterias de 1.000 experimentos em cada um dos cenários propostos estão sintetizados na Tabela \ref{tab:tempos-execucao}.
+
+\begin{table}[h!]
+    \centering
+    \caption{Tempos de execução dos experimentos (1.000 experimentos por cenário)}
+    \label{tab:tempos-execucao}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Cenário experimental} & \textbf{Duração total (h)} & \textbf{Média por experimento (s)} \\
+        \hline
+        Todas as Camadas & 64,24 & 77,09 \\
+        Camadas Especializadas (Últimas Cinco) & 88,68 & 106,42 \\
+        \hline
+    \end{tabular}
+    \fonte{}
+\end{table}
+
+A extração das ativações e o cálculo das métricas percorreram a totalidade das camadas dos modelos em ambas as configurações. Entretanto, observam-se 24,44 horas a mais na duração total do cenário de camadas especializadas em comparação ao cenário global. Esse aumento ocorreu devido à concorrência de recursos computacionais durante as experimentações, uma vez que a máquina foi utilizada simultaneamente para outras atividades durante a execução do segundo cenário, diferentemente do primeiro, que operou sob condições de menor interferência externa.
 
 \subsection{Configuração da máquina}
 
