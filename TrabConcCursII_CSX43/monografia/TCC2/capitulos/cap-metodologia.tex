@@ -3,11 +3,11 @@
 \chapter{Metodologia}\label{cap:metodologia}
 
 
-Esta seção apresenta a metodologia aplicada na investigação, sobre como como LLMs podem aprender, ou como se diferenciam nesta representação, da tarefa de solução de labirintos em ASCII, por meio da análise das mudanças nas ativações internas das redes neurais, após diferentes estratégias de \textit{fine-tuning}. O objetivo desta seção é detalhar os procedimentos adotados, de modo a garantir a replicabilidade do estudo, incluindo preparação dos dados, modelos, métricas e análises estatísticas utilizadas.
+Esta seção apresenta a metodologia aplicada na investigação, sobre como como \gls{llms} podem aprender, ou como se diferenciam nesta representação, da tarefa de solução de labirintos em \gls{ascii}, por meio da análise das mudanças nas ativações internas das redes neurais, após diferentes estratégias de \textit{fine-tuning}. O objetivo desta seção é detalhar os procedimentos adotados, de modo a garantir a replicabilidade do estudo, incluindo preparação dos dados, modelos, métricas e análises estatísticas utilizadas.
 
 \section{Dados}
 
-Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \citet{dao2025alphamaze}, representados em ASCII, uma vez que esses dados estão disponíveis publicamente e permitiram uma redução considerável no tempo que seria empregado na elaboração dos datasets e ajuste dos modelos.
+Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \citet{dao2025alphamaze}, representados em \gls{ascii}, uma vez que esses dados estão disponíveis publicamente e permitiram uma redução considerável no tempo que seria empregado na elaboração dos datasets e ajuste dos modelos.
 
 \begin{itemize}
     \item \textbf{Formato geral dos exemplos}: cada exemplo é um \textit{prompt} textual que instrui o modelo sobre a tarefa, apresenta a grade completa do labirinto com origem e destino e define que a saída deve conter apenas tokens de movimento.
@@ -26,7 +26,7 @@ Foram utilizadas amostras do conjunto de dados de treino, disponibilizado por \c
     \item \textbf{Formato da resposta}: o modelo deve emitir apenas a sequência de tokens de movimento, separados por espaços, que leva da origem (\verb!<|origin|>!) ao destino (\verb!<|target|>!). Nos prompts, incentiva-se, como diretriz adicional para melhor resolução de problemas, a ação ``think step-by-step'' (``\textit{pense passo a passo}''), em tradução livre. Entretanto, de qualquer forma, a saída final deve conter exclusivamente os tokens de movimento, conforme especificado anteriormente.
 \end{itemize}
 
-A \autoref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset empregado, proveniente do trabalho de \citet{dao2025alphamaze}. Na parte inferior da figura, é apresentado um exemplo do labirinto em formato ASCII, conforme o padrão anteriormente descrito.
+A \autoref{fig:exemplo-prompt} ilustra um dos prompts presentes no dataset empregado, proveniente do trabalho de \citet{dao2025alphamaze}. Na parte inferior da figura, é apresentado um exemplo do labirinto em formato \gls{ascii}, conforme o padrão anteriormente descrito.
 
 \begin{figure}[h!]
     \centering
@@ -40,7 +40,7 @@ Ressalta-se, como diretriz metodológica, que embora o \textit{dataset} reaprove
 
 \section{Modelos e Estratégias de Fine-tuning}
 
-Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a biblioteca LLM-MRI, obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}. Informações gerais acerca dos modelos são apresentados na \autoref{tab:modelos-utilizados}.
+Foram selecionados três \gls{llms}, todos com 1,5B de parâmetros, compatíveis com a biblioteca \gls{llm-mri}, obtidos via Hugging Face Hub \cite{hf-hugging-face-hub-2025}. Informações gerais acerca dos modelos são apresentados na \autoref{tab:modelos-utilizados}.
 \begin{table}[h!]
     \centering
     \caption{Informações dos modelos utilizados nos experimentos}
@@ -59,18 +59,18 @@ Foram selecionados três LLMs, todos com 1,5B de parâmetros, compatíveis com a
 
 \begin{itemize}
     \item \textbf{DeepSeek-R1-Distill-Qwen-1.5B} \cite{hf-deepseek-r1-dq-1p5b}: modelo denso destilado a partir do DeepSeek-R1 sobre a família Qwen2.5, utilizado como ponto de partida antes de ajustes específicos \cite{hf-deepseek-r1-dq-1p5b}.
-    \item \textbf{AlphaMaze-v0.2-1.5B-SFT} \cite{hf-jan-alpha-sft-1p5b}: variante ajustada por SFT, empregada para avaliar o impacto do ajuste supervisionado na tarefa de labirintos \cite{hf-jan-alpha-sft-1p5b}.
-    \item \textbf{AlphaMaze-v0.2-1.5B} \cite{hf-menlo-alphamaze-v02-1p5b}: variante ajustada por GRPO, usada para comparar a dinâmica de aprendizado por otimização de política relativa a preferências \cite{hf-menlo-alphamaze-v02-1p5b, dao2025alphamaze}.
+    \item \textbf{AlphaMaze-v0.2-1.5B-SFT} \cite{hf-jan-alpha-sft-1p5b}: variante ajustada por \gls{sft}, empregada para avaliar o impacto do ajuste supervisionado na tarefa de labirintos \cite{hf-jan-alpha-sft-1p5b}.
+    \item \textbf{AlphaMaze-v0.2-1.5B} \cite{hf-menlo-alphamaze-v02-1p5b}: variante ajustada por \gls{grpo}, usada para comparar a dinâmica de aprendizado por otimização de política relativa a preferências \cite{hf-menlo-alphamaze-v02-1p5b, dao2025alphamaze}.
 \end{itemize}
 
-De acordo com \citet{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia, com conjuntos de dados de treino específicos para o modelo ajustado com SFT e para o modelo ajustado com GRPO, em que seu conjunto de dados de treino possui orientações adicionais para potencializar sua autocorreção conforme a otimização política relativa a preferências. Ambos os modelos ajustados compartilham a mesma arquitetura e número de parâmetros do modelo base DeepSeek-R1-Distill-Qwen-1.5B. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura que estão descritas a seguir:
+De acordo com \citet{dao2025alphamaze}, cada modelo foi treinado separadamente em cada estratégia, com conjuntos de dados de treino específicos para o modelo ajustado com \gls{sft} e para o modelo ajustado com \gls{grpo}, em que seu conjunto de dados de treino possui orientações adicionais para potencializar sua autocorreção conforme a otimização política relativa a preferências. Ambos os modelos ajustados compartilham a mesma arquitetura e número de parâmetros do modelo base DeepSeek-R1-Distill-Qwen-1.5B. Desta forma, foi reaproveitado todo o processo de treinamento e especialização dos modelos, com diferentes estratégias de \textit{fine-tuning}, conforme discutido na literatura que estão descritas a seguir:
 
 \begin{itemize}
-    \item \textbf{Supervised Fine-Tuning (SFT)}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
-    \item \textbf{Group Relative Policy Optimization (GRPO)}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
+    \item \textbf{Supervised Fine-Tuning (\gls{sft})}: ajuste supervisionado utilizando exemplos de labirintos e suas soluções.
+    \item \textbf{Group Relative Policy Optimization (\gls{grpo})}: ajuste baseado em preferências coletivas, visando aprimorar o raciocínio e a autocorreção dos modelos.
 \end{itemize}
 
-Para contextualizar a capacidade de raciocínio espacial dos modelos selecionados, é relevante observar o desempenho original reportado pelos autores do AlphaMaze. Conforme demonstrado na \autoref{tab:desempenho-mazebench}, o modelo base (DeepSeek-R1-Distill-Qwen-1.5B) não foi capaz de resolver nenhum dos labirintos do \textit{benchmark}, apresentando acurácia nula. A aplicação do Supervised Fine-Tuning (SFT) elevou drasticamente essa capacidade para 86,0\%, estabelecendo uma competência fundamental de navegação. Por fim, o refino via Group Relative Policy Optimization (GRPO) permitiu ao modelo alcançar 93,0\% de acurácia, indicando uma sofisticação no processo de decisão sequencial e autocorreção \cite{dao2025alphamaze}.
+Para contextualizar a capacidade de raciocínio espacial dos modelos selecionados, é relevante observar o desempenho original reportado pelos autores do AlphaMaze. Conforme demonstrado na \autoref{tab:desempenho-mazebench}, o modelo base (DeepSeek-R1-Distill-Qwen-1.5B) não foi capaz de resolver nenhum dos labirintos do \textit{benchmark}, apresentando acurácia nula. A aplicação do \gls{sft} elevou drasticamente essa capacidade para 86,0\%, estabelecendo uma competência fundamental de navegação. Por fim, o refino via \gls{grpo} permitiu ao modelo alcançar 93,0\% de acurácia, indicando uma sofisticação no processo de decisão sequencial e autocorreção \cite{dao2025alphamaze}.
 
 \begin{table}[h!]
     \centering
@@ -90,7 +90,7 @@ Para contextualizar a capacidade de raciocínio espacial dos modelos selecionado
 
 \section{Procedimentos de Processamento, Métricas e Estatística}
 
-A obtenção das ativações internas dos modelos foi feita com a utilização da biblioteca LLM-MRI \cite{costa2024llmmri}, que permite, além da extração, a visualização das ativações neuronais de LLMs. Portanto, aqui estão descritos os procedimentos adotados para o processamento dos dados e a extração das ativações, bem como as análises estatísticas subsequentes.
+A obtenção das ativações internas dos modelos foi feita com a utilização da biblioteca \gls{llm-mri} \cite{costa2024llmmri}, que permite, além da extração, a visualização das ativações neuronais de \gls{llms}. Portanto, aqui estão descritos os procedimentos adotados para o processamento dos dados e a extração das ativações, bem como as análises estatísticas subsequentes.
 
 \subsection{Pré-processamento e Validação Inicial}
 
@@ -99,14 +99,14 @@ O pré-processamento dos dados e a verificação da integridade das ferramentas 
 \begin{itemize}
     \item \textbf{Obtenção dos Dados}: utilização dos arquivos Parquet do \textit{dataset} de treinamento do modelo AlphaMaze-v0.2-1.5B-SFT, compreendendo os \textit{prompts} e as respostas geradas.
     
-    \item \textbf{Adequação à Biblioteca LLM-MRI (Labeling)}: foi necessária a atribuição de rótulos binários (\textit{easy} = 0 e \textit{complex} = 1) baseados na quantidade de passos da solução ($<10$ passos, \textit{easy}). Essa categorização foi realizada estritamente para atender a um requisito de funcionamento da biblioteca LLM-MRI, que exige uma estrutura de comparação entre duas categorias para processar os dados. Portanto, tais rótulos não constituem objeto de análise deste trabalho, servindo apenas para viabilizar a execução da ferramenta com o \textit{dataset} de \citet{dao2025alphamaze}.
+    \item \textbf{Adequação à Biblioteca \gls{llm-mri}}: foi necessária a atribuição de rótulos binários (\textit{easy} = 0 e \textit{complex} = 1) baseados na quantidade de passos da solução ($<10$ passos, \textit{easy}). Essa categorização foi realizada estritamente para atender a um requisito de funcionamento da biblioteca \gls{llm-mri}, que exige uma estrutura de comparação entre duas categorias para processar os dados. Portanto, tais rótulos não constituem objeto de análise deste trabalho, servindo apenas para viabilizar a execução da ferramenta com o \textit{dataset} de \citet{dao2025alphamaze}.
 
-    \item \textbf{Teste de Sanidade das Reduções (Regressão Logística)}: foi aplicado um modelo de regressão logística como um teste de sanidade (''\textit{sanity check}``) para validar a qualidade técnica das reduções de dimensionalidade e a extração de \textit{embeddings} realizadas pela LLM-MRI. O objetivo deste teste foi garantir que o processo de redução de dimensionalidade da biblioteca preservasse a estrutura dos dados. A acurácia de 100\% obtida na regressão (antes da redução) e a consistência observada após a redução confirmaram a viabilidade técnica do uso da biblioteca para a extração das ativações, assegurando que os dados processados não sofreram distorções que inviabilizassem o estudo.
+    \item \textbf{Teste de Sanidade das Reduções (Regressão Logística)}: foi aplicado um modelo de regressão logística como um teste de sanidade (''\textit{sanity check}``) para validar a qualidade técnica das reduções de dimensionalidade e a extração de \textit{embeddings} realizadas pela \gls{llm-mri}. O objetivo deste teste foi garantir que o processo de redução de dimensionalidade da biblioteca preservasse a estrutura dos dados. A acurácia de 100\% obtida na regressão (antes da redução) e a consistência observada após a redução confirmaram a viabilidade técnica do uso da biblioteca para a extração das ativações, assegurando que os dados processados não sofreram distorções que inviabilizassem o estudo.
 \end{itemize}
 
 \subsection{Métricas de Ciências das Redes}\label{sec:metodologia-metricas}
 
-As métricas de ciências das redes utilizadas para caracterizar os grafos de ativações para as camada dos modelos estão descritas a seguir. Os grafos utilizados foram construídos conforme a LLM-MRI. As métricas dependentes de caminhos foram calculadas sobre a maior componente conexa (Largest Connected Component - LCC).
+As métricas de ciências das redes utilizadas para caracterizar os grafos de ativações para as camada dos modelos estão descritas a seguir. Os grafos utilizados foram construídos conforme a \gls{llm-mri}. As métricas dependentes de caminhos foram calculadas sobre a maior componente conexa \gls{lcc}.
 
 \begin{itemize}
     \item \textbf{Número de Nós} ($|V|$): número total de nós (ordem) do grafo.
@@ -114,8 +114,8 @@ As métricas de ciências das redes utilizadas para caracterizar os grafos de at
     \item \textbf{Grau Médio} ($\bar{k}$): média do grau dos nós.
     \item \textbf{Densidade} ($\rho$): fração de arestas observadas em relação ao máximo possível. Valores mais altos indicam conectividade mais densa.
     \item \textbf{Assortatividade} ($r$): coeficiente de assortatividade. Valores positivos indicam tendência de nós de alto grau conectarem-se entre si; negativos indicam conexões preferenciais entre nós de alto e baixo grau.
-    \item \textbf{Diâmetro} ($D$): maior distância entre pares de nós na LCC do grafo, isto é, comprimento do caminho mais curto máximo. Quando o grafo não é totalmente conexo, $D$ é calculado na LCC.
-    \item \textbf{Comprimento Médio de Caminho} ($\bar{L}$): distância média entre todos os pares de nós na LCC.
+    \item \textbf{Diâmetro} ($D$): maior distância entre pares de nós na \gls{lcc} do grafo, isto é, comprimento do caminho mais curto máximo. Quando o grafo não é totalmente conexo, $D$ é calculado na \gls{lcc}.
+    \item \textbf{Comprimento Médio de Caminho} ($\bar{L}$): distância média entre todos os pares de nós na \gls{lcc}.
 \end{itemize}
 
 \subsection{Amostragem para Inferência de Distribuições}
@@ -130,24 +130,24 @@ Para estimar a variabilidade das métricas de rede e garantir a robustez estatí
     \fonte{}
 \end{figure}
 
-Conforme detalhado no diagrama, o procedimento central consiste em uma bateria de 1.000 experimentos. Em cada iteração, selecionou-se aleatoriamente um lote de 40 prompts distintos (sem reposição dentro do lote). Para assegurar a paridade na comparação, os três modelos (Base, SFT e GRPO) foram submetidos à \textbf{mesma entrada} (o mesmo lote de 40 prompts) em cada experimento.
+Conforme detalhado no diagrama, o procedimento central consiste em uma bateria de 1.000 experimentos. Em cada iteração, selecionou-se aleatoriamente um lote de 40 prompts distintos (sem reposição dentro do lote). Para assegurar a paridade na comparação, os três modelos (Base, \gls{sft} e \gls{grpo}) foram submetidos à \textbf{mesma entrada} (o mesmo lote de 40 prompts) em cada experimento.
 
 O processamento interno, identificado na figura como \textit{Pipeline de Análise}, compreende a execução sequencial dos seguintes passos para cada modelo:
 
 \begin{enumerate}
-    \item Coleta das ativações internas via biblioteca LLM-MRI;
+    \item Coleta das ativações internas via biblioteca \gls{llm-mri};
     \item Geração do grafo de ativações correspondente;
     \item Cálculo das métricas de ciências das redes (detalhadas na \autoref{sec:metodologia-metricas});
     \item Registro das métricas calculadas e do tempo total de processamento.
 \end{enumerate}
 
-Todo este fluxo foi executado sob duas configurações distintas, baseadas na estrutura de 29 camadas de regiões neurais, identificadas via biblioteca LLM-MRI, pertencentes aos modelos. O primeiro cenário (todas camadas) considerou a topologia completa de todas as 29 camadas. O segundo cenário (camadas especializadas) restringiu-se às últimas 5 camadas de ativações. A decisão de realizar os experimentos com este recorte especializado fundamentou-se em verificações preliminares, as quais indicaram baixa significância estatística nas comparações realizadas sobre o cenário global. Dessa forma, a análise focada nas últimas camadas buscou investigar nuances de processamento que poderiam estar diluídas na análise da topologia completa.
+Todo este fluxo foi executado sob duas configurações distintas, baseadas na estrutura de 29 camadas de regiões neurais, identificadas via biblioteca \gls{llm-mri}, pertencentes aos modelos. O primeiro cenário (todas camadas) considerou a topologia completa de todas as 29 camadas. O segundo cenário (camadas especializadas) restringiu-se às últimas 5 camadas de ativações. A decisão de realizar os experimentos com este recorte especializado fundamentou-se em verificações preliminares, as quais indicaram baixa significância estatística nas comparações realizadas sobre o cenário global. Dessa forma, a análise focada nas últimas camadas buscou investigar nuances de processamento que poderiam estar diluídas na análise da topologia completa.
 
-Ao final do processo, os dados foram consolidados para a geração dos artefatos de análise estatística, incluindo histogramas, estimativas de densidade por núcleo (\textit{Kernel Density Estimation} -- KDE) e curvas de média cumulativa para verificação de estabilização. Sementes pseudoaleatórias foram fixadas para garantir a reprodutibilidade integral do estudo.
+Ao final do processo, os dados foram consolidados para a geração dos artefatos de análise estatística, incluindo histogramas, estimativas de densidade por núcleo \gls{kde} e curvas de média cumulativa para verificação de estabilização. Sementes pseudoaleatórias foram fixadas para garantir a reprodutibilidade integral do estudo.
 
 \subsection{Significância Estatística}
 
-Ao término do procedimento de amostragem, foram realizados testes de significância estatística entre as distribuições das métricas de rede dos três modelos, para as duas configurações especificadas (todas as camadas e últimas cinco camadas). Inicialmente, foi aplicado o teste ANOVA de uma via para verificar a existência de diferenças globais entre as distribuições das métricas dos três modelos. Em seguida, foram realizados testes t pareados entre os pares de modelos (Base vs SFT e Base vs GRPO) para identificar quais pares apresentavam diferenças estatisticamente significativas. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
+Ao término do procedimento de amostragem, foram realizados testes de significância estatística entre as distribuições das métricas de rede dos três modelos, para as duas configurações especificadas (todas as camadas e últimas cinco camadas). Inicialmente, foi aplicado o teste ANOVA de uma via para verificar a existência de diferenças globais entre as distribuições das métricas dos três modelos. Em seguida, foram realizados testes t pareados entre os pares de modelos (Base vs \gls{sft} e Base vs \gls{grpo}) para identificar quais pares apresentavam diferenças estatisticamente significativas. As hipóteses estabelecidas para essa verificação estatística estão descritas a seguir.
 
 \begin{itemize}
 \item \textbf{Hipótese nula (H0)}: as distribuições de cada métrica são equivalentes entre os modelos comparados.
@@ -158,11 +158,11 @@ Ao término do procedimento de amostragem, foram realizados testes de significâ
 \section{Máquina e Recursos Computacionais}
 \label{sec:ambiente-maquina}
 
-Os experimentos foram executados em uma única máquina, utilizando exclusivamente o processador (CPU) do equipamento, embora uma GPU estivesse disponível e funcional no sistema, não foi necessária a sua utilização nos procedimentos descritos neste trabalho. Os tempos reportados referem-se ao tempo de processamento medido por experimento, registrados durante a extração das ativações via LLM-MRI e o cálculo das métricas de rede.
+Os experimentos foram executados em uma única máquina, utilizando exclusivamente o \gls{cpu} do equipamento, embora uma \gls{gpu} estivesse disponível e funcional no sistema, não foi necessária a sua utilização nos procedimentos descritos neste trabalho. Os tempos reportados referem-se ao tempo de processamento medido por experimento, registrados durante a extração das ativações via \gls{llm-mri} e o cálculo das métricas de rede.
 
 \subsection{Tempos de Execução}
 
-Os tempos de processamento registrados para as baterias de 1.000 experimentos em cada um dos cenários propostos estão sintetizados na Tabela \ref{tab:tempos-execucao}.
+Os tempos de processamento registrados para as baterias de 1.000 experimentos em cada um dos cenários propostos estão sintetizados na \autoref{tab:tempos-execucao}.
 
 \begin{table}[h!]
     \centering
@@ -207,15 +207,15 @@ As especificações técnicas da máquina utilizada para a execução dos experi
     \fonte{}
 \end{table}
 
-Cabe esclarecer que a opção pelo processamento exclusivo via CPU fundamentou-se nos resultados obtidos durante as etapas de validação preliminar do projeto. Testes iniciais de coleta de ativações, realizados com amostras reduzidas do \textit{dataset}, demonstraram que o desempenho da CPU era plenamente suficiente para a demanda computacional da tarefa. Diante disso, considerou-se desnecessária a implementação de rotinas de compatibilização para aceleração via GPU.
+Cabe esclarecer que a opção pelo processamento exclusivo via \gls{gpu} fundamentou-se nos resultados obtidos durante as etapas de validação preliminar do projeto. Testes iniciais de coleta de ativações, realizados com amostras reduzidas do \textit{dataset}, demonstraram que o desempenho da \gls{gpu} era plenamente suficiente para a demanda computacional da tarefa. Diante disso, considerou-se desnecessária a implementação de rotinas de compatibilização para aceleração via \gls{gpu}.
 
 \section{Síntese Metodológica e Hipóteses Iniciais}
 
-Os procedimentos descritos nesta seção estabelecem o fluxo experimental aplicado para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de LLMs na tarefa de solução de labirintos em ASCII. Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses:
+Os procedimentos descritos nesta seção estabelecem o fluxo experimental aplicado para investigar como diferentes estratégias de \textit{fine-tuning} impactam as ativações internas de \gls{llms} na tarefa de solução de labirintos em \gls{ascii}. Com a aplicação dessa metodologia, serão examinadas as seguintes hipóteses:
 
 \begin{itemize}
-    \item[H1:] Estratégias distintas de \textit{fine-tuning} (SFT e GRPO) induzem padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e de representação da tarefa.
-    \item[H2:] A análise das ativações neuronais por meio da LLM-MRI permite identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
+    \item[H1:] Estratégias distintas de \textit{fine-tuning} (\gls{sft} e \gls{grpo}) induzem padrões diferentes de ativação interna, refletindo abordagens variadas de raciocínio espacial e de representação da tarefa.
+    \item[H2:] A análise das ativações neuronais por meio da \gls{llm-mri} permite identificar alterações estruturais e padrões emergentes associados ao aprendizado da tarefa, contribuindo para a compreensão dos mecanismos internos dos modelos.
 \end{itemize}
 
 Na seção seguinte, estão apresentados os resultados para embasar a discussão sobre as hipóteses formuladas.
